@@ -11,9 +11,9 @@
   
 #### Pseudocode:
 
-- classes for risk events
-- object for playerstats
-- arrays of risk event objects for places
+#### Deployment Link:
+
+- [mygame]()
 
 #### Wireframes:
 
