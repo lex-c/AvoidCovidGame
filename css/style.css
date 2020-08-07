@@ -1,5 +1,39 @@
+html {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+:root {
+    font-size: 62.5%;
+}
 body {
     height: 100vh;
     background-color: #555555;
-    text-align: center;
+    margin: 0;
+}
+#homePg,
+#outPg,
+#spacePg {
+    display: grid;
+    height: 100vh;
+    margin: 0;
+}
+#homePg {
+    background-color: skyblue;
+}
+#outPg {
+    background-color: saddlebrown;
+}
+#spacePg {
+    background-color: seagreen;
+}
+#outPg,
+#spacePg {
+    display: none;
+}
+button {
+    height: 48px;
 }

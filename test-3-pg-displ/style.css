@@ -1,0 +1,31 @@
+body {
+    height: 100vh;
+    background-color: #555555;
+}
+
+.pg1 {
+    background-color: blueviolet;
+    margin: 6px 0;
+    flex: 1;
+}
+
+.pg2 {
+    background-color: cadetblue;
+    margin: 6px 0;
+    flex: 1;
+}
+
+.pg3 {
+    background-color: coral;
+    margin: 6px 0;
+    flex: 1;
+}
+#pg1, #pg2, #pg3 {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+#pg2, #pg3 {
+    display: none;
+    background-color: cornsilk;
+}
