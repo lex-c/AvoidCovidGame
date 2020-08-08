@@ -28,12 +28,15 @@ body {
 }
 .hm-pg-div {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
+    padding: 1rem;
 }
 #health {
     grid-area: 1 / 1 / 3 / 4;
     background-color: #555555;
+    color: whitesmoke;
 }
 #mHlth {
     grid-area: 3 / 1 / 6 / 4;
@@ -46,10 +49,12 @@ body {
 #time {
     grid-area: 1 / 5 / 2 / 8;
     background-color: red;
+    align-items: center;
 }
 #money {
     grid-area: 2 / 6 / 4 / 8;
     background-color: seagreen;
+    align-items: flex-end;
 }
 #choices {
     grid-area: 8 / 2 / 10 / 7;
@@ -58,6 +63,8 @@ body {
     color: whitesmoke;
     font-size: 3rem;
     padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
 }
 #protItems {
     grid-area: 11 / 1 / 13 / 4;
@@ -69,6 +76,8 @@ body {
 }
 #hmOutDiv {
     grid-area: 12 / 5 / 14 / 8;
+    justify-content: center;
+    align-items: stretch;
 }
 #outPg {
     background-color: saddlebrown;
