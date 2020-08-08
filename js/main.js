@@ -1,3 +1,6 @@
+let health, mHlth, gmTime, money, food, meds, protItems
+
+
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
 const outPg = document.getElementById('outPg')
@@ -19,31 +22,44 @@ function chngPage(e) {
 
 
 //HOME PAGE
-const allDivs = document.querySelectorAll('.hm-pg-div')
-const healthEl = document.getElementById('health')
-const mHlthEl = document.getElementById('mHlth')
-const foodEl = document.getElementById('food')
-const timeEl = document.getElementById('time')
-const moneyEl = document.getElementById('money')
+const allHmDivs = document.querySelectorAll('.hm-pg-div')
+const hmHealthEl = document.getElementById('hmHealth')
+const hmMHlthEl = document.getElementById('hmMHlth')
+const hmFoodEl = document.getElementById('hmFood')
+const hmTimeEl = document.getElementById('hmTime')
+const hmMoneyEl = document.getElementById('hmMoney')
 const choicesEl = document.getElementById('choices')
-const protItemsEl = document.getElementById('protItems')
-const medsEl = document.getElementById('meds')
+const hmProtItemsEl = document.getElementById('hmProtItems')
+const hmMedsEl = document.getElementById('hmMeds')
 const hmOutDiv = document.getElementById('hmOutDiv')
 
 function hmPgInit() {
-    hmPgDispInit()
+    hmPgDispRender()
 }
 
-function hmPgDispInit() {
-    healthEl.innerHTML = `Health: ${100}`
-    mHlthEl.innerHTML = `Mental Health: ${100}`
-    foodEl.innerHTML = `Food: ${10}`
-    moneyEl.innerHTML = `Cash: $${500}`
-    protItemsEl.innerHTML = `notsure`
-    medsEl.innerHTML = `maybe`
+function hmPgDispRender() {
+    hmHealthEl.innerHTML = `Health: ${health}`
+    hmMHlthEl.innerHTML = `Mental Health: ${mHlth}`
+    hmFoodEl.innerHTML = `Food: ${food}`
+    gmTimeRender()
+    hmMoneyEl.innerHTML = `Cash: $${money}`
+    hmProtItemsEl.innerHTML = `notsure`
+    hmMedsEl.innerHTML = `Meds: ${meds}`
 }
 
+let gmTimer = setInterval(upSecs, 100)
+function upSecs() {
+    gmTime += 60
+    gmTimeRender()
+}
 
+function gmTimeRender() {
+    hmTimeEl.innerHTML = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
+}
+
+// const player = {
+//     health
+// }
 
 
 
@@ -53,6 +69,13 @@ function hmPgDispInit() {
 
 
 function init() {
+    health = 100
+    mHlth = 100
+    gmTime = 0
+    money = 500
+    food = 10
+    meds = 7
+    protItems = {}
     hmPgInit()
 }
 
