@@ -1,11 +1,11 @@
 html {
     box-sizing: border-box;
 }
-*,
+/* *,
 *::before,
 *::after {
     box-sizing: inherit;
-}
+} */
 :root {
     font-size: 62.5%;
 }
@@ -22,7 +22,53 @@ body {
     margin: 0;
 }
 #homePg {
+    grid-template-columns: 1.3fr 0.2fr 0.7fr 2fr 0.7fr 0.2fr 1.3fr;
+    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr 0.5fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
     background-color: skyblue;
+}
+.hm-pg-div {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+#health {
+    grid-area: 1 / 1 / 3 / 4;
+    background-color: #555555;
+}
+#mHlth {
+    grid-area: 3 / 1 / 6 / 4;
+    background-color: #666666;
+}
+#food {
+    grid-area: 6 / 1 / 7 / 4;
+    background-color: cornflowerblue;
+}
+#time {
+    grid-area: 1 / 5 / 2 / 8;
+    background-color: red;
+}
+#money {
+    grid-area: 2 / 6 / 4 / 8;
+    background-color: seagreen;
+}
+#choices {
+    grid-area: 8 / 2 / 10 / 7;
+    background-color: #333333;
+    border-radius: 1rem;
+    color: whitesmoke;
+    font-size: 3rem;
+    padding: 1rem;
+}
+#protItems {
+    grid-area: 11 / 1 / 13 / 4;
+    background-color: #555555;
+}
+#meds {
+    grid-area: 13 / 1 / 14 / 4;
+    background-color: steelblue;
+}
+#hmOutDiv {
+    grid-area: 12 / 5 / 14 / 8;
 }
 #outPg {
     background-color: saddlebrown;
@@ -35,5 +81,5 @@ body {
     display: none;
 }
 button {
-    height: 48px;
+    flex: 1;
 }

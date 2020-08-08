@@ -16,3 +16,17 @@ function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     document.getElementById(e.target.classList[1]).style.setProperty('display', 'grid')
 }
+
+//HOME PAGE
+const allDivs = document.querySelectorAll('.hm-pg-div')
+const healthEl = document.getElementById('health')
+const mHlthEl = document.getElementById('mHlth')
+const foodEl = document.getElementById('food')
+const timeEl = document.getElementById('time')
+const moneyEl = document.getElementById('money')
+const choicesEl = document.getElementById('choices')
+const protItemsEl = document.getElementById('protItems')
+const medsEl = document.getElementById('meds')
+const hmOutDiv = document.getElementById('hmOutDiv')
+
+
