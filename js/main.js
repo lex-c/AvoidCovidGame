@@ -69,19 +69,14 @@ const dnBtn = document.getElementById('dnBtn')
 const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
 
-allBtns.forEach(e => e.addEventListener('mouseover', showBtn))
+allBtns.forEach(e => {
+    e.addEventListener('click', showAndMove)
+})
 
-
-function showBtn(e) {
-    e.target.style.setProperty('opacity', '40%')
-    e.target.addEventListener('click', move)
-    e.target.addEventListener('mouseleave', turnOffDisp)
-}
-
-function turnOffDisp(e) {
-    allBtns.forEach(btn => btn.style.setProperty('opacity', '0'))
-    e.target.removeEventListener('click', move)
-    e.target.removeEventListener('mouseleave', turnOffDisp)
+function showAndMove(e) {
+    e.target.style.setProperty('opacity', '50%')
+    setTimeout(e => e.target.style.setProperty('opacity', '10%'), 100, e)
+    move(e)
 }
 
 function move(e) {

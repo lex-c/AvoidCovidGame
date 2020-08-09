@@ -254,25 +254,26 @@ body {
     grid-area: 1 / 1 / 9 / 13;
     display: grid;
     grid-template-columns: 1fr 0.3fr 4.6fr 0.3fr 1fr;
-    grid-template-rows: 0.5fr 4fr 0.5fr;
+    grid-template-rows: 1fr 4fr 1fr;
 }
 .divbtn {
     background-color: #999999;
-    border-radius: 2rem;
-    opacity: 40%;
+    opacity: 10%;
     z-index: 1;
 }
 .rt {
-    grid-area: 2 / 5 / 3 / 6;
+    grid-area: 1 / 5 / 4 / 6;
 }
 .lt {
-    grid-area: 2 / 1 / 3 / 2;
+    grid-area: 1 / 1 / 4 / 2;
 }
 .up {
-    grid-area: 1 / 3 / 2 / 4;
+    grid-area: 1 / 2 / 2 / 5;
+    margin: 0 1rem;
 }
 .dn {
-    grid-area: 3 / 3 / 4 / 4;
+    grid-area: 3 / 2 / 4 / 5;
+    margin: 0 1rem;
 }
 .tmOutBtns {
     display: flex;
