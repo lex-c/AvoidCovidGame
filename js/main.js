@@ -67,7 +67,11 @@ const upBtn = document.getElementById('upBtn')
 const dnBtn = document.getElementById('dnBtn')
 const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
+
+
 let personSpace = startingSpace
+let movingTimeout
+
 
 allBtns.forEach(e => {
     e.addEventListener('click', showAndMove)
@@ -112,13 +116,20 @@ function getNodeOrNum(numOrNode) {
     return val
 }
 
-function checkIfInside() {if (personSpace.id === 's25') setTimeout(switchPageIn, 2000, 'home')}
-function switchPageIn (whereTo) {
-    outPg.style.setProperty('display', 'none')
-    if (whereTo === 'home') hmPg.style.setProperty('display', 'grid')
-    startingSpace.innerHTML = personSpace.innerHTML
-    personSpace.innerHTML = ''
-    return personSpace = startingSpace
+
+function checkIfInside() {
+    if (personSpace.id === 's25') return movingTimeout = window.setTimeout(switchPageIn, 5000)
+}
+
+function switchPageIn () {
+    if (personSpace.id === 's25') {
+        hmPg.style.setProperty('display', 'grid')
+        outPg.style.setProperty('display', 'none')
+        startingSpace.innerHTML = personSpace.innerHTML
+        personSpace.innerHTML = ''
+        personSpace = startingSpace
+    }
+    return window.clearTimeout(movingTimeout)
 }
 
 
