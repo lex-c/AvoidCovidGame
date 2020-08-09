@@ -57,6 +57,7 @@ function gmTimeRender() {
 }
 
 
+//out page 
 
 
 
@@ -86,7 +87,7 @@ const cough = new Incident('coughed', 'vap', 20000, [70, 70, 70, 70, 20, 20, 20,
 const sneeze = new Incident('sneezed', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
 
 // class RiskEvent {
-//     constructor(descrip, incidentsPoss, )
+//     constructor(descrip, choicesPoss, incidentsPoss)
 // }
 const oneRiskEvent = {
     descrip: 'a homeless man showed up in your path',
@@ -94,11 +95,11 @@ const oneRiskEvent = {
     incidentsPoss: [
         {
             type: cough, 
-            prob: 65, 
+            prob: 20, 
         }, 
         {
             type: sneeze, 
-            prob: 100,
+            prob: 30,
         }
     ],
     get whichIncident() {
@@ -109,19 +110,23 @@ const oneRiskEvent = {
                 incidentHappened = value.type
                 return value.type
             }
-            balance += value.prob
+            balance = value.prob
         }
         return 0
     },
     get hitMessage() {
         const messgs = [`He ${incidentHappened.descrip} right in your face. Omg; it's so gross!`]
         return messgs[0]
+        // STRINGYYYYYYYYYYYYYY 
     },
     get someMessage() {
-        const messgs = [`He ${incidentHappened} but he was facing away, hopefully you're okay 🤷‍♀️`]
+        const messgs = [`He ${incidentHappened.descrip} but he was facing away, hopefully you're okay 🤷‍♀️`]
         return messgs[0]
     },
-    missMessages: [`He didn't do anything; you're good; stop being so prejudiced!`],
+    get missMessage() {
+        const messgs = [`He didn't do anything; you're good; stop being so prejudiced!`]
+        return messgs[0]
+    },
     renderMessages(hitOrMiss) {
         if (!hitOrMiss) return this.missMessage
         if (hitOrMiss > 0.5) return this.hitMessage
@@ -142,12 +147,18 @@ const player = {
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
         window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
-        console.log(`this exp ${incidAmnt}, total exp ${this.exposure}`)
         renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / 5000], riskEvent)
+        this.check()
     },
     rvrsAfterTime(amount) {
         this.exposure -= amount
     },
+    // get player caution riskfactor
+    check() {
+        if (this.health === 0) return console.log('player health down')
+        if (this.mHlth === 0) return console.log('player psych down')
+        if (this.exposure >= 5000) return console.log('got it')
+    }
 }
 
 function blahBlah() {
@@ -167,9 +178,7 @@ function getRandomDilute(spread) {
 }
 
 function renderCombinedMess(incidAndTot, riskEvent) {
-    console.dir(this)
     const incidMess = riskEvent.renderMessages(incidAndTot[0])
-    console.log(incidMess)
     if (incidAndTot[0] === 0) return console.log(`${incidMess}`)
     if (incidAndTot[0] <= 0.5 && incidAndTot[1] >= 1) return console.log(`${incidMess} but it was still enough...whop whop whop`)
     if (incidAndTot[0] > 0.5 && incidAndTot[1] >= 1) return console.log(`${incidMess} and it got you there. Congrats! You got it!`)
