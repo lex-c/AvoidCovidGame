@@ -1,4 +1,4 @@
-let gmTime
+let gmTime, incidentHappened
 
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
@@ -70,29 +70,6 @@ function gmTimeRender() {
 
 //AFTER LAST PAGE
 
-const player = {
-    exposure: 0,
-    context: 1,
-    expose(incident) {
-        const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
-        this.exposure += incidAmnt
-        console.log(`this exp ${incidAmnt}, total exp ${this.exposure}`)
-        window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
-        if (this.exposure >= 5000) return console.log(`caught it and total exposure was ${this.exposure}`)
-    },
-    rvrsAfterTime(amount) {
-        console.log(amount)
-        this.exposure -= amount
-    }
-}
-
-// class RiskEvent {
-//     constructor(descrip, incidentsPoss, )
-// }
-
-
-
-
 class Incident {
     constructor(descrip, type, exposAmnt, outSpreadP, inSpreadP) {
         this.descrip = descrip,
@@ -105,18 +82,77 @@ class Incident {
         return [this.outSpreadP, null, this.inSpreadP]
     }
 }
-const cough = new Incident('cough', 'vap', 20000, [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], [95, 90, 80, 80, 80, 70, 70, 60, 50, 30])
-const sneeze = new Incident('sneeze', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
-// const oneRiskIncident = {
-//     type: 'vap',
-//     exposAmnt: 5000,
-//     outSpreadP: [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], 
-//     inSpreadP: [95, 90, 80, 80, 80, 70, 70, 60, 50, 30],
-//     get inOutSpreadP() {
-//         return [this.outSpreadP, null, this.inSpreadP]
-//     }
-// }
+const cough = new Incident('coughed', 'vap', 20000, [70, 70, 70, 70, 20, 20, 20, 20, 10, 0], [95, 90, 80, 80, 80, 70, 70, 60, 50, 30])
+const sneeze = new Incident('sneezed', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
 
+// class RiskEvent {
+//     constructor(descrip, incidentsPoss, )
+// }
+const oneRiskEvent = {
+    descrip: 'a homeless man showed up in your path',
+    choicesPoss: [`avoid them`, `keep going`],
+    incidentsPoss: [
+        {
+            type: cough, 
+            prob: 65, 
+        }, 
+        {
+            type: sneeze, 
+            prob: 100,
+        }
+    ],
+    get whichIncident() {
+        let randNum = Math.random() * 100
+        let balance = 0
+        for (let value of this.incidentsPoss) {
+            if (randNum >= balance && randNum < value.prob){
+                incidentHappened = value.type
+                return value.type
+            }
+            balance += value.prob
+        }
+        return 0
+    },
+    get hitMessage() {
+        const messgs = [`He ${incidentHappened.descrip} right in your face. Omg; it's so gross!`]
+        return messgs[0]
+    },
+    get someMessage() {
+        const messgs = [`He ${incidentHappened} but he was facing away, hopefully you're okay 🤷‍♀️`]
+        return messgs[0]
+    },
+    missMessages: [`He didn't do anything; you're good; stop being so prejudiced!`],
+    renderMessages(hitOrMiss) {
+        if (!hitOrMiss) return this.missMessage
+        if (hitOrMiss > 0.5) return this.hitMessage
+        return this.someMessage
+    }
+}
+    
+
+
+
+
+const player = {
+    exposure: 0,
+    context: -1,
+    expose(riskEvent) {
+        const incident = riskEvent.whichIncident
+        if (!incident) return renderCombinedMess([0, this.exposure / 5000], riskEvent)
+        const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
+        this.exposure += incidAmnt
+        window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
+        console.log(`this exp ${incidAmnt}, total exp ${this.exposure}`)
+        renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / 5000], riskEvent)
+    },
+    rvrsAfterTime(amount) {
+        this.exposure -= amount
+    },
+}
+
+function blahBlah() {
+    console.dir(this)
+}
 
 function getRandomDilute(spread) {
     const randNum = Math.random() * 10
@@ -124,16 +160,26 @@ function getRandomDilute(spread) {
         if (randNum < i + 1 && randNum >= i) {
             if (e === arr[i - 1]) i = arr.indexOf(e)
             const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
-            console.log(percentLeft)
             return a = percentLeft / 100
         }
         return a = a
     }, 0)
 }
 
-// class RiskEvt {
-//     constructor()
-// }
+function renderCombinedMess(incidAndTot, riskEvent) {
+    console.dir(this)
+    const incidMess = riskEvent.renderMessages(incidAndTot[0])
+    console.log(incidMess)
+    if (incidAndTot[0] === 0) return console.log(`${incidMess}`)
+    if (incidAndTot[0] <= 0.5 && incidAndTot[1] >= 1) return console.log(`${incidMess} but it was still enough...whop whop whop`)
+    if (incidAndTot[0] > 0.5 && incidAndTot[1] >= 1) return console.log(`${incidMess} and it got you there. Congrats! You got it!`)
+    if (incidAndTot[0] <= 0.5 && incidAndTot[1] >= 0.7) return console.log(`${incidMess} but you're still close so...`)
+    if (incidAndTot[0] > 0.5 && incidAndTot[1] >= 0.7) return console.log(`${incidMess} and you're close now. Life sucks and people are...`)
+    if (incidAndTot[0] <= 0.5 && incidAndTot[1] >= 0.4) return console.log(`${incidMess} and you only have some; you should be okay...`)
+    if (incidAndTot[0] > 0.5 && incidAndTot[1] >= 0.4) return console.log(`${incidMess} and now you have some. You're still okay...`)
+    if (incidAndTot[0] <= 0.5) return console.log(`${incidMess} and you don't have much on you. Stop freaking out`)
+    if (incidAndTot[0] > 0.5) return console.log(`${incidMess} but you still don't have much. Calmes toi`)
+}
 
 
 
@@ -153,8 +199,9 @@ function init() {
 }
 
 init()
-player.expose(sneeze)
-// window.setTimeout(() => player.expose(oneRiskIncident), 6000)
+
+player.expose(oneRiskEvent)
+// window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 12000)
