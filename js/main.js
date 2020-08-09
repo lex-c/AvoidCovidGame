@@ -72,9 +72,7 @@ function gmTimeRender() {
 
 const player = {
     exposure: 0,
-    context: -1,
-    exposureTime: 0,
-    timerCount: 0,
+    context: 1,
     expose(incident) {
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
@@ -88,15 +86,36 @@ const player = {
     }
 }
 
-const oneRiskIncident = {
-    type: 'vap',
-    exposAmnt: 5000,
-    outSpreadP: [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], 
-    inSpreadP: [95, 90, 80, 80, 80, 70, 70, 60, 50, 30],
+// class RiskEvent {
+//     constructor(descrip, incidentsPoss, )
+// }
+
+
+
+
+class Incident {
+    constructor(descrip, type, exposAmnt, outSpreadP, inSpreadP) {
+        this.descrip = descrip,
+        this.type = type,
+        this.exposAmnt = exposAmnt,
+        this.outSpreadP = outSpreadP,
+        this.inSpreadP = inSpreadP
+    }
     get inOutSpreadP() {
         return [this.outSpreadP, null, this.inSpreadP]
     }
 }
+const cough = new Incident('cough', 'vap', 20000, [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], [95, 90, 80, 80, 80, 70, 70, 60, 50, 30])
+const sneeze = new Incident('sneeze', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
+// const oneRiskIncident = {
+//     type: 'vap',
+//     exposAmnt: 5000,
+//     outSpreadP: [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], 
+//     inSpreadP: [95, 90, 80, 80, 80, 70, 70, 60, 50, 30],
+//     get inOutSpreadP() {
+//         return [this.outSpreadP, null, this.inSpreadP]
+//     }
+// }
 
 
 function getRandomDilute(spread) {
@@ -105,6 +124,7 @@ function getRandomDilute(spread) {
         if (randNum < i + 1 && randNum >= i) {
             if (e === arr[i - 1]) i = arr.indexOf(e)
             const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
+            console.log(percentLeft)
             return a = percentLeft / 100
         }
         return a = a
@@ -133,9 +153,7 @@ function init() {
 }
 
 init()
-player.expose(oneRiskIncident)
-window.setTimeout(() => player.expose(oneRiskIncident), 1000)
-window.setTimeout(() => player.expose(oneRiskIncident), 3000)
+player.expose(sneeze)
 // window.setTimeout(() => player.expose(oneRiskIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
