@@ -58,16 +58,16 @@ function gmTimeRender() {
 
 
 //out page 
-let personSpace = document.getElementById('s35')
 
 
-
+const startingSpace = document.getElementById('s35')
 const rtBtn = document.getElementById('rtBtn')
 const ltBtn = document.getElementById('ltBtn')
 const upBtn = document.getElementById('upBtn')
 const dnBtn = document.getElementById('dnBtn')
 const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
+let personSpace = startingSpace
 
 allBtns.forEach(e => {
     e.addEventListener('click', showAndMove)
@@ -104,6 +104,7 @@ function move(e) {
     personSpace.innerHTML = ''
     getNodeOrNum(newSpaceId).innerHTML = icon
     personSpace = getNodeOrNum(newSpaceId)
+    checkIfInside()
 }
 
 function getNodeOrNum(numOrNode) {
@@ -111,6 +112,14 @@ function getNodeOrNum(numOrNode) {
     return val
 }
 
+function checkIfInside() {if (personSpace.id === 's25') setTimeout(switchPageIn, 2000, 'home')}
+function switchPageIn (whereTo) {
+    outPg.style.setProperty('display', 'none')
+    if (whereTo === 'home') hmPg.style.setProperty('display', 'grid')
+    startingSpace.innerHTML = personSpace.innerHTML
+    personSpace.innerHTML = ''
+    return personSpace = startingSpace
+}
 
 
 
