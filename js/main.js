@@ -1,5 +1,4 @@
-let health, mHlth, gmTime, money, food, meds, protItems
-
+let gmTime
 
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
@@ -38,16 +37,16 @@ function hmPgInit() {
 }
 
 function hmPgDispRender() {
-    hmHealthEl.innerHTML = `Health: ${health}`
-    hmMHlthEl.innerHTML = `Mental Health: ${mHlth}`
-    hmFoodEl.innerHTML = `Food: ${food}`
+    hmHealthEl.innerHTML = `Health: ${player.health}`
+    hmMHlthEl.innerHTML = `Mental Health: ${player.mHlth}`
+    hmFoodEl.innerHTML = `Food: ${player.food}`
     gmTimeRender()
-    hmMoneyEl.innerHTML = `Cash: $${money}`
+    hmMoneyEl.innerHTML = `Cash: $${player.money}`
     hmProtItemsEl.innerHTML = `notsure`
-    hmMedsEl.innerHTML = `Meds: ${meds}`
+    hmMedsEl.innerHTML = `Meds: ${player.meds}`
 }
 
-let gmTimer = setInterval(upSecs, 100)
+let gmTimer = setInterval(upSecs, 6000)
 function upSecs() {
     gmTime += 60
     gmTimeRender()
@@ -57,8 +56,63 @@ function gmTimeRender() {
     hmTimeEl.innerHTML = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
 }
 
-// const player = {
-//     health
+
+
+
+
+
+
+
+
+
+
+
+
+//AFTER LAST PAGE
+
+const player = {
+    exposure: 0,
+    context: -1,
+    exposureTime: 0,
+    timerCount: 0,
+    expose(incident) {
+        const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
+        this.exposure += incidAmnt
+        console.log(`this exp ${incidAmnt}, total exp ${this.exposure}`)
+        window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
+        if (this.exposure >= 5000) return console.log(`caught it and total exposure was ${this.exposure}`)
+    },
+    rvrsAfterTime(amount) {
+        console.log(amount)
+        this.exposure -= amount
+    }
+}
+
+const oneRiskIncident = {
+    type: 'vap',
+    exposAmnt: 5000,
+    outSpreadP: [70, 30, 20, 20, 20, 20, 20, 20, 10, 0], 
+    inSpreadP: [95, 90, 80, 80, 80, 70, 70, 60, 50, 30],
+    get inOutSpreadP() {
+        return [this.outSpreadP, null, this.inSpreadP]
+    }
+}
+
+
+function getRandomDilute(spread) {
+    const randNum = Math.random() * 10
+    return spread.reduce((a, e, i, arr) => {
+        if (randNum < i + 1 && randNum >= i) {
+            if (e === arr[i - 1]) i = arr.indexOf(e)
+            const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
+            return a = percentLeft / 100
+        }
+        return a = a
+    }, 0)
+}
+
+// class RiskEvt {
+//     constructor()
 // }
 
 
@@ -67,16 +121,22 @@ function gmTimeRender() {
 
 
 
-
 function init() {
-    health = 100
-    mHlth = 100
+    player.health = 100
+    player.mHlth = 100
     gmTime = 0
-    money = 500
-    food = 10
-    meds = 7
-    protItems = {}
+    player.money = 500
+    player.food = 10
+    player.meds = 7
+    player.protItems = {}
     hmPgInit()
 }
 
 init()
+player.expose(oneRiskIncident)
+window.setTimeout(() => player.expose(oneRiskIncident), 1000)
+window.setTimeout(() => player.expose(oneRiskIncident), 3000)
+// window.setTimeout(() => player.expose(oneRiskIncident), 6000)
+// window.setTimeout(() => player.expose(oneRiskIncident), 8000)
+// window.setTimeout(() => player.expose(oneRiskIncident), 10000)
+// window.setTimeout(() => player.expose(oneRiskIncident), 12000)

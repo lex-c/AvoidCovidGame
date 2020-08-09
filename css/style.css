@@ -23,7 +23,7 @@ body {
 }
 #homePg {
     grid-template-columns: 1.3fr 0.2fr 0.7fr 2fr 0.7fr 0.2fr 1.3fr;
-    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr 0.5fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
+    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
     background-color: skyblue;
 }
 .hm-pg-div {
@@ -34,16 +34,16 @@ body {
     padding: 1rem;
 }
 #hmHealth {
-    grid-area: 1 / 1 / 3 / 4;
+    grid-area: 1 / 1 / 2 / 4;
     background-color: #555555;
     color: whitesmoke;
 }
 #hmMHlth {
-    grid-area: 3 / 1 / 6 / 4;
+    grid-area: 2 / 1 / 4 / 4;
     background-color: #666666;
 }
 #hmFood {
-    grid-area: 6 / 1 / 7 / 4;
+    grid-area: 4 / 1 / 6 / 4;
     background-color: cornflowerblue;
 }
 #hmTime {
@@ -61,7 +61,7 @@ body {
     align-items: flex-end;
 }
 #choices {
-    grid-area: 8 / 2 / 10 / 7;
+    grid-area: 7 / 2 / 10 / 7;
     background-color: #333333;
     border-radius: 1rem;
     color: whitesmoke;
