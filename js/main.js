@@ -58,9 +58,63 @@ function gmTimeRender() {
 
 
 //out page 
+let personSpace = document.getElementById('s35')
 
 
 
+const rtBtn = document.getElementById('rtBtn')
+const ltBtn = document.getElementById('ltBtn')
+const upBtn = document.getElementById('upBtn')
+const dnBtn = document.getElementById('dnBtn')
+const allBtnsD = document.querySelector('.allbtnsdiv')
+const allBtns = document.querySelectorAll('.divbtn')
+
+allBtns.forEach(e => e.addEventListener('mouseover', showBtn))
+
+
+function showBtn(e) {
+    e.target.style.setProperty('opacity', '40%')
+    e.target.addEventListener('click', move)
+    e.target.addEventListener('mouseleave', turnOffDisp)
+}
+
+function turnOffDisp(e) {
+    allBtns.forEach(btn => btn.style.setProperty('opacity', '0'))
+    e.target.removeEventListener('click', move)
+    e.target.removeEventListener('mouseleave', turnOffDisp)
+}
+
+function move(e) {
+    const dir = e.target.classList[0]
+    let newSpaceId;
+    if (dir === 'up') {
+        const newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
+        newSpaceId = [`${parseInt(newSpaceStrArr[0]) - 1}`, newSpaceStrArr[1]].join('')
+    }
+    if (dir === 'dn') {
+        const newSpaceStrArr = personSpace.className.split(' ')[3].split(',')
+        newSpaceId = [`${parseInt(newSpaceStrArr[0]) + 1}`, newSpaceStrArr[1]].join('')
+    }
+    if (dir === 'lt') {
+        const newSpaceStrArr = personSpace.className.split(' ')[1].split(',')
+        newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
+    }
+    if (dir === 'rt') {
+        const newSpaceStrArr = personSpace.className.split(' ')[2].split(',')
+        console.log(newSpaceStrArr)
+        newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
+        console.log(newSpaceId)
+    }
+    const icon = personSpace.innerHTML
+    personSpace.innerHTML = ''
+    getNodeOrNum(newSpaceId).innerHTML = icon
+    personSpace = getNodeOrNum(newSpaceId)
+}
+
+function getNodeOrNum(numOrNode) {
+    const val = isNaN(numOrNode) ? numOrNode.id.slice(1) : document.querySelector(`#s${numOrNode}`)
+    return val
+}
 
 
 

@@ -250,6 +250,30 @@ body {
 #sBR {
     grid-area: 8 / 12 / 9 / 13;
 }
+.allbtnsdiv {
+    grid-area: 1 / 1 / 9 / 13;
+    display: grid;
+    grid-template-columns: 1fr 0.3fr 4.6fr 0.3fr 1fr;
+    grid-template-rows: 0.5fr 4fr 0.5fr;
+}
+.divbtn {
+    background-color: #999999;
+    border-radius: 2rem;
+    opacity: 40%;
+    z-index: 1;
+}
+.rt {
+    grid-area: 2 / 5 / 3 / 6;
+}
+.lt {
+    grid-area: 2 / 1 / 3 / 2;
+}
+.up {
+    grid-area: 1 / 3 / 2 / 4;
+}
+.dn {
+    grid-area: 3 / 3 / 4 / 4;
+}
 .tmOutBtns {
     display: flex;
     grid-area: 8 / 5 / 9 / 7 ;
