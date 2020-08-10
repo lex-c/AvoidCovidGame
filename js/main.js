@@ -17,7 +17,8 @@ spcOutBtn.addEventListener('click', chngPage)
 function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     document.getElementById(e.target.classList[1]).style.setProperty('display', 'grid')
-    if (e.target.classList[1] === 'outPg') zombieInt = window.setInterval(genZombie, randomTime(5000))
+    if (e.target.classList[1] === 'outPg') return zombieInt = window.setInterval(genZombie, randomTime(1000))
+    window.clearInterval(zombieInt)
 }
 
 
@@ -69,11 +70,12 @@ const dnBtn = document.getElementById('dnBtn')
 const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
 const allStDivs = document.querySelectorAll('.st')
+const ppUpD = document.querySelector('.popupdiv')
 
 
 let stIds = []
 for (let value of allStDivs) stIds.push(value.id.slice(1))
-let newSpaceStrArr, newSpaceId, zombieInt
+let newSpaceStrArr, newSpaceId, zombieInt, rEHappened
 
 
 allBtns.forEach(e => {
@@ -142,20 +144,56 @@ function genZombie() {
     const num2 = Math.abs(randomStNum.split('')[1])
     const personNum1 = Math.abs(getNodeOrNum(personSpace).split('')[0])
     const personNum2 = Math.abs(getNodeOrNum(personSpace).split('')[1])
-    if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1) return getNodeOrNum(randomStNum).innerHTML = `<i class="fas fa-universal-access"></i>`
-    //generateRiskEvent and popup window with message and choices -----------------------------------
-    //-----------------------------------------------------------------------------------------------
-    zombieInt = window.setInterval(genZombie, randomTime(5000))
-}
-
-function randomTime(timeBase) {
-    const val = Math.floor(Math.random() * timeBase + 1)
-    console.log('random time int', val)
-    return val
+    if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1){
+        getNodeOrNum(randomStNum).innerHTML = `<i class="fas fa-universal-access"></i>`
+        rEHappened = getRandInArr(RiskEvent.instances)
+        popUpChoice(rEHappened, randomStNum)
+        return window.clearInterval(zombieInt)
+    }
+    zombieInt = window.setInterval(genZombie, randomTime(1000))
 }
 
 
+function popUpChoice(evtHappd, zombStNum) {
+    const descripH = document.createElement('h2')
+    descripH.innerHTML = `${evtHappd.descrip}`
+    ppUpD.appendChild(descripH)
+    const qH = document.createElement('h2')
+    qH.innerHTML = `What would you like to do:`
+    ppUpD.appendChild(qH)
+    const optionsDiv = document.createElement('div')
+    optionsDiv.setAttribute('class', 'optionsdiv')
+    ppUpD.appendChild(optionsDiv)
+    evtHappd.choicesPoss.forEach((e, i) => {
+        const choiceEl = document.createElement('h3')
+        choiceEl.innerHTML = `${e}`
+        choiceEl.setAttribute('id', `c${i}`)
+        choiceEl.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
+        choiceEl.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
+        optionsDiv.appendChild(choiceEl)
+    })
+    optionsDiv.addEventListener('click', (chcClick) => {
+        if (chcClick.target.id === 'c0') lockSpot(zombStNum)
+        if (chcClick.target.id === 'c1') player.expose(evtHappd)
+        if (chcClick.target.id === 'c2') console.log(`haven't set this up yet`)
+        ppUpD.style.setProperty('display', 'none')
+        return ppUpD.innerHTML = ''
+    })
+    ppUpD.style.setProperty('display', 'flex')
+}
 
+function lockSpot(zombNum) {
+    const personMvClss = personSpace.className
+    const personNum = getNodeOrNum(personSpace)
+    let newClssNm
+    if (parseInt(zombNum.split('')[0]) === parseInt(personNum.split('')[0]) - 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(0, 1, `${personNum.split('')[0] + 1},${personNum.split('')[1]}`)}
+    if (parseInt(zombNum.split('')[0]) === parseInt(personNum.split('')[0]) + 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(3, 1, `${personNum.split('')[0] - 1},${personNum.split('')[1]}`)}
+    if (parseInt(zombNum.split('')[1]) === parseInt(personNum.split('')[1]) - 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(1, 1, `${personNum.split('')[0]},${personNum.split('')[1] + 1}`)}
+    if (parseInt(zombNum.split('')[1]) === parseInt(personNum.split('')[1]) + 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(2, 1, `${personNum.split('')[0]},${personNum.split('')[1] - 1}`)}
+    personSpace.className = newClssNm.join(' ')
+    //setTimeout
+    //displaylockmess
+}
 
 //AFTER LAST PAGE
 
@@ -217,8 +255,8 @@ class RiskEvent {
         return this.someMessage
     }
 }
-const homelessMan1 = new RiskEvent(`homelessMan1`, 'a homeless man showed up in your path', [`avoid them`, `keep going`], [{type: cough, prob: 20,}, {type: sneeze, prob: 30,}], [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`], [`He but he was facing away, hopefully you're okay 🤷‍♀️`], [`He didn't do anything; you're good; stop being so prejudiced!`])
-const homelessWoman1 = new RiskEvent('homelessWoman2', `a`, ['a', 'b'], [{type: cough, prob: 20}, {type: sneeze, prob: 30}], [`she right on your chest. Ewwww...`], [`she but she covered her mouth`], [`she's just minding her own business. You could have helped her...`])
+const homelessMan1 = new RiskEvent(`homelessMan1`, 'a homeless man showed up in your path', [`avoid them`, `keep going`, 'put prot and kp going'], [{type: cough, prob: 20,}, {type: sneeze, prob: 30,}], [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`], [`He but he was facing away, hopefully you're okay 🤷‍♀️`], [`He didn't do anything; you're good; stop being so prejudiced!`])
+const homelessWoman1 = new RiskEvent('homelessWoman2', `a`, ['a', 'b', 'c'], [{type: cough, prob: 20}, {type: sneeze, prob: 30}], [`she right on your chest. Ewwww...`], [`she but she covered her mouth`], [`she's just minding her own business. You could have helped her...`])
 
 
 const player = {
@@ -245,17 +283,6 @@ const player = {
 }
 
 
-function getRandomDilute(spread) {
-    const randNum = Math.random() * 10
-    return spread.reduce((a, e, i, arr) => {
-        if (randNum < i + 1 && randNum >= i) {
-            if (e === arr[i - 1]) i = arr.indexOf(e)
-            const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
-            return a = percentLeft / 100
-        }
-        return a = a
-    }, 0)
-}
 
 function renderCombinedMess(incidAndTot, riskEvent) {
     const incidMess = riskEvent.renderMessages(incidAndTot[0])
@@ -274,9 +301,24 @@ function renderCombinedMess(incidAndTot, riskEvent) {
 //----------------utility fxns----------------------------
 function getRandInArr(arr) {return arr[Math.floor(Math.random() * arr.length)]}
 
+function randomTime(timeBase) {
+    const val = Math.floor(Math.random() * timeBase + 1)
+    console.log('random time int', val)
+    return val
+}
 
-
-
+function getRandomDilute(spread) {
+    const randNum = Math.random() * 10
+    return spread.reduce((a, e, i, arr) => {
+        if (randNum < i + 1 && randNum >= i) {
+            if (e === arr[i - 1]) i = arr.indexOf(e)
+            const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
+            return a = percentLeft / 100
+        }
+        return a = a
+    }, 0)
+}
+//Init----------------------------------
 
 function init() {
     player.health = 100
