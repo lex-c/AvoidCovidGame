@@ -174,25 +174,18 @@ class Incident {
 const cough = new Incident('coughed', 'vap', 20000, [70, 70, 70, 70, 20, 20, 20, 20, 10, 0], [95, 90, 80, 80, 80, 70, 70, 60, 50, 30])
 const sneeze = new Incident('sneezed', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
 
-// class RiskEvent {
-//     constructor(descrip, choicesPoss, incidentsPoss)
-// }
-const oneRiskEvent = {
-    descrip: 'a homeless man showed up in your path',
-    choicesPoss: [`avoid them`, `keep going`],
-    incidentsPoss: [
-        {
-            type: cough, 
-            prob: 20, 
-        }, 
-        {
-            type: sneeze, 
-            prob: 30,
-        }
-    ],
-    hitMessgs: [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`],
-    someMessgs: [`He but he was facing away, hopefully you're okay 🤷‍♀️`],
-    missMessgs: [`He didn't do anything; you're good; stop being so prejudiced!`],
+class RiskEvent {
+    constructor(name, descrip, choicesPoss, incidentsPoss, hitMessgs, someMessgs, missMessgs) {
+        this.name = name,
+        this.descrip = descrip,
+        this.choicesPoss = choicesPoss,
+        this.incidentsPoss = incidentsPoss,
+        this.hitMessgs = hitMessgs,
+        this.someMessgs = someMessgs,
+        this.missMessgs = missMessgs
+        RiskEvent.instances.push(this)
+    }
+    static instances = []
     get whichIncident() {
         let randNum = Math.random() * 100
         let balance = 0
@@ -204,29 +197,28 @@ const oneRiskEvent = {
             balance = value.prob
         }
         return 0
-    },
+    }
     get hitMessage() {
         const mess = getRandInArr(this.hitMessgs).split(' ')
         mess.splice(1, 0, `${incidentHappened.descrip}`)
         return mess.join(' ')
-    },
+    }
     get someMessage() {
         const mess = getRandInArr(this.someMessgs).split(' ')
         mess.splice(1, 0, `${incidentHappened.descrip}`)
         return mess.join(' ')
-    },
+    }
     get missMessage() {
         return getRandInArr(this.missMessgs)
-    },
+    }
     renderMessages(hitOrMiss) {
         if (!hitOrMiss) return this.missMessage
         if (hitOrMiss > 0.5) return this.hitMessage
         return this.someMessage
     }
 }
-    
-
-
+const homelessMan1 = new RiskEvent(`homelessMan1`, 'a homeless man showed up in your path', [`avoid them`, `keep going`], [{type: cough, prob: 20,}, {type: sneeze, prob: 30,}], [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`], [`He but he was facing away, hopefully you're okay 🤷‍♀️`], [`He didn't do anything; you're good; stop being so prejudiced!`])
+const homelessWoman1 = new RiskEvent('homelessWoman2', `a`, ['a', 'b'], [{type: cough, prob: 20}, {type: sneeze, prob: 30}], [`she right on your chest. Ewwww...`], [`she but she covered her mouth`], [`she's just minding her own business. You could have helped her...`])
 
 
 const player = {
@@ -299,8 +291,8 @@ function init() {
 
 init()
 
-player.expose(oneRiskEvent)
-
+player.expose(homelessWoman1)
+console.log(RiskEvent.instances)
 // window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
