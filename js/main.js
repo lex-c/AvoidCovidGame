@@ -17,6 +17,7 @@ spcOutBtn.addEventListener('click', chngPage)
 function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     document.getElementById(e.target.classList[1]).style.setProperty('display', 'grid')
+    if (e.target.classList[1] === 'outPg') zombieInt = window.setInterval(genZombie, randomTime(5000))
 }
 
 
@@ -69,7 +70,7 @@ const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
 
 
-let newSpaceStrArr, newSpaceId
+let newSpaceStrArr, newSpaceId, zombieInt
 
 
 allBtns.forEach(e => {
@@ -127,6 +128,31 @@ function switchPageIn () {
 }
 
 
+const allStDivs = document.querySelectorAll('.st')
+let stIds = []
+for (let value of allStDivs) stIds.push(value.id.slice(1))
+
+function genZombie() {
+    window.clearInterval(zombieInt)
+    const personIndex = stIds.indexOf(getNodeOrNum(personSpace))
+    if (personIndex >= 0) stIds.splice(personIndex, 1)
+    const numPicked = Math.floor(Math.random() * stIds.length)
+    console.log('num picked for nodes arr', numPicked)
+    const randomNodeNum = stIds[numPicked]
+    console.log('random node picked', randomNodeNum)
+    const num1 = Math.abs(randomNodeNum.split('')[0])
+    const num2 = Math.abs(randomNodeNum.split('')[1])
+    const iconNum1 = Math.abs(getNodeOrNum(personSpace).split('')[0])
+    const iconNum2 = Math.abs(getNodeOrNum(personSpace).split('')[1])
+    if (Math.abs(num1 - iconNum1) + Math.abs(num2 - iconNum2) === 1) return getNodeOrNum(randomNodeNum).innerHTML = `<i class="fas fa-universal-access"></i>`
+    zombieInt = window.setInterval(genZombie, randomTime(5000))
+}
+
+function randomTime(timeBase) {
+    const val = Math.floor(Math.random() * timeBase + 1)
+    console.log('random time int', val)
+    return val
+}
 
 
 
