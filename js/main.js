@@ -89,26 +89,16 @@ function showAndMove(e) {
 }
 function move(e) {
     const dir = e.target.classList[0]
-    if (dir === 'up') {
-        newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
-        newSpaceId = [`${parseInt(newSpaceStrArr[0]) - 1}`, newSpaceStrArr[1]].join('')
-    }
-    if (dir === 'dn') {
-        newSpaceStrArr = personSpace.className.split(' ')[3].split(',')
-        newSpaceId = [`${parseInt(newSpaceStrArr[0]) + 1}`, newSpaceStrArr[1]].join('')
-    }
-    if (dir === 'lt') {
-        newSpaceStrArr = personSpace.className.split(' ')[1].split(',')
-        newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
-    }
-    if (dir === 'rt') {
-        newSpaceStrArr = personSpace.className.split(' ')[2].split(',')
-        newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
-    }
+    newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
+    if (dir === 'up') newSpaceId = [`${parseInt(newSpaceStrArr[0]) - 1}`, newSpaceStrArr[1]].join('')
+    if (dir === 'dn') newSpaceId = [`${parseInt(newSpaceStrArr[0]) + 1}`, newSpaceStrArr[1]].join('')
+    if (dir === 'lt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
+    if (dir === 'rt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ''
-    personSpace = getNodeOrNum(newSpaceId)
+    personSpace = getNodeOrNum(newSpaceId) || personSpace
     personSpace.innerHTML = icon
+    personSpace.offsetHeight
     checkIfInside()
 }
 
@@ -183,16 +173,11 @@ function popUpChoice(evtHappd, zombStNum) {
 }
 
 function lockSpot(zombNum) {
-    const personMvClss = personSpace.className
-    const personNum = getNodeOrNum(personSpace)
-    let newClssNm
-    if (parseInt(zombNum.split('')[0]) === parseInt(personNum.split('')[0]) - 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(0, 1, `${personNum.split('')[0] + 1},${personNum.split('')[1]}`)}
-    if (parseInt(zombNum.split('')[0]) === parseInt(personNum.split('')[0]) + 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(3, 1, `${personNum.split('')[0] - 1},${personNum.split('')[1]}`)}
-    if (parseInt(zombNum.split('')[1]) === parseInt(personNum.split('')[1]) - 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(1, 1, `${personNum.split('')[0]},${personNum.split('')[1] + 1}`)}
-    if (parseInt(zombNum.split('')[1]) === parseInt(personNum.split('')[1]) + 1) {newClssNm = personSpace.className.split(' '); newClssNm.splice(2, 1, `${personNum.split('')[0]},${personNum.split('')[1] - 1}`)}
-    personSpace.className = newClssNm.join(' ')
-    //setTimeout
-    //displaylockmess
+    stNode = getNodeOrNum(zombNum)
+    getNodeOrNum(zombNum).id = 's'
+    stNode.offsetHeight
+    setTimeout(() => {stNode.id = `s${zombNum}`; stNode.offsetHeight; getNodeOrNum(zombNum).innerHTML = ''}, 8000)
+    
 }
 
 //AFTER LAST PAGE
