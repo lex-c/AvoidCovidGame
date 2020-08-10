@@ -60,7 +60,7 @@ function gmTimeRender() {
 //out page 
 
 
-const startingSpace = document.getElementById('s35')
+let personSpace = document.getElementById('s35')
 const rtBtn = document.getElementById('rtBtn')
 const ltBtn = document.getElementById('ltBtn')
 const upBtn = document.getElementById('upBtn')
@@ -69,8 +69,7 @@ const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
 
 
-let personSpace = startingSpace
-let movingTimeout
+let newSpaceStrArr, newSpaceId
 
 
 allBtns.forEach(e => {
@@ -82,32 +81,28 @@ function showAndMove(e) {
     setTimeout(e => e.target.style.setProperty('opacity', '10%'), 100, e)
     move(e)
 }
-
 function move(e) {
     const dir = e.target.classList[0]
-    let newSpaceId;
     if (dir === 'up') {
-        const newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
+        newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
         newSpaceId = [`${parseInt(newSpaceStrArr[0]) - 1}`, newSpaceStrArr[1]].join('')
     }
     if (dir === 'dn') {
-        const newSpaceStrArr = personSpace.className.split(' ')[3].split(',')
+        newSpaceStrArr = personSpace.className.split(' ')[3].split(',')
         newSpaceId = [`${parseInt(newSpaceStrArr[0]) + 1}`, newSpaceStrArr[1]].join('')
     }
     if (dir === 'lt') {
-        const newSpaceStrArr = personSpace.className.split(' ')[1].split(',')
+        newSpaceStrArr = personSpace.className.split(' ')[1].split(',')
         newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
     }
     if (dir === 'rt') {
-        const newSpaceStrArr = personSpace.className.split(' ')[2].split(',')
-        console.log(newSpaceStrArr)
+        newSpaceStrArr = personSpace.className.split(' ')[2].split(',')
         newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
-        console.log(newSpaceId)
     }
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ''
-    getNodeOrNum(newSpaceId).innerHTML = icon
     personSpace = getNodeOrNum(newSpaceId)
+    personSpace.innerHTML = icon
     checkIfInside()
 }
 
@@ -116,22 +111,20 @@ function getNodeOrNum(numOrNode) {
     return val
 }
 
-
 function checkIfInside() {
-    if (personSpace.id === 's25') return movingTimeout = window.setTimeout(switchPageIn, 5000)
+    if (personSpace.id === 's25') setTimeout(switchPageIn, 5000)
 }
 
 function switchPageIn () {
     if (personSpace.id === 's25') {
+        const icon = personSpace.innerHTML
+        personSpace.innerHTML = ''
+        personSpace = document.getElementById('s35')
+        personSpace.innerHTML = icon
         hmPg.style.setProperty('display', 'grid')
         outPg.style.setProperty('display', 'none')
-        startingSpace.innerHTML = personSpace.innerHTML
-        personSpace.innerHTML = ''
-        personSpace = startingSpace
     }
-    return window.clearTimeout(movingTimeout)
 }
-
 
 
 
