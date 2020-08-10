@@ -19,6 +19,7 @@ body {
 #spacePg {
     display: grid;
     height: 100vh;
+    max-height: fit-content;
     margin: 0;
 }
 #homePg {

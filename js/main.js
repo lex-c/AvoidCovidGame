@@ -68,8 +68,11 @@ const upBtn = document.getElementById('upBtn')
 const dnBtn = document.getElementById('dnBtn')
 const allBtnsD = document.querySelector('.allbtnsdiv')
 const allBtns = document.querySelectorAll('.divbtn')
+const allStDivs = document.querySelectorAll('.st')
 
 
+let stIds = []
+for (let value of allStDivs) stIds.push(value.id.slice(1))
 let newSpaceStrArr, newSpaceId, zombieInt
 
 
@@ -128,23 +131,20 @@ function switchPageIn () {
 }
 
 
-const allStDivs = document.querySelectorAll('.st')
-let stIds = []
-for (let value of allStDivs) stIds.push(value.id.slice(1))
 
 function genZombie() {
     window.clearInterval(zombieInt)
     const personIndex = stIds.indexOf(getNodeOrNum(personSpace))
     if (personIndex >= 0) stIds.splice(personIndex, 1)
-    const numPicked = Math.floor(Math.random() * stIds.length)
-    console.log('num picked for nodes arr', numPicked)
-    const randomNodeNum = stIds[numPicked]
-    console.log('random node picked', randomNodeNum)
-    const num1 = Math.abs(randomNodeNum.split('')[0])
-    const num2 = Math.abs(randomNodeNum.split('')[1])
-    const iconNum1 = Math.abs(getNodeOrNum(personSpace).split('')[0])
-    const iconNum2 = Math.abs(getNodeOrNum(personSpace).split('')[1])
-    if (Math.abs(num1 - iconNum1) + Math.abs(num2 - iconNum2) === 1) return getNodeOrNum(randomNodeNum).innerHTML = `<i class="fas fa-universal-access"></i>`
+    const randomStNum = stIds[Math.floor(Math.random() * stIds.length)]
+    console.log('random node picked', randomStNum)
+    const num1 = Math.abs(randomStNum.split('')[0])
+    const num2 = Math.abs(randomStNum.split('')[1])
+    const personNum1 = Math.abs(getNodeOrNum(personSpace).split('')[0])
+    const personNum2 = Math.abs(getNodeOrNum(personSpace).split('')[1])
+    if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1) return getNodeOrNum(randomStNum).innerHTML = `<i class="fas fa-universal-access"></i>`
+    //generateRiskEvent and popup window with message and choices -----------------------------------
+    //-----------------------------------------------------------------------------------------------
     zombieInt = window.setInterval(genZombie, randomTime(5000))
 }
 
@@ -190,6 +190,9 @@ const oneRiskEvent = {
             prob: 30,
         }
     ],
+    hitMessgs: [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`],
+    someMessgs: [`He but he was facing away, hopefully you're okay 🤷‍♀️`],
+    missMessgs: [`He didn't do anything; you're good; stop being so prejudiced!`],
     get whichIncident() {
         let randNum = Math.random() * 100
         let balance = 0
@@ -203,17 +206,17 @@ const oneRiskEvent = {
         return 0
     },
     get hitMessage() {
-        const messgs = [`He ${incidentHappened.descrip} right in your face. Omg; it's so gross!`]
-        return messgs[0]
-        // STRINGYYYYYYYYYYYYYY 
+        const mess = getRandInArr(this.hitMessgs).split(' ')
+        mess.splice(1, 0, `${incidentHappened.descrip}`)
+        return mess.join(' ')
     },
     get someMessage() {
-        const messgs = [`He ${incidentHappened.descrip} but he was facing away, hopefully you're okay 🤷‍♀️`]
-        return messgs[0]
+        const mess = getRandInArr(this.someMessgs).split(' ')
+        mess.splice(1, 0, `${incidentHappened.descrip}`)
+        return mess.join(' ')
     },
     get missMessage() {
-        const messgs = [`He didn't do anything; you're good; stop being so prejudiced!`]
-        return messgs[0]
+        return getRandInArr(this.missMessgs)
     },
     renderMessages(hitOrMiss) {
         if (!hitOrMiss) return this.missMessage
@@ -249,9 +252,6 @@ const player = {
     }
 }
 
-function blahBlah() {
-    console.dir(this)
-}
 
 function getRandomDilute(spread) {
     const randNum = Math.random() * 10
@@ -279,6 +279,8 @@ function renderCombinedMess(incidAndTot, riskEvent) {
 }
 
 
+//----------------utility fxns----------------------------
+function getRandInArr(arr) {return arr[Math.floor(Math.random() * arr.length)]}
 
 
 
@@ -298,6 +300,7 @@ function init() {
 init()
 
 player.expose(oneRiskEvent)
+
 // window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
