@@ -129,15 +129,28 @@ function move(e) {
 }
 
 function checkIfInBlock() {
-    if (personSpace.id === 's25') setTimeout(switchPageIn, 5000)
+    if (personSpace.id === 's25') {
+        window.clearInterval(zombieInt)
+        checkIfBackOut = window.setInterval(resetInt, 1)
+        pgOutToHomeTO = setTimeout(switchPageIn, 2000, 's35')
+    }
+}
+function resetInt() {
+    if (personSpace.id === 's35') {
+        window.clearInterval(checkIfBackOut)
+        window.clearTimeout(pgOutToHomeTO)
+        zombieInt = window.setInterval(genZombie, 500)
+    }
 }
 //------------------------change if above
-function switchPageIn () {
-    if (personSpace.id === 's25') {
-        const icon = personSpace.innerHTML
-        personSpace.innerHTML = ''
-        personSpace = document.getElementById('s35')
-        personSpace.innerHTML = icon
+function switchPageIn (justOutsideId) {
+//this next one needs generalization
+    window.clearInterval(checkIfBackOut)
+    const icon = personSpace.innerHTML
+    personSpace.innerHTML = ''
+    personSpace = document.getElementById(justOutsideId)
+    personSpace.innerHTML = icon
+    if (justOutsideId === 's35') {
         outPg.style.setProperty('display', 'none')
         hmPg.style.setProperty('display', 'grid')
     }
