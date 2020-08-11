@@ -25,7 +25,7 @@ body {
 #homePg {
     grid-template-columns: 1.3fr 0.2fr 0.7fr 2fr 0.7fr 0.2fr 1.3fr;
     grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
-    background-color: skyblue;
+    background-color: #999999;
 }
 .hm-pg-div {
     display: flex;
@@ -52,17 +52,21 @@ body {
 }
 #hmTime {
     grid-area: 1 / 5 / 2 / 8;
-    background-color: red;
     flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
+    color: whitesmoke;
+    text-shadow: black 0 0 0.5rem;
+    font-size: 2rem;
 }
 .white {
     color: whitesmoke;
 }
 #hmMoney {
     grid-area: 2 / 6 / 4 / 8;
-    background-color: seagreen;
     align-items: flex-end;
+    color: green;
+    font-size: 2rem;
 }
 #choices {
     grid-area: 7 / 2 / 10 / 7;
@@ -92,6 +96,24 @@ body {
     background-color: #555555;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(8, 1fr);
+}
+.outtime {
+    grid-area: 1 / 5 / 2 / 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-size: 2rem;
+    z-index: 0;
+}
+.outfood {
+    grid-area: 2 / 1 / 3 / 3;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: blue;
+    font-size: 2rem;
+    z-index: 0;
 }
 .st {
     background-color: #555555;

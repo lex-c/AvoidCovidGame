@@ -24,6 +24,7 @@ function chngPage(e) {
 
 
 //HOME PAGE
+
 const allHmDivs = document.querySelectorAll('.hm-pg-div')
 const hmHealthEl = document.getElementById('hmHealth')
 const hmMHlthEl = document.getElementById('hmMHlth')
@@ -35,14 +36,22 @@ const hmProtItemsEl = document.getElementById('hmProtItems')
 const hmMedsEl = document.getElementById('hmMeds')
 const hmOutDiv = document.getElementById('hmOutDiv')
 
+//nec for hmpg but from outpg
+
+const outT = document.getElementById('outT')
+const outFd = document.getElementById('outFd')
+const outMH = document.getElementById('outMH')
+
 function hmPgInit() {
-    hmPgDispRender()
+    statsDispRender()
 }
 
-function hmPgDispRender() {
+function statsDispRender() {
     hmHealthEl.innerHTML = `Health: ${player.health}`
     hmMHlthEl.innerHTML = `Mental Health: ${player.mHlth}`
+    outMH.innerHTML = `Mental Health: ${player.mHlth}`
     hmFoodEl.innerHTML = `Food: ${player.food}`
+    outFd.innerHTML = `Food: ${player.food}`
     gmTimeRender()
     hmMoneyEl.innerHTML = `Cash: $${player.money}`
     hmProtItemsEl.innerHTML = `notsure`
@@ -53,7 +62,7 @@ let gmTimer = setInterval(upSecs, 60)
 function upSecs() {
     gmTime += 60
     eatGetFatDepressed()
-    hmPgDispRender()
+    statsDispRender()
     checkIfLose()
 }
 
@@ -69,7 +78,9 @@ function checkIfLose() {
 }
 
 function gmTimeRender() {
-    hmTimeEl.innerHTML = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
+    const timeDisp = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
+    hmTimeEl.innerHTML = timeDisp
+    outT.innerHTML = timeDisp
 }
 
 
