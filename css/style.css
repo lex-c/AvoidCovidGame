@@ -200,7 +200,20 @@ body {
     color: white;
     font-size: 3rem;
     text-shadow: black 0 0 1rem;
-    overflow-wrap: break-word;
+}
+.ppuprsdiv {
+    grid-area: 2 / 3 / 4 / 11;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 4rem;
+    background-color: #999999;
+    opacity: 30%;
+    color: white;
+    font-size: 3rem;
+    text-shadow: black 0 0 1rem;
+    border-radius: 3rem;
 }
 .tmOutBtns {
     display: flex;
