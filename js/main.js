@@ -1,4 +1,5 @@
 let gmTime, incidentHappened
+let pgIn = 'hmPg'
 
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
@@ -6,20 +7,16 @@ hmPg.style.setProperty('display', 'grid')
 const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
-const tempOSBtn = document.getElementById('outSBtnTmp')
-const tempOHmBtn = document.getElementById('outHBtnTmp')
 const spcOutBtn = document.getElementById('spcOutBtn')
 
 hmOutBtn.addEventListener('click', chngPage)
-tempOSBtn.addEventListener('click', chngPage)
-tempOHmBtn.addEventListener('click', chngPage)
 spcOutBtn.addEventListener('click', chngPage)
 
 function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
-    document.getElementById(e.target.classList[1]).style.setProperty('display', 'grid')
-    if (e.target.classList[1] === 'outPg') return zombieInt = window.setInterval(genZombie, randomTime(500))
-    window.clearInterval(zombieInt)
+    outPg.style.setProperty('display', 'grid')
+    pgIn = 'outPg'
+    zombieInt = window.setInterval(genZombie, randomTime(500))
 }
 
 
@@ -67,9 +64,10 @@ function upSecs() {
 }
 
 function eatGetFatDepressed() {
-    if (gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
-    if (player.food === 0 && gmTime % 600 === 0) player.health -= 10
-    if (hmPg.style.getPropertyValue('display') === 'grid' && gmTime % 800 === 0) player.mHlth -= 1
+    if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
+    if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 10
+    if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
+    if (pgIn === 'gcrPg' && gmTime % 300 === 0) player.food += 0.1
 }
 
 function checkIfLose() {
