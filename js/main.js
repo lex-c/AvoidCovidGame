@@ -16,7 +16,7 @@ function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     outPg.style.setProperty('display', 'grid')
     pgIn = 'outPg'
-    zombieInt = window.setInterval(genZombie, randomTime(500))
+    zombieInt = window.setInterval(genZombie, randomTime(5000))
 }
 
 
@@ -33,41 +33,40 @@ const hmProtItemsEl = document.getElementById('hmProtItems')
 const hmMedsEl = document.getElementById('hmMeds')
 const hmOutDiv = document.getElementById('hmOutDiv')
 
-//nec for hmpg but from outpg
-
-const outT = document.getElementById('outT')
-const outFd = document.getElementById('outFd')
-const outMH = document.getElementById('outMH')
 
 function hmPgInit() {
     statsDispRender()
 }
 
 function statsDispRender() {
-    hmHealthEl.innerHTML = `Health: ${player.health}`
-    hmMHlthEl.innerHTML = `Mental Health: ${player.mHlth}`
-    outMH.innerHTML = `Mental Health: ${player.mHlth}`
-    hmFoodEl.innerHTML = `Food: ${player.food}`
-    outFd.innerHTML = `Food: ${player.food}`
+    hmHealthEl.innerHTML = outHlth.innerHTML = spcHlth.innerHTML = `Health: ${player.health}`
+    hmMHlthEl.innerHTML = outMHlth.innerHTML = spcMHlth.innerHTML = `Mental Health: ${player.mHlth}`
+    hmFoodEl.innerHTML = outFd.innerHTML = spcFd.innerHTML = `Food: ${player.food}`
     gmTimeRender()
-    hmMoneyEl.innerHTML = `Cash: $${player.money}`
-    hmProtItemsEl.innerHTML = `notsure`
-    hmMedsEl.innerHTML = `Meds: ${player.meds}`
+    hmMoneyEl.innerHTML = outMon.innerHTML = spcMon.innerHTML = `Cash: $${player.money}`
+    hmMedsEl.innerHTML = outMeds.innerHTML = spcMeds.innerHTML = `Meds: ${player.meds}`
+    hmProtItemsEl.innerHTML = outPI.innerHTML = spcPI.innerHTML = `notsure`
 }
 
 let gmTimer = setInterval(upSecs, 60)
 function upSecs() {
-    gmTime += 60
-    eatGetFatDepressed()
-    statsDispRender()
-    checkIfLose()
+    if (pgIn !== 'inBet') {
+        gmTime += 60
+        eatGetFatDepressed()
+        statsDispRender()
+        checkIfLose()
+    }
 }
 
 function eatGetFatDepressed() {
     if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
     if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 10
+    //add meds and pgIn !== pharma
     if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
-    if (pgIn === 'gcrPg' && gmTime % 300 === 0) player.food += 0.1
+    if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {
+        player.food += 0.1
+        player.money -= 5
+    }
 }
 
 function checkIfLose() {
@@ -76,9 +75,7 @@ function checkIfLose() {
 }
 
 function gmTimeRender() {
-    const timeDisp = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
-    hmTimeEl.innerHTML = timeDisp
-    outT.innerHTML = timeDisp
+    hmTimeEl.innerHTML = outTime.innerHTML = spcTime.innerHTML = `${parseInt(gmTime / 3600) % 24}H  ${parseInt(gmTime / 60) % 60}M  <strong>${parseInt(gmTime / 86400)}D`
 }
 
 
@@ -86,6 +83,13 @@ function gmTimeRender() {
 
 
 let personSpace = document.getElementById('s35')
+const outHlth = document.getElementById('outHlth')
+const outMHlth = document.getElementById('outMHlth')
+const outFd = document.getElementById('outFd')
+const outTime = document.getElementById('outTime')
+const outMon = document.getElementById('outMon')
+const outMeds = document.getElementById('outMeds')
+const outPI = document.getElementById('outPI')
 const rtBtn = document.getElementById('rtBtn')
 const ltBtn = document.getElementById('ltBtn')
 const upBtn = document.getElementById('upBtn')
@@ -120,61 +124,70 @@ function move(e) {
     if (dir === 'lt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
     if (dir === 'rt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
     const icon = personSpace.innerHTML
+    const lastPSpace = document.querySelector(`#${personSpace.id}`)
     personSpace.innerHTML = ''
     personSpace = getNodeOrNum(newSpaceId) || personSpace
     personSpace.innerHTML = icon
-    checkIfInBlock()
+    checkIfInBlock(lastPSpace)
 }
 
-function checkIfInBlock() {
-    if (personSpace.id === 's25') {
+function checkIfInBlock(lastStSpace) {
+    if (personSpace.id === 's25' || personSpace.id === 's41') {
         window.clearInterval(zombieInt)
-        checkIfBackOut = window.setInterval(resetInt, 1)
-        pgOutToHomeTO = setTimeout(switchPageIn, 2000, 's35')
+        checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
+        pgOutToHomeTO = setTimeout(switchPageIn, 2000, lastStSpace)
     }
 }
-function resetInt() {
-    if (personSpace.id === 's35') {
+function resetInt(lastSpace) {
+    if (personSpace.id === lastSpace.id) {
         window.clearInterval(checkIfBackOut)
         window.clearTimeout(pgOutToHomeTO)
-        zombieInt = window.setInterval(genZombie, 500)
+        zombieInt = window.setInterval(genZombie, 5000)
     }
 }
 //------------------------change if above
-function switchPageIn (justOutsideId) {
+function switchPageIn (justOutside) {
 //this next one needs generalization
     window.clearInterval(checkIfBackOut)
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ''
-    personSpace = document.getElementById(justOutsideId)
+    personSpace = document.querySelector(`#${justOutside.id}`)
     personSpace.innerHTML = icon
-    if (justOutsideId === 's35') {
-        outPg.style.setProperty('display', 'none')
+    outPg.style.setProperty('display', 'none')
+    if (justOutside.id === 's35') {
         hmPg.style.setProperty('display', 'grid')
+        pgIn = `hmPg`
     }
+    if (justOutside.id === 's31') {
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'gcrPg'
+    }
+    // if (justOutsideId === 's37') {
+    //     pgIn = 'park'
+    // }
 }
 
 function genZombie() {
     window.clearInterval(zombieInt)
-    const stIdsCopy = [...stIds]
-    const personIndex = stIds.indexOf(getNodeOrNum(personSpace))
-    stIds.splice(personIndex, 1)
-    const randomStNum = stIds[Math.floor(Math.random() * stIds.length)]
-    stIds = stIdsCopy
-    const num1 = Math.abs(randomStNum.split('')[0])
-    const num2 = Math.abs(randomStNum.split('')[1])
-    const personNum1 = Math.abs(getNodeOrNum(personSpace).split('')[0])
-    const personNum2 = Math.abs(getNodeOrNum(personSpace).split('')[1])
-    if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1 && getNodeOrNum(randomStNum)) {
+    freeStIds = Array.from(document.querySelectorAll('.st')).filter(space => space.id.slice(0, 1) === 's').map(space => space.classList[0])
+    const personIndex = freeStIds.indexOf(`${getNodeOrNum(personSpace).split('').join(',')}`)
+    freeStIds.splice(personIndex, 1)
+    const randomStNum = getRandInArr(freeStIds)
+    const num1 = Math.abs(randomStNum.split(',')[0])
+    const num2 = Math.abs(randomStNum.split(',')[1])
+    const personNum1 = Math.abs(personSpace.className.split(' ')[0].split(',')[0])
+    const personNum2 = Math.abs(personSpace.className.split(' ')[0].split(',')[1])
+    if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1) {
         rEHappened = getRandInArr(RiskEvent.instances)
-        console.log(randomStNum, getNodeOrNum(randomStNum))
-        setRemoveZ(randomStNum, getNodeOrNum(randomStNum))
+        randStNumId = randomStNum.split(',').join('')
+        console.log(randStNumId, getNodeOrNum(randStNumId))
+        setRemoveZ(randStNumId, getNodeOrNum(randStNumId))
         allBtnsD.removeEventListener('click', showAndMove)
-        // if (checkIfSurround()) return 
-        popUpChoice(randomStNum)
+        pgIn = 'inBet'
+        popUpChoice(randStNumId)
         return
     }
-    zombieInt = window.setInterval(genZombie, randomTime(500))
+    zombieInt = window.setInterval(genZombie, randomTime(5000))
 }
 
 // function checkIfSurround() {
@@ -210,9 +223,11 @@ function popUpChoice(zId) {
             player.expose(rEHappened)
         }
         if (chcClick.target.id === 'c2') console.log(`haven't set this up yet`)
-        ppUpD.style.setProperty('display', 'none')
-        ppUpD.innerHTML = ''
-        return
+        if (chcClick.target.id === 'c0' || chcClick.target.id === 'c1' || chcClick.target.id === 'c2') {
+            ppUpD.style.setProperty('display', 'none')
+            ppUpD.innerHTML = ''
+            document.body.style.cursor = 'auto'
+        }
     })
     ppUpD.style.setProperty('display', 'flex')
 }
@@ -255,10 +270,43 @@ function popUpRRender(which) {
         ppUpRDiv.style.setProperty('display', 'none')
         ppUpRDiv.innerHTML = ``
         allBtnsD.addEventListener('click', showAndMove)
-        zombieInt = window.setInterval(genZombie, randomTime(500))
+        pgIn = 'outPg'
+        zombieInt = window.setInterval(genZombie, randomTime(5000))
     }, 2000)
     ppUpRDiv.style.setProperty('display', 'flex')
 }
+
+
+
+
+
+
+
+
+
+
+//SPC PAGE -----------------------------------------
+
+
+const spcHlth = document.getElementById('spcHlth')
+const spcMHlth = document.getElementById('spcMHlth')
+const spcFd = document.getElementById('spcFd')
+const spcTime = document.getElementById('spcTime')
+const spcMon = document.getElementById('spcMon')
+const spcInfo = document.getElementById('spcInfo')
+const spcPP = document.getElementById('spcPP')
+const spcMeds = document.getElementById('spcMeds')
+const spcPI = document.getElementById('spcPI')
+//outbtn defined above could bring down -----------------------------------
+
+
+
+
+
+
+
+
+
 
 //AFTER LAST PAGE
 

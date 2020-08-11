@@ -19,12 +19,11 @@ body {
 #spacePg {
     display: grid;
     height: 100vh;
-    max-height: fit-content;
     margin: 0;
 }
 #homePg {
-    grid-template-columns: 1.3fr 0.2fr 0.7fr 2fr 0.7fr 0.2fr 1.3fr;
-    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
+    grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
     background-color: #999999;
 }
 .hm-pg-div {
@@ -35,23 +34,23 @@ body {
     padding: 1rem;
 }
 #hmHealth {
-    grid-area: 1 / 1 / 2 / 4;
+    grid-area: 1 / 1 / 2 / 5;
     background-color: #555555;
     color: whitesmoke;
     font-size: 2rem;
 }
 #hmMHlth {
-    grid-area: 2 / 1 / 4 / 4;
+    grid-area: 2 / 1 / 3 / 5;
     background-color: #666666;
     font-size: 2rem;
 }
 #hmFood {
-    grid-area: 4 / 1 / 6 / 4;
+    grid-area: 3 / 1 / 4 / 5;
     background-color: cornflowerblue;
     font-size: 2rem;
 }
 #hmTime {
-    grid-area: 1 / 5 / 2 / 8;
+    grid-area: 1 / 5 / 2 / 9;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -63,13 +62,13 @@ body {
     color: whitesmoke;
 }
 #hmMoney {
-    grid-area: 2 / 6 / 4 / 8;
+    grid-area: 2 / 5 / 3 / 9;
     align-items: flex-end;
     color: green;
     font-size: 2rem;
 }
 #choices {
-    grid-area: 7 / 2 / 10 / 7;
+    grid-area: 5 / 2 / 8 / 8;
     background-color: #333333;
     border-radius: 1rem;
     color: whitesmoke;
@@ -78,16 +77,16 @@ body {
     justify-content: space-between;
     align-items: center;
 }
-#hmProtItems {
-    grid-area: 11 / 1 / 13 / 4;
-    background-color: #555555;
-}
 #hmMeds {
-    grid-area: 13 / 1 / 14 / 4;
+    grid-area: 9 / 1 / 11 / 5;
     background-color: steelblue;
 }
+#hmProtItems {
+    grid-area: 11 / 1 / 12 / 5;
+    background-color: #555555;
+}
 #hmOutDiv {
-    grid-area: 12 / 5 / 14 / 8;
+    grid-area: 10 / 6 / 12 / 9;
     justify-content: center;
     align-items: stretch;
     padding: 0;
@@ -202,6 +201,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 0.3fr 4.6fr 0.3fr 1fr;
     grid-template-rows: 1fr 4fr 1fr;
+    margin: 0;
 }
 .divbtn {
     background-color: #999999;
@@ -211,6 +211,7 @@ body {
     font-size: 5rem;
     color: #555555;
     opacity: 10%;
+    margin: 0;
     z-index: 1;
 }
 .rt {grid-area: 1 / 5 / 4 / 6;}
@@ -250,7 +251,50 @@ body {
     border-radius: 3rem;
 }
 #spacePg {
-    background-color: seagreen;
+    background-color: #555555;
+    grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
+}
+.spchlth {
+    grid-area: 1 / 1 / 2 / 5;
+    background-color: darkblue;
+}
+.spcmhlth {
+    grid-area: 2 / 1 / 3 / 5;
+    background-color: darkcyan;
+}
+.spcfd {
+    grid-area: 3 / 1 / 4 / 5;
+    background-color: whitesmoke;
+}
+.spctime {
+    grid-area: 1 / 5 / 2 / 9;
+    background-color: wheat;
+}
+.spcmon {
+    grid-area: 2 / 5 / 3 / 9;
+    background-color: teal;
+}
+.spcinfo {
+    grid-area: 6 / 2 / 7 / 8;
+    background-color: tomato;
+}
+.spcpp {
+    grid-area: 5 / 3 / 8 / 7;
+    background-color: thistle;
+}
+.spcmeds {
+    grid-area: 9 / 1 / 11 / 5;
+    background-color: turquoise;
+}
+.spcpi {
+    grid-area: 11 / 1 / 12 / 5;
+    background-color: violet;
+}
+.spcoutbtnd {
+    grid-area: 10 / 6 / 12 / 9;
+    background-color: yellowgreen;
+    display: flex;
 }
 #outPg,
 #spacePg {
