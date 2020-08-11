@@ -2,6 +2,7 @@ let gmTime, incidentHappened
 
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
+hmPg.style.setProperty('display', 'grid')
 const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
@@ -48,10 +49,23 @@ function hmPgDispRender() {
     hmMedsEl.innerHTML = `Meds: ${player.meds}`
 }
 
-let gmTimer = setInterval(upSecs, 6000)
+let gmTimer = setInterval(upSecs, 60)
 function upSecs() {
     gmTime += 60
-    gmTimeRender()
+    eatGetFatDepressed()
+    hmPgDispRender()
+    checkIfLose()
+}
+
+function eatGetFatDepressed() {
+    if (gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
+    if (player.food === 0 && gmTime % 600 === 0) player.health -= 10
+    if (hmPg.style.getPropertyValue('display') === 'grid' && gmTime % 800 === 0) player.mHlth -= 1
+}
+
+function checkIfLose() {
+    if (player.health === 0) console.log('lose by health')
+    if (player.mHlth === 0) console.log('lose by mhlth')
 }
 
 function gmTimeRender() {

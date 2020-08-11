@@ -38,14 +38,17 @@ body {
     grid-area: 1 / 1 / 2 / 4;
     background-color: #555555;
     color: whitesmoke;
+    font-size: 2rem;
 }
 #hmMHlth {
     grid-area: 2 / 1 / 4 / 4;
     background-color: #666666;
+    font-size: 2rem;
 }
 #hmFood {
     grid-area: 4 / 1 / 6 / 4;
     background-color: cornflowerblue;
+    font-size: 2rem;
 }
 #hmTime {
     grid-area: 1 / 5 / 2 / 8;
