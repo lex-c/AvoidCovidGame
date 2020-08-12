@@ -8,7 +8,7 @@ const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
 const spcOutBtn = document.getElementById('spcOutBtn')
-hmPg.style.setProperty('display', 'grid')
+// hmPg.style.setProperty('display', 'grid')
 
 hmOutBtn.addEventListener('click', chngPage)
 spcOutBtn.addEventListener('click', chngPage)
@@ -213,29 +213,32 @@ function popUpChoice(zId) {
     const optionsDiv = document.createElement('div')
     optionsDiv.setAttribute('class', 'optionsdiv')
     ppUpD.appendChild(optionsDiv)
-    rEHappened.choicesPoss.forEach((e, i) => {
-        const choiceEl = document.createElement('h3')
-        choiceEl.innerHTML = `${e}`
-        choiceEl.setAttribute('id', `c${i}`)
-        choiceEl.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
-        choiceEl.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
-        optionsDiv.appendChild(choiceEl)
-    })
-    optionsDiv.addEventListener('click', (chcClick) => {
-        if (chcClick.target.id === 'c0') walkAway(zId)
-        if (chcClick.target.id === 'c1') {
-            setRemoveZ(zId)
-            popUpRRender(player.expose(rEHappened))
-        }
-        if (chcClick.target.id === 'c2') console.log(`haven't set this up yet`)
-        if (chcClick.target.id === 'c0' || chcClick.target.id === 'c1' || chcClick.target.id === 'c2') {
-            ppUpD.style.setProperty('display', 'none')
-            ppUpD.innerHTML = ''
-            document.body.style.cursor = 'auto'
-        }
-    })
+    const chc1 = document.createElement('h3')
+    chc1.innerHTML = `Run away!`
+    chc1.setAttribute('id', `run`)
+    chc1.addEventListener('click', () => runOrStay(0, zId))
+    optionsDiv.appendChild(chc1)
+    const chc2 = document.createElement('h3')
+    chc2.innerHTML = `Carry on`
+    chc2.setAttribute('id', `stay`)
+    chc2.addEventListener('click', () => runOrStay(1, zId))
+    optionsDiv.appendChild(chc2)
+    optionsDiv.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
+    optionsDiv.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
     ppUpD.style.setProperty('display', 'flex')
 }
+   
+function runOrStay(rOrS, zId) {
+    if (!rOrS) walkAway(zId) 
+    if (rOrS) {
+        setRemoveZ(zId)
+        popUpRRender(player.expose(rEHappened))
+    }
+    ppUpD.style.setProperty('display', 'none')
+    ppUpD.innerHTML = ''
+    document.body.style.cursor = 'auto'
+}
+
 
 function walkAway(zId) {
     setTimeout(setRemoveZ, 11000, zId)
@@ -383,10 +386,9 @@ const cough = new Incident('coughed', 'vap', 20000, [70, 70, 70, 70, 20, 20, 20,
 const sneeze = new Incident('sneezed', 'vap', 5000, [90, 70, 50, 50, 30, 30, 20, 0, 0, 0], [90, 90, 80, 80, 60, 60, 60, 60, 60, 50])
 
 class RiskEvent {
-    constructor(name, descrip, choicesPoss, incidentsPoss, hitMessgs, someMessgs, missMessgs) {
+    constructor(name, descrip, incidentsPoss, hitMessgs, someMessgs, missMessgs) {
         this.name = name,
         this.descrip = descrip,
-        this.choicesPoss = choicesPoss,
         this.incidentsPoss = incidentsPoss,
         this.hitMessgs = hitMessgs,
         this.someMessgs = someMessgs,
@@ -425,7 +427,7 @@ class RiskEvent {
         return this.someMessage
     }
 }
-const homelessMan1 = new RiskEvent(`homelessMan1`, 'A homeless man showed up in your path', [`avoid them`, `keep going`, 'put prot and kp going'], [{type: cough, prob: 20,}, {type: sneeze, prob: 30,}], [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`], [`He but he was facing away, hopefully you're okay 🤷‍♀️`], [`He didn't do anything; you're good; stop being so prejudiced!`])
+const homelessMan1 = new RiskEvent(`homelessMan1`, 'A homeless man is right in front of you', [`avoid them`, `keep going`], [{type: cough, prob: 20,}, {type: sneeze, prob: 30,}], [`He right in your face. Omg; it's so gross!`, `another hit messg`, `and a third hit messg`], [`He but he was facing away, hopefully you're okay 🤷‍♀️`], [`He didn't do anything; you're good; stop being so prejudiced!`])
 const homelessWoman1 = new RiskEvent('homelessWoman1', 'A homeless woman is sitting in her blankets on the sidewalk', ['Move away; you hate the smell anyways', 'Put a dollar in her jar; you want to help', `Check your protective gear; you're not going in unprotected`], [{type: cough, prob: 20}, {type: sneeze, prob: 30}], [`She right on your chest. Ewwww...`], [`She but she covered her mouth`], [`She's just minding her own business. Way to freak out...`])
 
 
@@ -509,11 +511,13 @@ function init() {
     player.food = 10
     player.meds = 7
     player.protItems = {}
+    player.caution = 100
     hmPgInit()
 }
-
+pgIn = 'gcrPg'
 init()
-
+gcrPgRender()
+setSpcInt()
 // window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
