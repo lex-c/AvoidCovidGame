@@ -251,49 +251,70 @@ body {
     border-radius: 3rem;
 }
 #spacePg {
-    background-color: #555555;
     grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
-    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 2fr 4fr 1.5fr 0.8fr 0.2fr 1fr;
+    background-size: cover;
+}
+.spcpgd {
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
 }
 .spchlth {
     grid-area: 1 / 1 / 2 / 5;
-    background-color: darkblue;
+    color: yellow;
+    font-size: 2rem;
 }
 .spcmhlth {
     grid-area: 2 / 1 / 3 / 5;
-    background-color: darkcyan;
+    color: darkcyan;
+    font-size: 2rem;
 }
 .spcfd {
     grid-area: 3 / 1 / 4 / 5;
-    background-color: whitesmoke;
+    color: whitesmoke;
+    font-size: 2rem;
 }
 .spctime {
     grid-area: 1 / 5 / 2 / 9;
-    background-color: wheat;
+    justify-content: flex-end;
+    color: red;
+    font-size: 2rem;
 }
 .spcmon {
     grid-area: 2 / 5 / 3 / 9;
-    background-color: teal;
+    justify-content: flex-end;
+    color: green;
+    font-size: 2rem;
 }
 .spcinfo {
     grid-area: 6 / 2 / 7 / 8;
-    background-color: tomato;
+    background-color: #999999;
+    border-radius: 2rem;
 }
 .spcpp {
     grid-area: 5 / 3 / 8 / 7;
-    background-color: thistle;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #222222;
+    opacity: 30%;
+    color: white;
+    text-shadow: black 0 0 0.5rem;
 }
 .spcmeds {
     grid-area: 9 / 1 / 11 / 5;
-    background-color: turquoise;
+    color: turquoise;
+    font-size: 2rem;
 }
 .spcpi {
     grid-area: 11 / 1 / 12 / 5;
-    background-color: violet;
+    color: cornflowerblue;
+    font-size: 2rem;
 }
 .spcoutbtnd {
     grid-area: 10 / 6 / 12 / 9;
-    background-color: yellowgreen;
     display: flex;
 }
 #outPg,
@@ -301,5 +322,6 @@ body {
     display: none;
 }
 button {
+    font-size: 2rem;
     flex: 1;
 }

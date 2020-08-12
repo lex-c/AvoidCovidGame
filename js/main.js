@@ -1,13 +1,14 @@
 let gmTime, incidentHappened
 let pgIn = 'hmPg'
 
+const intSize = 7000
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
-hmPg.style.setProperty('display', 'grid')
 const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
 const spcOutBtn = document.getElementById('spcOutBtn')
+hmPg.style.setProperty('display', 'grid')
 
 hmOutBtn.addEventListener('click', chngPage)
 spcOutBtn.addEventListener('click', chngPage)
@@ -16,7 +17,7 @@ function chngPage(e) {
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     outPg.style.setProperty('display', 'grid')
     pgIn = 'outPg'
-    zombieInt = window.setInterval(genZombie, randomTime(5000))
+    zombieInt = window.setInterval(genZombie, randomTime(intSize))
 }
 
 
@@ -142,7 +143,7 @@ function resetInt(lastSpace) {
     if (personSpace.id === lastSpace.id) {
         window.clearInterval(checkIfBackOut)
         window.clearTimeout(pgOutToHomeTO)
-        zombieInt = window.setInterval(genZombie, 5000)
+        zombieInt = window.setInterval(genZombie, randomTime(intSize))
     }
 }
 //------------------------change if above
@@ -159,8 +160,12 @@ function switchPageIn (justOutside) {
         pgIn = `hmPg`
     }
     if (justOutside.id === 's31') {
+        player.context = 1
+        gcrPgRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
+        tempIntSize = 0.6 * intSize
+        setSpcInt()
     }
     // if (justOutsideId === 's37') {
     //     pgIn = 'park'
@@ -187,7 +192,7 @@ function genZombie() {
         popUpChoice(randStNumId)
         return
     }
-    zombieInt = window.setInterval(genZombie, randomTime(5000))
+    zombieInt = window.setInterval(genZombie, randomTime(intSize))
 }
 
 // function checkIfSurround() {
@@ -220,7 +225,7 @@ function popUpChoice(zId) {
         if (chcClick.target.id === 'c0') walkAway(zId)
         if (chcClick.target.id === 'c1') {
             setRemoveZ(zId)
-            player.expose(rEHappened)
+            popUpRRender(player.expose(rEHappened))
         }
         if (chcClick.target.id === 'c2') console.log(`haven't set this up yet`)
         if (chcClick.target.id === 'c0' || chcClick.target.id === 'c1' || chcClick.target.id === 'c2') {
@@ -271,7 +276,7 @@ function popUpRRender(which) {
         ppUpRDiv.innerHTML = ``
         allBtnsD.addEventListener('click', showAndMove)
         pgIn = 'outPg'
-        zombieInt = window.setInterval(genZombie, randomTime(5000))
+        zombieInt = window.setInterval(genZombie, randomTime(intSize))
     }, 2000)
     ppUpRDiv.style.setProperty('display', 'flex')
 }
@@ -286,7 +291,7 @@ function popUpRRender(which) {
 
 
 //SPC PAGE -----------------------------------------
-
+let spcInt, tempIntSize
 
 const spcHlth = document.getElementById('spcHlth')
 const spcMHlth = document.getElementById('spcMHlth')
@@ -299,13 +304,65 @@ const spcMeds = document.getElementById('spcMeds')
 const spcPI = document.getElementById('spcPI')
 //outbtn defined above could bring down -----------------------------------
 
+//gcrPg
+function gcrPgRender() {
+    spcInfo.innerHTML = `Welcome to the grocery! <br> As you wait your cash is being used <br> to increase your food.<br> But beware! Hazards are much higher and more frequent <br>in a small enclosed space...`
+    spacePg.style.setProperty('background-image', `url('images/gcrimg.jpeg')`)
+}
 
+function setSpcInt() {
+    spcInt = window.setInterval(genRE, randomTime(tempIntSize))
+}
 
+function genRE() {
+    window.clearInterval(spcInt)
+    pgIn = 'inBet'
+    return spcPPRender(getRandInArr(RiskEvent.instances))
+}
 
+function spcPPRender(evtHapp) {
+    spcInfo.style.setProperty('display', 'none')
+    const descripH = document.createElement('h3')
+    descripH.innerHTML = `${evtHapp.descrip}`
+    spcPP.appendChild(descripH)
+    const qH = document.createElement('h4')
+    qH.innerHTML = `What would you like to do?`
+    spcPP.appendChild(qH)
+    const chcDiv = document.createElement('div')
+    spcPP.appendChild(chcDiv)
+    const chcRun = document.createElement('h4')
+    chcRun.setAttribute('id', 'run')
+    chcRun.innerHTML = `Leave NOW!`
+    chcRun.addEventListener('click', (e) => respCheck(e, evtHapp))
+    chcDiv.appendChild(chcRun)
+    const chcStay = document.createElement('h4')
+    chcStay.setAttribute('id', 'stay')
+    chcStay.innerHTML = `Carry on`
+    chcStay.addEventListener('click', (e) => respCheck(e, evtHapp)) 
+    chcDiv.appendChild(chcStay)
+    chcDiv.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
+    chcDiv.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
+    spcPP.style.setProperty('display', 'flex')
+} 
 
+function respCheck(e, evtHapp) {
+    spcPP.style.setProperty('display', 'none')
+    spcPP.innerHTML = ``
+    if (e.target.id === 'run') respRend(0)
+    if (e.target.id === 'stay') respRend(player.expose(evtHapp))
+}
 
-
-
+function respRend(which) {
+    console.log(which)
+    const initMess = spcInfo.innerHTML.toString()
+    if (!which) spcInfo.innerHTML = 'Okay, leaving now'
+    if (which) spcInfo.innerHTML = which
+    spcInfo.style.setProperty('display', 'flex')
+    setTimeout(() => {
+        if (!which) {spacePg.style.setProperty('display', 'none'); tempIntSize = 1; pgIn = 'outPg'; outPg.style.setProperty('display', 'grid')}
+        if (which) {spcInfo.innerHTML = initMess; spcInt = window.setInterval(genRE, randomTime(tempIntSize))}
+    }, 1000)
+}
 
 
 //AFTER LAST PAGE
@@ -377,12 +434,12 @@ const player = {
     context: -1,
     expose(riskEvent) {
         const incident = riskEvent.whichIncident
-        if (!incident) return popUpRRender(`${renderCombinedMess([0, this.exposure / 5000], riskEvent)}`)
+        if (!incident) return renderCombinedMess([0, this.exposure / 5000], riskEvent)
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
         window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
-        popUpRRender(`${renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / 5000], riskEvent)}`)
-        this.check()
+        // this.check()
+        return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / 5000], riskEvent)
     },
     rvrsAfterTime(amount) {
         this.exposure -= amount
