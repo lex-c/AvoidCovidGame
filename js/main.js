@@ -1,4 +1,4 @@
-let gmTime, incidentHappened
+let gmTime, incidentHappened, lastPgIn
 let pgIn = 'hmPg'
 
 const intSize = 7000
@@ -8,7 +8,7 @@ const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
 const spcOutBtn = document.getElementById('spcOutBtn')
-// hmPg.style.setProperty('display', 'grid')
+hmPg.style.setProperty('display', 'grid')
 
 hmOutBtn.addEventListener('click', chngPage)
 spcOutBtn.addEventListener('click', chngPage)
@@ -62,12 +62,10 @@ function upSecs() {
 function eatGetFatDepressed() {
     if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
     if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 10
-    //add meds and pgIn !== pharma
+    if (pgIn === 'park' && player.mHlth < 100 && gmTime % 600 === 0) player.mHlth += 1
+    if (pgIn === 'work' && player.mHlth > 0 && gmTime % 600 === 0) {player.money += 5; player.mHlth -= 3}
     if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
-    if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {
-        player.food += 0.1
-        player.money -= 5
-    }
+    if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {player.food += 0.1; player.money -= 5}
 }
 
 function checkIfLose() {
@@ -132,7 +130,7 @@ function move(e) {
 }
 
 function checkIfInBlock(lastStSpace) {
-    if (personSpace.id === 's25' || personSpace.id === 's41') {
+    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19') {
         window.clearInterval(zombieInt)
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
         pgOutToHomeTO = setTimeout(switchPageIn, 2000, lastStSpace)
@@ -164,6 +162,20 @@ function switchPageIn (justOutside) {
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
         tempIntSize = 0.6 * intSize
+        setSpcInt()
+    }
+    if (justOutside.id === 's37') {
+        parkRender()
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'park'
+        tempIntSize = 1.5 * intSize
+        setSpcInt()
+    }
+    if (justOutside.id === 's18') {
+        workRender()
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'work'
+        tempIntSize = 10 * intSize
         setSpcInt()
     }
     // if (justOutsideId === 's37') {
@@ -310,8 +322,21 @@ const spcPI = document.getElementById('spcPI')
 
 //gcrPg
 function gcrPgRender() {
-    spcInfo.innerHTML = `Welcome to the grocery! <br> As you wait your cash is being used <br> to increase your food.<br> But beware! Hazards are much higher and more frequent <br>in a small enclosed space...`
+    spcInfo.innerHTML = `Welcome to the grocery!<br>spend money to get food.`
     spacePg.style.setProperty('background-image', `url('images/gcrimg.jpeg')`)
+}
+
+//park Page
+
+function parkRender() {
+    spcInfo.innerHTML = `You're in the park! Enjoy the fresh air!!!<br>(hopefully...)`
+    spacePg.style.setProperty('background-image', `url('images/prkimg.jpeg')`)
+}
+
+//work Page
+function workRender() {
+    spcInfo.innerHTML = `Work time; let's get that money`
+    spacePg.style.setProperty('background-image', `url('images/wrkimg.jpeg')`)
 }
 
 function setSpcInt() {
@@ -319,7 +344,9 @@ function setSpcInt() {
 }
 
 function genRE() {
+    spcOutBtn.removeEventListener('click', chngPage)
     window.clearInterval(spcInt)
+    lastPgIn = pgIn.toString()
     pgIn = 'inBet'
     spcPPRender(getRandInArr(RiskEvent.instances))
 }
@@ -363,7 +390,8 @@ function respRend(which) {
     spcInfo.style.setProperty('display', 'flex')
     setTimeout(() => {
         if (!which) {spacePg.style.setProperty('display', 'none'); tempIntSize = 1; pgIn = 'outPg'; outPg.style.setProperty('display', 'grid')}
-        if (which) {spcInfo.innerHTML = initMess; pgIn = 'gcrPg'; spcInt = window.setInterval(genRE, randomTime(tempIntSize))}
+        if (which) {spcInfo.innerHTML = initMess; pgIn = lastPgIn; spcInt = window.setInterval(genRE, randomTime(tempIntSize))}
+        spcOutBtn.addEventListener('click', chngPage)
     }, 1000)
 }
 
@@ -514,10 +542,8 @@ function init() {
     player.caution = 100
     hmPgInit()
 }
-pgIn = 'gcrPg'
+
 init()
-gcrPgRender()
-setSpcInt()
 // window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 10000)
