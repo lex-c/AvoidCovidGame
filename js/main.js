@@ -296,7 +296,7 @@ function walkAway(zId) {
 }
  
 function popUpRRender(which) {
-    if (!which) ppUpRDiv.innerHTML = `okay, if that's your choice... you'll have to walk around then. This space will be blocked for a little.`
+    if (!which) ppUpRDiv.innerHTML = `Your caution went down, so they'll come faster now...`
     if (which) ppUpRDiv.innerHTML = which
     setTimeout(() => {
         ppUpRDiv.style.setProperty('display', 'none')
@@ -496,6 +496,7 @@ const player = {
         if (pgIn === 'pharma' && gmTime % 300 === 0 && this.meds < 7) this.meds += 0.1
         if (pgIn !== 'pharma' && this.meds === 0 && gmTime % 300 === 0) this.health -= 1
         if (pgIn === 'hmPg' && this.meds === 7 && this.health < 100 && gmTime % 300 === 0) this.health += 1 
+        if (pgIn === 'hmPg' && this.mHlth > 25 && this.caution < 100 && gmTime % 800 === 0) this.caution += 1
     },
     get riskFactor() {
         const calcRf = 2000 + ((3 * (this.health / 100) + (this.mHlth / 100)) / 4) * 3000
@@ -523,6 +524,18 @@ function renderCombinedMess(incidAndTot, riskEvent) {
     if (incidAndTot[0] > 0.5) return `${incidMess} but you still don't have much. Calmes toi`
 }
 
+// function renderWinOrLose(condition) {
+//     clearIntInPg()
+//     pgIn = 'inBet'
+//     window.clearInterval(zombieInt)
+//     window.clearInterval()
+//     pgIn = 'inBet'
+
+//     if 
+// }
+// function clearIntInPg() {
+//     if 
+// }
 
 //----------------utility fxns----------------------------
 

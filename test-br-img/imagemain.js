@@ -1,1 +1,0 @@
-document.body.style.setProperty('background-image', `url('imageees/grocery-cart-in-isle-blurred-background.jpg')`)
