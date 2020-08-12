@@ -13,7 +13,7 @@
 
 #### Deployment Link:
 
-- [mygame](mushy-family.surge.sh)
+- [mygame](avoidcovid.surge.sh)
 
 #### Wireframes:
 
