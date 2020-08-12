@@ -104,12 +104,10 @@ const ppUpRDiv = document.querySelector('#ppRDiv')
 let zombieArr = []
 let stIds = []
 for (let value of allStDivs) stIds.push(value.id.slice(1))
-let newSpaceStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum
+let personSpStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum
 
-allBtnsD.addEventListener('click', showAndMove)
-// allBtns.forEach(e => {
-//     e.addEventListener('click', showAndMove)
-// })
+// allBtnsD.addEventListener('click', showAndMove)
+allBtns.forEach(e => e.addEventListener('click', showAndMove))
 
 function showAndMove(e) {
     e.target.style.setProperty('opacity', '50%')
@@ -119,14 +117,15 @@ function showAndMove(e) {
 
 function move(e) {
     const dir = e.target.classList[0]
-    newSpaceStrArr = personSpace.className.split(' ')[0].split(',')
-    if (dir === 'up') newSpaceId = [`${parseInt(newSpaceStrArr[0]) - 1}`, newSpaceStrArr[1]].join('')
-    if (dir === 'dn') newSpaceId = [`${parseInt(newSpaceStrArr[0]) + 1}`, newSpaceStrArr[1]].join('')
-    if (dir === 'lt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) - 1}`].join('')
-    if (dir === 'rt') newSpaceId = [newSpaceStrArr[0], `${parseInt(newSpaceStrArr[1]) + 1}`].join('')
+    personSpStrArr = personSpace.className.split(' ')[0].split(',')
+    if (dir === 'up') newSpaceId = [`${parseInt(personSpStrArr[0]) - 1}`, personSpStrArr[1]].join('')
+    if (dir === 'dn') newSpaceId = [`${parseInt(personSpStrArr[0]) + 1}`, personSpStrArr[1]].join('')
+    if (dir === 'lt') newSpaceId = [personSpStrArr[0], `${parseInt(personSpStrArr[1]) - 1}`].join('')
+    if (dir === 'rt') newSpaceId = [personSpStrArr[0], `${parseInt(personSpStrArr[1]) + 1}`].join('')
     const icon = personSpace.innerHTML
     const lastPSpace = document.querySelector(`#${personSpace.id}`)
     personSpace.innerHTML = ''
+    console.log(personSpStrArr, newSpaceId, getNodeOrNum(newSpaceId))
     personSpace = getNodeOrNum(newSpaceId) || personSpace
     personSpace.innerHTML = icon
     checkIfInBlock(lastPSpace)
@@ -187,7 +186,8 @@ function genZombie() {
         randStNumId = randomStNum.split(',').join('')
         console.log(randStNumId, getNodeOrNum(randStNumId))
         setRemoveZ(randStNumId, getNodeOrNum(randStNumId))
-        allBtnsD.removeEventListener('click', showAndMove)
+        // allBtnsD.removeEventListener('click', showAndMove)
+        allBtns.forEach(e => e.removeEventListener('click', showAndMove))
         pgIn = 'inBet'
         popUpChoice(randStNumId)
         return
@@ -274,7 +274,8 @@ function popUpRRender(which) {
     setTimeout(() => {
         ppUpRDiv.style.setProperty('display', 'none')
         ppUpRDiv.innerHTML = ``
-        allBtnsD.addEventListener('click', showAndMove)
+        // allBtnsD.addEventListener('click', showAndMove)
+        allBtns.forEach(e => e.addEventListener('click', showAndMove))
         pgIn = 'outPg'
         zombieInt = window.setInterval(genZombie, randomTime(intSize))
     }, 2000)
@@ -317,7 +318,7 @@ function setSpcInt() {
 function genRE() {
     window.clearInterval(spcInt)
     pgIn = 'inBet'
-    return spcPPRender(getRandInArr(RiskEvent.instances))
+    spcPPRender(getRandInArr(RiskEvent.instances))
 }
 
 function spcPPRender(evtHapp) {
@@ -353,14 +354,13 @@ function respCheck(e, evtHapp) {
 }
 
 function respRend(which) {
-    console.log(which)
     const initMess = spcInfo.innerHTML.toString()
     if (!which) spcInfo.innerHTML = 'Okay, leaving now'
     if (which) spcInfo.innerHTML = which
     spcInfo.style.setProperty('display', 'flex')
     setTimeout(() => {
         if (!which) {spacePg.style.setProperty('display', 'none'); tempIntSize = 1; pgIn = 'outPg'; outPg.style.setProperty('display', 'grid')}
-        if (which) {spcInfo.innerHTML = initMess; spcInt = window.setInterval(genRE, randomTime(tempIntSize))}
+        if (which) {spcInfo.innerHTML = initMess; pgIn = 'gcrPg'; spcInt = window.setInterval(genRE, randomTime(tempIntSize))}
     }, 1000)
 }
 
