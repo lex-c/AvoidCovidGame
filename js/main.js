@@ -1,7 +1,7 @@
 let gmTime, incidentHappened, lastPgIn
 let pgIn = 'hmPg'
 
-const intSize = 7000
+const intSize = 100
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
 const outPg = document.getElementById('outPg')
@@ -104,7 +104,7 @@ let stIds = []
 for (let value of allStDivs) stIds.push(value.id.slice(1))
 let personSpStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum
 
-// allBtnsD.addEventListener('click', showAndMove)
+
 allBtns.forEach(e => e.addEventListener('click', showAndMove))
 
 function showAndMove(e) {
@@ -178,9 +178,6 @@ function switchPageIn (justOutside) {
         tempIntSize = 10 * intSize
         setSpcInt()
     }
-    // if (justOutsideId === 's37') {
-    //     pgIn = 'park'
-    // }
 }
 
 function genZombie() {
@@ -201,20 +198,23 @@ function genZombie() {
         // allBtnsD.removeEventListener('click', showAndMove)
         allBtns.forEach(e => e.removeEventListener('click', showAndMove))
         pgIn = 'inBet'
+        checkIfTwo()
         popUpChoice(randStNumId)
         return
     }
     zombieInt = window.setInterval(genZombie, randomTime(intSize))
 }
 
-// function checkIfSurround() {
-//     pSpcArr = personSpace.className.split(' ')[0].split(',')
-//     dir1 = [`${parseInt(pSpcArr[0]) - 1}`, pSpcArr[1]].join('')
-//     dir2 = [`${parseInt(pSpcArr[0]) + 1}`, pSpcArr[1]].join('')
-//     dir3 = [pSpcArr[0], `${parseInt(pSpcArr[1]) - 1}`].join('')
-//     dir4 = [pSpcArr[0], `${parseInt(pSpcArr[1]) + 1}`].join('')
-//     console.log(!(getNodeOrNum(dir1) || getNodeOrNum(dir2) || getNodeOrNum(dir3) || getNodeOrNum(dir4))) return [dir1, dir2, dir3, dir4].filter(dir => document.querySelector(`.s${dir}`).innerHTML = `<i class="fas fa-universal-access"></i>`)
-// }
+function checkIfSurround() {
+    pSpcArr = personSpace.className.split(' ')[0].split(',')
+    dir1 = [`${parseInt(pSpcArr[0]) - 1}`, pSpcArr[1]].join('')
+    dir2 = [`${parseInt(pSpcArr[0]) + 1}`, pSpcArr[1]].join('')
+    dir3 = [pSpcArr[0], `${parseInt(pSpcArr[1]) - 1}`].join('')
+    dir4 = [pSpcArr[0], `${parseInt(pSpcArr[1]) + 1}`].join('')
+    const chckZombsArr = [dir1, dir2, dir3, dir4].filter(dir => stIds.indexOf(dir) >= 0).filter(dir => document.querySelector(`.s${dir}`).id.slice(0, 2) === 'ii')
+    if (chckZombsArr.length === 2) console.log('got some', chckZombsArr.length)
+}
+
 function popUpChoice(zId) {
     const descripH = document.createElement('h2')
     descripH.innerHTML = `${rEHappened.descrip}`
