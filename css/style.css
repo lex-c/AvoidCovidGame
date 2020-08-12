@@ -161,7 +161,7 @@ body {
     z-index: 0;
 }
 .st {
-    background-color: #555555;
+    background: url('../images/sttile.jpeg') no-repeat center center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,30 +208,151 @@ body {
 .s312 {grid-area: 3 / 12;}
 .s712 {grid-area: 7 / 12;}
 .block {
-    background-color: burlywood;
+    background: url('../images/block2.jpeg') repeat;
     border-radius: 1rem;
     display: flex;
 }
-.s41 {grid-area: 4 / 1 / 7 / 4;}
+.s41 {
+    grid-area: 4 / 1 / 7 / 4;
+    background: 
+        url('../images/gcricon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        top 0.7rem left 2.5rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        17%,
+        auto;
+    justify-content: flex-start;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 1rem 4.5rem;
+}
 .s25 {grid-area: 1 / 5 / 3 / 8;}
 .s47 {
     grid-area: 4 / 5 / 7 / 8;
-    background-color: green;
+    background: 
+        url('../images/parkicon.svg'),
+        url('../images/parkimg.jpeg');
+    background-position: 
+        top 0.7rem right 3rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        14%,
+        cover;
+    justify-content: flex-end;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 1rem 4.2rem;
 }
-.s81 {grid-area: 8 / 1 / 9 / 4;}
-.s19 {grid-area: 1 / 9 / 7 / 11;}
-.s810 {grid-area: 8 / 5 / 9 / 11;}
-.s112 {grid-area: 1 / 12 / 3 / 13;}
+.s81 {
+    grid-area: 8 / 1 / 9 / 4;
+    background: 
+        url('../images/pharmaicon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        top 0.7rem left 3rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        14%,
+        auto;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 1rem 4.2rem;
+}
+.s19 {
+    grid-area: 1 / 9 / 7 / 11;
+    background: 
+        url('../images/workicon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        top left 0.7rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        30%,
+        auto;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 2.9rem;
+}
+.s810 {
+    grid-area: 8 / 5 / 9 / 11;
+    background: 
+        url('../images/pharmaicon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        top 0.7rem right 3rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        7%,
+        auto;
+    justify-content: flex-end;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 1rem 4.4rem;
+}
+.s112 {
+    grid-area: 1 / 12 / 3 / 13;
+    background: 
+        url('../images/gcricon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        top 0.7rem left 0.7rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        55%,
+        auto;
+    justify-content: flex-start;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 1rem 3rem;
+}
 #sUL {grid-area: 1 / 1 / 3 / 4;}
 #sCR {grid-area: 4 / 12 / 7 / 13;}
 #sBR {grid-area: 8 / 12 / 9 / 13;}
 #s25 {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-end;
-    color: whitesmoke;
-    font-size: 4.5rem;
-    padding-left: 4rem;
+    background: 
+        url('../images/homeiglooicon.svg'),
+        url('../images/block2.jpeg');
+    background-position: 
+        bottom left 0.7rem,
+        center;
+    background-repeat: 
+        no-repeat,
+        repeat;
+    background-size: 
+        30%,
+        auto;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 1rem 1rem black;
+    padding: 0.5rem 4.5rem;
 }
 .allbtnsdiv {
     grid-area: 1 / 1 / 9 / 13;
@@ -269,7 +390,7 @@ body {
     align-items: center;
     opacity: 30%;
     border-radius: 2rem;
-    color: white;
+    color: black;
     font-size: 3rem;
     text-shadow: black 0 0 1rem;
 }

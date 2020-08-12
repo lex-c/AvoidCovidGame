@@ -1,7 +1,8 @@
 let gmTime, incidentHappened, lastPgIn
 let pgIn = 'hmPg'
 
-const intSize = 10000
+const baseIntSize = 1000
+let intSize = parseInt(baseIntSize)
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
 const outPg = document.getElementById('outPg')
@@ -59,18 +60,6 @@ function upSecs() {
     }
 }
 
-// function eatGetFatDepressed() {
-//     if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 1
-//     if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 1
-//     if (pgIn === 'park' && player.mHlth < 100 && gmTime % 600 === 0) player.mHlth += 1
-//     if (pgIn === 'work' && player.mHlth > 0 && gmTime % 600 === 0) {player.money += 5; player.mHlth -= 1}
-//     if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
-//     if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {player.food += 0.1; player.money -= 5}
-//     if (pgIn !== 'pharma' && gmTime % 600 === 0 && player.meds > 0) player.meds -= 0.1
-//     if (pgIn === 'pharma' && gmTime % 300 === 0 && player.meds < 7) player.meds += 0.1
-//     if (pgIn !== 'pharma' && player.meds === 0 && gmTime % 300 === 0) player.health -= 1
-//     if (pgIn === 'hmPg' && player.meds === 7 && gmTime % 300 === 0) player.health += 1 
-// }
 //needs to go into player
 function checkIfLose() {
     if (player.health === 0) console.log('lose by health')
@@ -136,6 +125,7 @@ function move(e) {
 function checkIfInBlock(lastStSpace) {
     if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81') {
         window.clearInterval(zombieInt)
+        pgIn = 'inBet'
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
         pgOutToHomeTO = setTimeout(switchPageIn, 2000, lastStSpace)
     }
@@ -144,12 +134,13 @@ function resetInt(lastSpace) {
     if (personSpace.id === lastSpace.id) {
         window.clearInterval(checkIfBackOut)
         window.clearTimeout(pgOutToHomeTO)
+        pgIn = 'outPg'
         zombieInt = window.setInterval(genZombie, randomTime(intSize))
     }
 }
 //------------------------change if above
 function switchPageIn (justOutside) {
-//this next one needs generalization
+    //this next one needs generalization
     window.clearInterval(checkIfBackOut)
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ''
@@ -281,9 +272,14 @@ function popUpChoice(zId) {
     optionsDiv.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
     ppUpD.style.setProperty('display', 'flex')
 }
-   
+
 function runOrStay(rOrS, zId) {
-    if (!rOrS) walkAway(zId) 
+    if (!rOrS) {
+        if (player.caution > 2) player.caution -= 2
+        intSize *= (player.caution / 100)
+        console.log(player.caution, intSize, baseIntSize)
+        walkAway(zId)
+    } 
     if (rOrS) {
         setRemoveZ(zId)
         popUpRRender(player.expose(rEHappened))
@@ -298,33 +294,7 @@ function walkAway(zId) {
     setTimeout(setRemoveZ, 11000, zId)
     popUpRRender(0)
 }
-
-// function popUpChsBet(spcsAround) {
-//     const titleH = document.createElement('h2')
-//     titleH.innerHTML = `You are surrounded 😥 You must choose between them. Unfair, but c'est la vie...`
-//     ppUpD.appendChild(titleH)
-//     const qH = document.createElement('h3')
-//     qH.innerHTML = `Which One:`
-//     ppUpD.appendChild(qH)
-//     const optionsDiv = document.createElement('div')
-//     optionsDiv.setAttribute('class', 'optionsdiv')
-//     ppUpD.appendChild(optionsDiv)
-//     spcsAround.forEach(spc => {
-//         const descripH = document.createElement('h3')
-//         descripH.innerHTML = `${zombieArr[spc].descrip}`
-//         descripH.setAttribute('id', `z${spc}`)
-//         descripH.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
-//         descripH.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
-//         optionsDiv.appendChild(descripH)
-//     })
-//     optionsDiv.addEventListener('click', (chcClick) => {
-//         player.expose(zombieArr[parseInt(chcClick.target.id.slice(1))])
-//         ppUpD.style.setProperty('display', 'none')
-//         ppUpD.innerHTML = ''
-//     })
-//     ppUpD.style.setProperty('display', 'flex')
-// }
-
+ 
 function popUpRRender(which) {
     if (!which) ppUpRDiv.innerHTML = `okay, if that's your choice... you'll have to walk around then. This space will be blocked for a little.`
     if (which) ppUpRDiv.innerHTML = which
@@ -338,16 +308,8 @@ function popUpRRender(which) {
     }, 2000)
     ppUpRDiv.style.setProperty('display', 'flex')
 }
-
-
-
-
-
-
-
-
-
-
+                   
+            
 //SPC PAGE -----------------------------------------
 let spcInt, tempIntSize
 
@@ -361,7 +323,7 @@ const spcPP = document.getElementById('spcPP')
 const spcMeds = document.getElementById('spcMeds')
 const spcPI = document.getElementById('spcPI')
 //outbtn defined above could bring down -----------------------------------
-
+            
 //gcrPg
 function gcrPgRender() {
     spcInfo.innerHTML = `Welcome to the grocery!<br>spend money to get food.`
@@ -512,33 +474,37 @@ const player = {
     context: -1,
     expose(riskEvent) {
         const incident = riskEvent.whichIncident
-        if (!incident) return renderCombinedMess([0, this.exposure / 5000], riskEvent)
+        if (!incident) return renderCombinedMess([0, this.exposure / this.riskFactor], riskEvent)
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
         window.setTimeout(this.rvrsAfterTime.bind(player), 3000, incidAmnt)
         // this.check()
-        return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / 5000], riskEvent)
+        return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / this.riskFactor], riskEvent)
     },
     rvrsAfterTime(amount) {
         this.exposure -= amount
     },
-    // get player caution riskfactor
+    // get player riskfactor
     eatGetFatDepressed() {
         if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && this.food > 0) this.food -= 1
-        if (pgIn !== 'gcrPg' && this.food === 0 && gmTime % 600 === 0) this.health -= 1
+        if (pgIn !== 'gcrPg' && this.food === 0 && this.health > 0 && gmTime % 600 === 0) this.health -= 1; console.log(this.riskFactor);
         if (pgIn === 'park' && this.mHlth < 100 && gmTime % 600 === 0) this.mHlth += 1
         if (pgIn === 'work' && this.mHlth > 0 && gmTime % 600 === 0) {this.money += 5; this.mHlth -= 1}
-        if (pgIn === 'hmPg' && gmTime % 800 === 0) this.mHlth -= 1
+        if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 800 === 0) this.mHlth -= 1
         if (pgIn === 'gcrPg' && gmTime % 300 === 0 && this.money > 0) {this.food += 0.1; this.money -= 5}
         if (pgIn !== 'pharma' && gmTime % 600 === 0 && this.meds > 0) this.meds -= 0.1
         if (pgIn === 'pharma' && gmTime % 300 === 0 && this.meds < 7) this.meds += 0.1
         if (pgIn !== 'pharma' && this.meds === 0 && gmTime % 300 === 0) this.health -= 1
-        if (pgIn === 'hmPg' && this.meds === 7 && gmTime % 300 === 0) this.health += 1 
+        if (pgIn === 'hmPg' && this.meds === 7 && this.health < 100 && gmTime % 300 === 0) this.health += 1 
+    },
+    get riskFactor() {
+        const calcRf = 2000 + ((3 * (this.health / 100) + (this.mHlth / 100)) / 4) * 3000
+        return calcRf
     },
     check() {
         if (this.health === 0) return console.log('player health down')
         if (this.mHlth === 0) return console.log('player psych down')
-        if (this.exposure >= 5000) return console.log('got it')
+        if (this.exposure >= this.riskFactor) return console.log('got it')
     },
 }
 
