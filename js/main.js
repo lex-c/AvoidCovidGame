@@ -1,7 +1,7 @@
 let gmTime, incidentHappened, lastPgIn
 let pgIn = 'hmPg'
 
-const intSize = 100
+const intSize = 10000
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
 const outPg = document.getElementById('outPg')
@@ -53,21 +53,25 @@ let gmTimer = setInterval(upSecs, 60)
 function upSecs() {
     if (pgIn !== 'inBet') {
         gmTime += 60
-        eatGetFatDepressed()
+        player.eatGetFatDepressed()
         statsDispRender()
         checkIfLose()
     }
 }
 
-function eatGetFatDepressed() {
-    if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 0.5
-    if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 10
-    if (pgIn === 'park' && player.mHlth < 100 && gmTime % 600 === 0) player.mHlth += 1
-    if (pgIn === 'work' && player.mHlth > 0 && gmTime % 600 === 0) {player.money += 5; player.mHlth -= 3}
-    if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
-    if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {player.food += 0.1; player.money -= 5}
-}
-
+// function eatGetFatDepressed() {
+//     if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && player.food > 0) player.food -= 1
+//     if (pgIn !== 'gcrPg' && player.food === 0 && gmTime % 600 === 0) player.health -= 1
+//     if (pgIn === 'park' && player.mHlth < 100 && gmTime % 600 === 0) player.mHlth += 1
+//     if (pgIn === 'work' && player.mHlth > 0 && gmTime % 600 === 0) {player.money += 5; player.mHlth -= 1}
+//     if (pgIn === 'hmPg' && gmTime % 800 === 0) player.mHlth -= 1
+//     if (pgIn === 'gcrPg' && gmTime % 300 === 0 && player.money > 0) {player.food += 0.1; player.money -= 5}
+//     if (pgIn !== 'pharma' && gmTime % 600 === 0 && player.meds > 0) player.meds -= 0.1
+//     if (pgIn === 'pharma' && gmTime % 300 === 0 && player.meds < 7) player.meds += 0.1
+//     if (pgIn !== 'pharma' && player.meds === 0 && gmTime % 300 === 0) player.health -= 1
+//     if (pgIn === 'hmPg' && player.meds === 7 && gmTime % 300 === 0) player.health += 1 
+// }
+//needs to go into player
 function checkIfLose() {
     if (player.health === 0) console.log('lose by health')
     if (player.mHlth === 0) console.log('lose by mhlth')
@@ -130,7 +134,7 @@ function move(e) {
 }
 
 function checkIfInBlock(lastStSpace) {
-    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19') {
+    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81') {
         window.clearInterval(zombieInt)
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
         pgOutToHomeTO = setTimeout(switchPageIn, 2000, lastStSpace)
@@ -176,6 +180,13 @@ function switchPageIn (justOutside) {
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'work'
         tempIntSize = 10 * intSize
+        setSpcInt()
+    }
+    if (justOutside.id === 's71') {
+        pharmaRender()
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'pharma'
+        tempIntSize = 0.8 * intSize
         setSpcInt()
     }
 }
@@ -370,6 +381,12 @@ function workRender() {
     spacePg.style.setProperty('background-image', `url('images/wrkimg.jpeg')`)
 }
 
+//pharma page
+function pharmaRender() {
+    spcInfo.innerHTML = `In the pharm and gettin' some meds. Watch out for the sick ppl!`
+    spacePg.style.setProperty('background-image', `url('images/pharmaimg.jpeg')`)
+}
+
 function setSpcInt() {
     spcInt = window.setInterval(genRE, randomTime(tempIntSize))
 }
@@ -506,11 +523,23 @@ const player = {
         this.exposure -= amount
     },
     // get player caution riskfactor
+    eatGetFatDepressed() {
+        if (pgIn !== 'gcrPg' && gmTime % 3600 === 0 && this.food > 0) this.food -= 1
+        if (pgIn !== 'gcrPg' && this.food === 0 && gmTime % 600 === 0) this.health -= 1
+        if (pgIn === 'park' && this.mHlth < 100 && gmTime % 600 === 0) this.mHlth += 1
+        if (pgIn === 'work' && this.mHlth > 0 && gmTime % 600 === 0) {this.money += 5; this.mHlth -= 1}
+        if (pgIn === 'hmPg' && gmTime % 800 === 0) this.mHlth -= 1
+        if (pgIn === 'gcrPg' && gmTime % 300 === 0 && this.money > 0) {this.food += 0.1; this.money -= 5}
+        if (pgIn !== 'pharma' && gmTime % 600 === 0 && this.meds > 0) this.meds -= 0.1
+        if (pgIn === 'pharma' && gmTime % 300 === 0 && this.meds < 7) this.meds += 0.1
+        if (pgIn !== 'pharma' && this.meds === 0 && gmTime % 300 === 0) this.health -= 1
+        if (pgIn === 'hmPg' && this.meds === 7 && gmTime % 300 === 0) this.health += 1 
+    },
     check() {
         if (this.health === 0) return console.log('player health down')
         if (this.mHlth === 0) return console.log('player psych down')
         if (this.exposure >= 5000) return console.log('got it')
-    }
+    },
 }
 
 
