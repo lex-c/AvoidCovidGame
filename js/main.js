@@ -198,21 +198,52 @@ function genZombie() {
         // allBtnsD.removeEventListener('click', showAndMove)
         allBtns.forEach(e => e.removeEventListener('click', showAndMove))
         pgIn = 'inBet'
-        checkIfTwo()
+        if (checkIfTwo()) return mustChoose(checkIfTwo()) 
         popUpChoice(randStNumId)
         return
     }
     zombieInt = window.setInterval(genZombie, randomTime(intSize))
 }
 
-function checkIfSurround() {
+function checkIfTwo() {
     pSpcArr = personSpace.className.split(' ')[0].split(',')
     dir1 = [`${parseInt(pSpcArr[0]) - 1}`, pSpcArr[1]].join('')
     dir2 = [`${parseInt(pSpcArr[0]) + 1}`, pSpcArr[1]].join('')
     dir3 = [pSpcArr[0], `${parseInt(pSpcArr[1]) - 1}`].join('')
     dir4 = [pSpcArr[0], `${parseInt(pSpcArr[1]) + 1}`].join('')
     const chckZombsArr = [dir1, dir2, dir3, dir4].filter(dir => stIds.indexOf(dir) >= 0).filter(dir => document.querySelector(`.s${dir}`).id.slice(0, 2) === 'ii')
-    if (chckZombsArr.length === 2) console.log('got some', chckZombsArr.length)
+    if (chckZombsArr.length === 2) return chckZombsArr
+}
+
+function mustChoose(idsArr) {
+    const zArr = idsArr.map(e => zombieArr[e])
+    const titleH = document.createElement('h3')
+    titleH.innerHTML = `You are surrounded 😥 You must choose between them. Unfair, but c'est la vie...`
+    ppUpD.appendChild(titleH)
+    const qH = document.createElement('h3')
+    qH.innerHTML = `Which One:`
+    ppUpD.appendChild(qH)
+    const optionsDiv = document.createElement('div')
+    optionsDiv.setAttribute('class', 'optionsdiv')
+    ppUpD.appendChild(optionsDiv)
+    idsArr.forEach((e, i) => {
+        const descripH = document.createElement('h3')
+        descripH.innerHTML = `${zArr[i].descrip}`
+        descripH.setAttribute('id', `z${e}`)
+        descripH.addEventListener('click', () => playExp(zArr[i], idsArr))
+        optionsDiv.appendChild(descripH)
+    })
+    optionsDiv.addEventListener('mouseover', () => document.body.style.cursor = 'pointer')
+    optionsDiv.addEventListener('mouseleave', () => document.body.style.cursor = 'auto')
+    ppUpD.style.setProperty('display', 'flex')
+}
+
+function playExp(rEChosen, idsArr) {
+    ppUpD.style.setProperty('display', 'none')
+    ppUpD.innerHTML = ''
+    console.log(rEChosen)
+    idsArr.filter(dir => document.querySelector(`.s${dir}`).id.slice(0, 2) === 'ii').forEach(e => setRemoveZ(e))
+    popUpRRender(player.expose(rEChosen))
 }
 
 function popUpChoice(zId) {
