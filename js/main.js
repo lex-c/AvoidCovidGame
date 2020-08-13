@@ -1,4 +1,4 @@
-let gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize
+let gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
 let pgIn = 'hmPg'
 
 const baseIntSize = 5000
@@ -522,7 +522,7 @@ const player = {
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
         exposureAtExpose = parseFloat(this.exposure)
-        window.setTimeout(this.rvrsAfterTime.bind(player), 1000, incidAmnt)
+        expTimeout = window.setTimeout(this.rvrsAfterTime.bind(player), 10000, incidAmnt)
         return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / this.riskFactor], riskEvent)
     },
     rvrsAfterTime(amount) {
@@ -630,6 +630,8 @@ function getRandomDilute(spread) {
 //Init----------------------------------
 
 function init() {
+    window.clearTimeout(expTimeout)
+    expTimeout = null
     rEHappened = null
     incidentHappened = null 
     lastPgIn = null 
