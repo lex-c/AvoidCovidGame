@@ -1,7 +1,7 @@
-let gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
+let gmTimer, gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
 let pgIn = 'hmPg'
 
-const baseIntSize = 5000
+const baseIntSize = 3000
 let intSize = parseInt(baseIntSize)
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
@@ -51,7 +51,6 @@ function statsDispRender() {
     hmProtItemsEl.innerHTML = outPI.innerHTML = spcPI.innerHTML = `notsure`
 }
 
-const gmTimer = setInterval(upSecs, 600)
 function upSecs() {
     if (pgIn !== 'inBet') {
         gmTime += 1
@@ -151,7 +150,7 @@ function switchPageIn (justOutside) {
         gcrPgRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 0.6 * intSize
+        tempIntSize = 0.8 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's37') {
@@ -172,21 +171,21 @@ function switchPageIn (justOutside) {
         pharmaRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 0.8 * intSize
+        tempIntSize = 0.9 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's111') {
         gcr2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 1.3 * intSize
+        tempIntSize = 2 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's710') {
         pharma2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 1.7 * intSize
+        tempIntSize = 2 * intSize
         setSpcInt()
     }
 }
@@ -500,7 +499,7 @@ const homelessMan1 = new RiskEvent(`homeless man wearing a huge puffer coat and 
 const homelessWoman1 = new RiskEvent('homeless woman singing softly to herself and sipping 7-11 coffee out of her coins cup', `A poor homeless woman`, [{type: cough, prob: 20}, {type: sneeze, prob: 30}, {type: vomit, prob: 32}, {type: yell, prob: 40}], [`She right on your chest. Ewwww...`], [`She but she covered her mouth`], [`She's just minding her own business. Way to freak out...`])
 const trumpSupporter = new RiskEvent(`man wearing a bright red MAGA hat to match his red angry face and with a bulge in his pants that looks suspiciously like a gun`, `A man with a MAGA cap and no mask glaring at you`, [{type: yell, prob: 40}, {type: pee, prob: 50}, {type: cough, prob: 70}, {type: spit, prob: 80}], ['He directly at you while his face puffed up with impotent rage', `He in your chest, saying something about capitalism you couldn't quite comprehend`, `He at you and apparently at every passerby. Shame you didn't notice before...`], [`He but not at you; he probably didn't even notice you; just keep moving...`, `He and he kiiind of covered it`, `He but he couldn't quite get it all out...`], [`He was just getting off the phone and putting his mask back on. Stop stereotyping people!`, `He was just bending down to lick a puppy and wasn't threatening you`, `He was satisfied with just the glare`])
 const momWithThreeToddlers = new RiskEvent('little toddler with a runny nose and a stuffed bunny that he loves', 'A frazzled mom with three little kids running around', [{type: cough, prob: 20}, {type: pee, prob: 40}, {type: vomit, prob: 60}], [`Tommy on your leg`, `Jimmy in your crotch. Good thing you were there for it`, `Robby while looking deeply in your eyes with a profound ponderous look that belied his meager years`], [`Jimmy but it wasn't in your direction and kids are such small people...`, `Robby into his hand like a good little boy and almost nothing went on you, at least that's what he kept arguing to his mom as they walked away`, `Tommy mildy ad half-heartedly like it was something he wasn't really sure about...`], [`As you rush past, you notice little Jimmy's insecure probing hurt little eyes; he's probably wondering why you look scared of him...`, `They're way too busy to notice you and carry on arguing loudly about an ugly little stuffed bunny`, `They look so cute, shame you're too scared to approach them`, `Nothing happened`])
-const randomGuy = new RiskEvent('average-looking guy wearing a full tracksuit in the middle of August and one hole-punch earing in his left ear', `A middle-aged man who looks a little off`, [{type: cough, prob: 20}, {type: yell, prob: 40}, {type: sneeze, prob: 50}], [`He while holding his fist five feet away from his mouth and throwing you an unfazed look he's probably worn since October that says 'so what, I'm just being me`, `He - supposedly aiming down for the side of the road, but apparently he has bad aim`, `He at you and then almost knocked you over as he walked right through you`], [`He absentmindedly, not really in your direction, and then even gave you a little nod as he passed`, `He but caught himself at the last minute and brought his hand up to catch the end of it. Then he kept his hand over his mouth and even gave another exaggerated little fake cough to emphasize his cautious behavior`], [`He's just walking past and didn't even spare you a glance`, `His eyes sparked as he met your glance as if he thought he recognized you, but it only lasted a second...`])
+const randomGuy = new RiskEvent('guy wearing a full tracksuit in the middle of August, one hole-punch earing in his left ear, and permanent beard shadow', `A middle-aged man who looks a little off`, [{type: cough, prob: 20}, {type: yell, prob: 40}, {type: sneeze, prob: 50}], [`He while holding his fist five feet away from his mouth and throwing you an unfazed look he's probably worn since October that says 'so what, I'm just being me`, `He - supposedly aiming down for the side of the road, but apparently he has bad aim`, `He at you and then almost knocked you over as he walked right through you`], [`He absentmindedly, not really in your direction, and then even gave you a little nod as he passed`, `He but caught himself at the last minute and brought his hand up to catch the end of it. Then he kept his hand over his mouth and even gave another exaggerated little fake cough to emphasize his cautious behavior`], [`He's just walking past and didn't even spare you a glance`, `His eyes sparked as he met your glance as if he thought he recognized you, but it only lasted a second...`])
 // const fashionGirl 
 // const randomBusinessWoman in too high heels
 // const randomGirl
@@ -566,7 +565,7 @@ function renderCombinedMess(incidAndTot, riskEvent) {
 }
 
 function wLIntsPgsSet(cond) {
-    console.log(cond)
+    window.clearInterval(gmTimer)
     if (isNaN(cond)) return renderWinOrLoss(cond)
     if (pgIn === 'outPg') window.clearInterval(zombieInt)
     if (pgIn !== 'hmPg' && pgIn !== 'outPg') window.clearInterval(spcInt)
@@ -653,6 +652,7 @@ function init() {
     winLsMessEl.style.setProperty('display', 'none')
     winLsMessEl.innerHTML = ``
     choicesEl.style.setProperty('display', 'flex')
+    gmTimer = window.setInterval(upSecs, 600)
     hmPgInit()
 }
 
