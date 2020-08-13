@@ -1,7 +1,7 @@
-let gmTime, incidentHappened, lastPgIn
+let gmTime, incidentHappened, lastPgIn, exposureAtExpose
 let pgIn = 'hmPg'
 
-const baseIntSize = 500
+const baseIntSize = 5000
 let intSize = parseInt(baseIntSize)
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
@@ -57,7 +57,7 @@ function upSecs() {
         gmTime += 1
         player.eatGetFatDepressed()
         statsDispRender()
-        player.check()
+        player.check(5)
     }
 }
 
@@ -118,7 +118,8 @@ function move(e) {
 }
 
 function checkIfInBlock(lastStSpace) {
-    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81') {
+    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81' || personSpace.id === 's112') {
+        console.log(`it's a block`, personSpace.id, personSpace)
         window.clearInterval(zombieInt)
         pgIn = 'inBet'
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
@@ -173,6 +174,13 @@ function switchPageIn (justOutside) {
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
         tempIntSize = 0.8 * intSize
+        setSpcInt()
+    }
+    if (justOutside.id === 's111') {
+        gcr2Render()
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'gcrPg'
+        tempIntSize = 1.3 * intSize
         setSpcInt()
     }
 }
@@ -302,7 +310,7 @@ function popUpRRender(which) {
     }, 3500)
     ppUpRDiv.style.setProperty('display', 'flex')
 }
-                   
+// THIS IS A PROBLEM NEED TO CATCH PLAYER.EXPOSE AT EXPOSE MOMENT                  
             
 //SPC PAGE -----------------------------------------
 let spcInt, tempIntSize
@@ -341,6 +349,12 @@ function workRender() {
 function pharmaRender() {
     spcInfo.innerHTML = `In the pharm and gettin' some meds. Watch out for the sick ppl!`
     spacePg.style.setProperty('background-image', `url('images/pharmaimg.jpeg')`)
+}
+
+//2nd gcr pg 
+function gcr2Render() {
+    spcInfo.innerHTML = `Welcome to the 'ooother' grocery; the one for better people that's more expensive but also much less crowded... enjoy the overpriced food...`
+    spacePg.style.setProperty('background-image', `url('images/fancygcr.jpeg')`)
 }
 
 function setSpcInt() {
@@ -495,7 +509,8 @@ const player = {
         if (!incident) return renderCombinedMess([0, this.exposure / this.riskFactor], riskEvent)
         const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
-        window.setTimeout(this.rvrsAfterTime.bind(player), 5000, incidAmnt)
+        exposureAtExpose = parseFloat(this.exposure)
+        window.setTimeout(this.rvrsAfterTime.bind(player), 1000, incidAmnt)
         return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / this.riskFactor], riskEvent)
     },
     rvrsAfterTime(amount) {
@@ -521,7 +536,7 @@ const player = {
     check(rE) {
         if (this.health === 0) {wLIntsPgsSet(1); return 1}
         if (this.mHlth === 0) {wLIntsPgsSet(2); return 1}
-        if (this.exposure >= this.riskFactor) {wLIntsPgsSet(rE); return 1}
+        if (exposureAtExpose >= this.riskFactor && isNaN(rE)) {wLIntsPgsSet(rE); return 1}
     },
 }
 
@@ -539,6 +554,7 @@ function renderCombinedMess(incidAndTot, riskEvent) {
 }
 
 function wLIntsPgsSet(cond) {
+    console.log(cond)
     if (isNaN(cond)) return renderWinOrLoss(cond)
     if (pgIn === 'outPg') window.clearInterval(zombieInt)
     if (pgIn !== 'hmPg' && pgIn !== 'outPg') window.clearInterval(spcInt)
@@ -551,9 +567,8 @@ function renderWinOrLoss(winOrLoseType) {
     const messFragments = [null, 'poor health. You have to stay healthy to survive...', "depression. It's tough to keep going..."] 
     const wLMessH = document.createElement('h3') 
     if (!winOrLoseType) {
-        wLMessH.innerHTML = `Congrats! You Won!`; timeWait = 8000
+        wLMessH.innerHTML = `Congrats! You Won!`
     } else {
-        timeWait = 3000
         isNaN(winOrLoseType) ? wLMessH.innerHTML = `You caught it from a ${winOrLoseType.name} 🤷‍♀️ You can only do so much...` : wLMessH.innerHTML = `You died from ${messFragments[winOrLoseType]}`
     }
     winLsMessEl.appendChild(wLMessH)
@@ -561,7 +576,7 @@ function renderWinOrLoss(winOrLoseType) {
     qHEl.innerHTML = `Play again?`
     qHEl.style.setProperty('class', 'resetBtn')
     qHEl.addEventListener('click', init)
-    setTimeout(() => winLsMessEl.appendChild(qHEl), timeWait)
+    winLsMessEl.appendChild(qHEl)
     spacePg.style.setProperty('display', 'none')
     outPg.style.setProperty('display', 'none')
     hmPg.style.setProperty('display', 'grid')
@@ -603,6 +618,10 @@ function getRandomDilute(spread) {
 //Init----------------------------------
 
 function init() {
+    rEHappened = null
+    incidentHappened = null 
+    lastPgIn = null 
+    exposureAtExpose = 0
     player.health = 100
     player.mHlth = 100
     gmTime = 0
