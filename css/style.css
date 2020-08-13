@@ -34,6 +34,14 @@ body {
     align-items: flex-start;
     padding: 1rem;
 }
+.rulesmess {
+    grid-area: 2 / 2 / 11 / 8;
+    align-items: center;
+    font-size: 1.2rem;
+    background-color: #eeeeee;
+    border-radius: 1rem;
+    z-index: 0;
+}
 #hmHealth {
     grid-area: 1 / 1 / 2 / 5;
     background-color: #555555;
@@ -70,6 +78,7 @@ body {
     font-size: 2rem;
 }
 #choices {
+    display: none;
     grid-area: 5 / 3 / 8 / 7;
     background-color: #333333;
     border-radius: 1rem;

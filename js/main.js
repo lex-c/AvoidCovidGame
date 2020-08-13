@@ -1,5 +1,5 @@
 let gmTimer, gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
-let pgIn = 'hmPg'
+let pgIn = 'inBet'
 
 const baseIntSize = 3000
 let intSize = parseInt(baseIntSize)
@@ -35,10 +35,14 @@ const winLsMessEl = document.getElementById('winLsMess')
 const hmProtItemsEl = document.getElementById('hmProtItems')
 const hmMedsEl = document.getElementById('hmMeds')
 const hmOutDiv = document.getElementById('hmOutDiv')
+const rulesD = document.getElementById('rulesMess')
+const playBtn = document.getElementById('playBtn')
 
+playBtn.addEventListener('click', init)
 
 function hmPgInit() {
     statsDispRender()
+    pgIn = 'hmPg'
 }
 
 function statsDispRender() {
@@ -531,7 +535,7 @@ const player = {
         if (pgIn !== 'gcrPg' && this.food > 0 && gmTime % 3 === 0) this.food -= 1
         if (pgIn !== 'gcrPg' && this.food === 0 && this.health > 0 && gmTime % 5 === 0) this.health -= 1;
         if (pgIn === 'park' && this.mHlth < 100 && gmTime % 5 === 0) this.mHlth += 1
-        if (pgIn === 'work' && this.mHlth > 0 && this.money < 500 && gmTime % 10 === 0) {this.money += 5; this.mHlth -= 1}
+        if (pgIn === 'work' && this.mHlth > 0 && this.money < 500 && gmTime % 10 === 0) {this.money += 5; this.mHlth -= 1; this.health -= 1}
         if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 10 === 0) this.mHlth -= 1
         if (pgIn === 'gcrPg' && gmTime % 2 === 0 && this.money > 5 && this.food < 50) {this.food += 1; this.money -= 5}
         if (pgIn !== 'pharma' && gmTime % 20 === 0 && this.meds > 0) this.meds -= 1
@@ -648,15 +652,14 @@ function init() {
     personSpace.innerHTML = ``
     personSpace = document.getElementById('s35')
     personSpace.innerHTML = icon
-    pgIn = 'hmPg'
     winLsMessEl.style.setProperty('display', 'none')
     winLsMessEl.innerHTML = ``
+    rulesD.style.setProperty('display', 'none')
     choicesEl.style.setProperty('display', 'flex')
     gmTimer = window.setInterval(upSecs, 600)
     hmPgInit()
 }
 
-init()
 
 // window.setTimeout(() => player.expose(oneRikIncident), 6000)
 // window.setTimeout(() => player.expose(oneRiskIncident), 8000)
