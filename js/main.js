@@ -1,4 +1,4 @@
-let gmTime, incidentHappened, lastPgIn, exposureAtExpose
+let gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize
 let pgIn = 'hmPg'
 
 const baseIntSize = 5000
@@ -118,8 +118,7 @@ function move(e) {
 }
 
 function checkIfInBlock(lastStSpace) {
-    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81' || personSpace.id === 's112') {
-        console.log(`it's a block`, personSpace.id, personSpace)
+    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81' || personSpace.id === 's112' || personSpace.id === 's810') {
         window.clearInterval(zombieInt)
         pgIn = 'inBet'
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
@@ -181,6 +180,13 @@ function switchPageIn (justOutside) {
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
         tempIntSize = 1.3 * intSize
+        setSpcInt()
+    }
+    if (justOutside.id === 's710') {
+        pharma2Render()
+        spacePg.style.setProperty('display', 'grid')
+        pgIn = 'pharma'
+        tempIntSize = 1.7 * intSize
         setSpcInt()
     }
 }
@@ -313,7 +319,7 @@ function popUpRRender(which) {
 // THIS IS A PROBLEM NEED TO CATCH PLAYER.EXPOSE AT EXPOSE MOMENT                  
             
 //SPC PAGE -----------------------------------------
-let spcInt, tempIntSize
+
 
 const spcHlth = document.getElementById('spcHlth')
 const spcMHlth = document.getElementById('spcMHlth')
@@ -355,6 +361,12 @@ function pharmaRender() {
 function gcr2Render() {
     spcInfo.innerHTML = `Welcome to the 'ooother' grocery; the one for better people that's more expensive but also much less crowded... enjoy the overpriced food...`
     spacePg.style.setProperty('background-image', `url('images/fancygcr.jpeg')`)
+}
+
+//2nd pharma page 
+function pharma2Render() {
+    spcInfo.innerHTML = `This is the quieter, family-owned pharmacy; it's a little harder to get to, but less people around...`
+    spacePg.style.setProperty('background-image', `url('images/otherpharma.jpeg')`)
 }
 
 function setSpcInt() {
