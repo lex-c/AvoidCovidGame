@@ -24,7 +24,7 @@ body {
 }
 #homePg {
     grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
-    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 6fr 1fr 0.5fr 0.8fr 0.2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 0.5fr 2.5fr 5fr 0.5fr 0.8fr 0.2fr 1fr;
     background-color: #999999;
 }
 .hm-pg-div {
@@ -62,6 +62,7 @@ body {
 .white {
     color: whitesmoke;
 }
+/* check where this is used */
 #hmMoney {
     grid-area: 2 / 5 / 3 / 9;
     align-items: flex-end;
@@ -69,7 +70,7 @@ body {
     font-size: 2rem;
 }
 #choices {
-    grid-area: 5 / 2 / 8 / 8;
+    grid-area: 5 / 3 / 8 / 7;
     background-color: #333333;
     border-radius: 1rem;
     color: whitesmoke;
@@ -77,6 +78,16 @@ body {
     padding: 1rem;
     justify-content: space-between;
     align-items: center;
+}
+.winlsdiv {
+    grid-area: 6 / 2 / 7 / 8;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 1rem;
+    color: black;
+    font-size: 4rem;
 }
 #hmMeds {
     grid-area: 9 / 1 / 11 / 5;
@@ -103,6 +114,7 @@ body {
     justify-content: center;
     align-items: center;
     color: black;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -111,7 +123,8 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: blue;
+    color: black;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -120,7 +133,8 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: darkblue;
+    color: black;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -129,7 +143,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: red;
+    color: darkred;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -139,6 +154,7 @@ body {
     justify-content: center;
     align-items: center;
     color: green;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -147,7 +163,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: green;
+    color: black;
+    font-weight: bold;
     font-size: 2rem;
     z-index: 0;
 }
@@ -364,13 +381,13 @@ body {
     margin: 0;
 }
 .divbtn {
-    background-color: #999999;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 5rem;
-    color: #555555;
-    opacity: 10%;
+    color: black;
+    opacity: 12%;
     margin: 0;
     z-index: 1;
 }
@@ -385,16 +402,15 @@ body {
     margin: 0 1rem;
 }
 .popupdiv {
-    background-color: #999999;
+    background-color: rgba(200, 200, 200, 0.4);
     grid-area: 2 / 4 / 8 / 10;
     display: none;
     flex-direction: column;
     align-items: center;
-    opacity: 30%;
     border-radius: 2rem;
     color: black;
+    font-weight: bold;
     font-size: 3rem;
-    text-shadow: black 0 0 1rem;
 }
 .ppuprsdiv {
     grid-area: 2 / 3 / 4 / 11;
@@ -403,11 +419,10 @@ body {
     align-items: center;
     justify-content: center;
     padding: 2rem 4rem;
-    background-color: #999999;
-    opacity: 30%;
-    color: white;
+    background-color: rgba(200, 200, 200, 0.4);
+    color: black;
+    font-weight: bold;
     font-size: 3rem;
-    text-shadow: black 0 0 1rem;
     border-radius: 3rem;
 }
 #spacePg {
