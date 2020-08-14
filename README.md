@@ -177,7 +177,7 @@ rest same as before
 ![Store Screen](images/IMG_2532.jpg)
 
 ### Deployment Link:
-###### [mygame](avoidcovid.surge.sh)
+###### [mygame](http://avoidcovid.surge.sh)
 
 ### Technologies / libraries used:
 - HTML, CSS, Javascript
