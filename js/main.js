@@ -39,6 +39,32 @@ const exrBtn = document.getElementById('exrBtn')
 const alcBtn = document.getElementById('alcBtn')
 const chocBtn = document.getElementById('chocBtn')
 const tigBtn = document.getElementById('tigBtn')
+const allChcBtns = document.querySelectorAll('.chcbtn')
+
+allChcBtns.forEach(btn => btn.addEventListener('click', hmAct))
+
+function hmAct(e) {
+    if (e.target.id === 'exrBtn' && ((player.money > 20 && player.food >= 5) || (player.money >= 20 && player.food > 5))) {
+        player.money -= 20
+        player.food -= 5
+        player.health <= 90 ? player.health += 10 : player.health = 100
+        player.mHlth <= 90 ? player.mHlth += 10 : player.mHlth = 100
+    }
+    if (e.target.id === 'alcBtn' && player.money > 20) {
+        player.money -= 20
+        player.mHlth <= 95 ? player.mHlth += 5 : player.mHlth = 100
+        player.health >= 5 ? player.health -= 5 : player.health = 0
+    }
+    if (e.target.id === 'chocBtn' && player.money >= 5) {
+        player.money -= 5
+        player.mHlth <= 95 ? player.mHlth += 5 : player.mHlth = 100
+    }
+    if (e.target.id === 'tigBtn') {
+        player.mHlth >= 5 ? player.mHlth -= 5 : player.mHlth = 0
+        if (player.meds > 1) player.meds -= 1
+    } 
+    player.check(5)
+}
 
 playBtn.addEventListener('click', init)
 
