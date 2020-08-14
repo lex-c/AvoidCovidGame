@@ -508,7 +508,7 @@ body {
 #spacePg {
     display: none;
 }
-/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+@media screen and (min-width: 320px) and (max-width: 768px) and (orientation: portrait) {
     #outPg {
       transform: rotate(+90deg);
       transform-origin: right top;
@@ -529,7 +529,7 @@ body {
         font-size: 1.65rem;
     }
   }
-  @media screen and (min-height: 320px) and (max-height: 767px) and (orientation: landscape) {
+  @media screen and (min-width: 321px) and (max-width: 768px) and (orientation: landscape) {
     #homePg {
       transform: rotate(-90deg);
       transform-origin: left top;
@@ -549,5 +549,5 @@ body {
     .st {
         font-size: 1.65rem;
     }
-  } */
+  }
 
