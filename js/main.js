@@ -11,10 +11,10 @@ const hmOutBtn = document.getElementById('hmOutBtn')
 const spcOutBtn = document.getElementById('spcOutBtn')
 hmPg.style.setProperty('display', 'grid')
 
-hmOutBtn.addEventListener('click', chngPage)
 spcOutBtn.addEventListener('click', chngPage)
 
 function chngPage(e) {
+    if (pgIn !== 'hmPg') window.clearInterval(spcInt)
     document.getElementById(e.target.classList[0]).style.setProperty('display', 'none')
     outPg.style.setProperty('display', 'grid')
     pgIn = 'outPg'
@@ -32,31 +32,40 @@ const hmTimeEl = document.getElementById('hmTime')
 const hmMoneyEl = document.getElementById('hmMoney')
 const choicesEl = document.getElementById('choices')
 const winLsMessEl = document.getElementById('winLsMess')
-const hmProtItemsEl = document.getElementById('hmProtItems')
 const hmMedsEl = document.getElementById('hmMeds')
 const hmOutDiv = document.getElementById('hmOutDiv')
 const rulesD = document.getElementById('rulesMess')
 const playBtn = document.getElementById('playBtn')
+const exrBtn = document.getElementById('exrBtn')
+const alcBtn = document.getElementById('alcBtn')
+const chocBtn = document.getElementById('chocBtn')
+const tigBtn = document.getElementById('tigBtn')
+
+
+
+
+
 
 playBtn.addEventListener('click', init)
 
 function hmPgInit() {
-    statsDispRender()
     pgIn = 'hmPg'
+    statsDispRender()
+    hmOutBtn.addEventListener('click', chngPage)
 }
 
 function statsDispRender() {
-    hmHealthEl.innerHTML = outHlth.innerHTML = spcHlth.innerHTML = `Health: ${player.health}`
-    hmMHlthEl.innerHTML = outMHlth.innerHTML = spcMHlth.innerHTML = `Mental Health: ${player.mHlth}`
-    hmFoodEl.innerHTML = outFd.innerHTML = spcFd.innerHTML = `Food: ${player.food}`
+    hmHealthEl.innerHTML = outHlth.innerHTML = spcHlth.innerHTML = `<i class="fas fa-heartbeat"></i>` + ` ${player.health}`
+    hmMHlthEl.innerHTML = outMHlth.innerHTML = spcMHlth.innerHTML = `<i class="far fa-smile-beam"></i>` + ` ${player.mHlth}`
+    hmFoodEl.innerHTML = outFd.innerHTML = spcFd.innerHTML = `${player.food}` + ` <i class="fas fa-utensils"></i>`
     gmTimeRender()
-    hmMoneyEl.innerHTML = outMon.innerHTML = spcMon.innerHTML = `Cash: $${player.money}`
-    hmMedsEl.innerHTML = outMeds.innerHTML = spcMeds.innerHTML = `Meds: ${player.meds}`
-    hmProtItemsEl.innerHTML = outPI.innerHTML = spcPI.innerHTML = `notsure`
+    hmMoneyEl.innerHTML = outMon.innerHTML = spcMon.innerHTML = `$${player.money}` + ` <i class="fas fa-money-bill-wave"></i>`
+    hmMedsEl.innerHTML = outMeds.innerHTML = spcMeds.innerHTML = `${player.meds}` + ` <i class="fas fa-pills"></i>`
 }
 
 function upSecs() {
     if (pgIn !== 'inBet') {
+        if (gmTime === 2880) return wLIntsPgsSet(0)
         gmTime += 1
         player.eatGetFatDepressed()
         statsDispRender()
@@ -65,7 +74,7 @@ function upSecs() {
 }
 
 function gmTimeRender() {
-    hmTimeEl.innerHTML = outTime.innerHTML = spcTime.innerHTML = `${parseInt(gmTime / 60) % 24}H  ${parseInt(gmTime % 60)}M  <strong>${parseInt(gmTime / 1440)}D`
+    hmTimeEl.innerHTML = outTime.innerHTML = spcTime.innerHTML = `${parseInt(gmTime / 60) % 24}H` + ` ${parseInt(gmTime % 60)}M` + ` <strong>${parseInt(gmTime / 1440)}D`
 }
 
 
@@ -78,7 +87,6 @@ const outFd = document.getElementById('outFd')
 const outTime = document.getElementById('outTime')
 const outMon = document.getElementById('outMon')
 const outMeds = document.getElementById('outMeds')
-const outPI = document.getElementById('outPI')
 const rtBtn = document.getElementById('rtBtn')
 const ltBtn = document.getElementById('ltBtn')
 const upBtn = document.getElementById('upBtn')
@@ -95,17 +103,25 @@ let stIds = []
 for (let value of allStDivs) stIds.push(value.id.slice(1))
 let personSpStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum
 
+window.addEventListener('keydown', checkArrow)
+
+function checkArrow(e) {
+    if (e.key === "ArrowUp") return move('up')
+    if (e.key === "ArrowDown") return move('dn')
+    if (e.key === "ArrowLeft") return move('lt')
+    if (e.key === "ArrowRight") return move('rt')
+}
 
 allBtns.forEach(e => e.addEventListener('click', showAndMove))
 
 function showAndMove(e) {
-    e.target.style.setProperty('opacity', '50%')
-    setTimeout(e => e.target.style.setProperty('opacity', '10%'), 100, e)
+    e.target.style.setProperty('background-color', 'rgba(200, 200, 200, 0.4)')
+    setTimeout(e => e.target.style.setProperty('background-color', 'rgba(200, 200, 200, 0.1)'), 100, e)
     move(e)
 }
 
 function move(e) {
-    const dir = e.target.classList[0]
+    const dir = e.target ? e.target.classList[0] : e
     personSpStrArr = personSpace.className.split(' ')[0].split(',')
     if (dir === 'up') newSpaceId = [`${parseInt(personSpStrArr[0]) - 1}`, personSpStrArr[1]].join('')
     if (dir === 'dn') newSpaceId = [`${parseInt(personSpStrArr[0]) + 1}`, personSpStrArr[1]].join('')
@@ -121,7 +137,7 @@ function move(e) {
 }
 
 function checkIfInBlock(lastStSpace) {
-    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's19' || personSpace.id === 's81' || personSpace.id === 's112' || personSpace.id === 's810') {
+    if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's29' || personSpace.id === 's81' || personSpace.id === 's112' || personSpace.id === 's810') {
         window.clearInterval(zombieInt)
         pgIn = 'inBet'
         checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
@@ -145,7 +161,7 @@ function switchPageIn (justOutside) {
     personSpace = document.querySelector(`#${justOutside.id}`)
     personSpace.innerHTML = icon
     outPg.style.setProperty('display', 'none')
-    if (justOutside.id === 's35') {
+    if (justOutside.id === 's35' || justOutside.id === 's24') {
         hmPg.style.setProperty('display', 'grid')
         pgIn = `hmPg`
     }
@@ -154,42 +170,42 @@ function switchPageIn (justOutside) {
         gcrPgRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 0.8 * intSize
+        tempIntSize = 30 * intSize
         setSpcInt()
     }
-    if (justOutside.id === 's37') {
+    if (justOutside.id === 's37' || justOutside.id === 's48') {
         parkRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'park'
-        tempIntSize = 1.5 * intSize
+        tempIntSize = 30 * intSize
         setSpcInt()
     }
-    if (justOutside.id === 's18') {
+    if (justOutside.id === 's28') {
         workRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'work'
-        tempIntSize = 10 * intSize
+        tempIntSize = 50 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's71') {
         pharmaRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 0.9 * intSize
+        tempIntSize = 30 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's111') {
         gcr2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 2 * intSize
+        tempIntSize = 60 * intSize
         setSpcInt()
     }
-    if (justOutside.id === 's710') {
+    if (justOutside.id === 's710' || justOutside.id === 's811') {
         pharma2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 2 * intSize
+        tempIntSize = 50 * intSize
         setSpcInt()
     }
 }
@@ -209,8 +225,8 @@ function genZombie() {
         randStNumId = randomStNum.split(',').join('')
         console.log(randStNumId, getNodeOrNum(randStNumId))
         setRemoveZ(randStNumId, getNodeOrNum(randStNumId))
-        // allBtnsD.removeEventListener('click', showAndMove)
         allBtns.forEach(e => e.removeEventListener('click', showAndMove))
+        window.removeEventListener('keydown', checkArrow)
         pgIn = 'inBet'
         if (checkIfTwo()) return mustChoose(checkIfTwo()) 
         popUpChoice(randStNumId)
@@ -302,24 +318,24 @@ function runOrStay(rOrS, zId) {
 
 
 function walkAway(zId) {
-    setTimeout(setRemoveZ, 12500, zId)
+    setTimeout(setRemoveZ, 11000, zId)
     popUpRRender(0)
 }
  
 function popUpRRender(which) {
-    if (!which) ppUpRDiv.innerHTML = `Your caution went down, so they'll come faster now...`
+    if (!which) ppUpRDiv.innerHTML = `Your caution dropped; they'll come faster now...`
     if (which) ppUpRDiv.innerHTML = which
     setTimeout(() => {
         ppUpRDiv.style.setProperty('display', 'none')
         ppUpRDiv.innerHTML = ``
         allBtns.forEach(e => e.addEventListener('click', showAndMove))
+        window.addEventListener('keydown', checkArrow)
         if (player.check(rEHappened)) return 
         pgIn = 'outPg'
         zombieInt = window.setInterval(genZombie, randomTime(intSize))
-    }, 3500)
+    }, 3000)
     ppUpRDiv.style.setProperty('display', 'flex')
-}
-// THIS IS A PROBLEM NEED TO CATCH PLAYER.EXPOSE AT EXPOSE MOMENT                  
+}                 
             
 //SPC PAGE -----------------------------------------
 
@@ -332,7 +348,6 @@ const spcMon = document.getElementById('spcMon')
 const spcInfo = document.getElementById('spcInfo')
 const spcPP = document.getElementById('spcPP')
 const spcMeds = document.getElementById('spcMeds')
-const spcPI = document.getElementById('spcPI')
 //outbtn defined above could bring down -----------------------------------
             
 //gcrPg
@@ -419,18 +434,31 @@ function respCheck(e, evtHapp) {
 function respRend(which, rE) {
     const initMess = spcInfo.innerHTML.toString()
     if (!which) spcInfo.innerHTML = 'Okay, leaving now'
-    if (which) spcInfo.innerHTML = which
+    if (which) {
+        spcInfo.style.gridArea = '3 / 2 / 8 / 7'
+        spcInfo.style.fontSize = '2rem'
+        spcInfo.innerHTML = which
+    }
     spcInfo.style.setProperty('display', 'flex')
     setTimeout(() => {
-        if (!which) {spacePg.style.setProperty('display', 'none'); tempIntSize = 1; pgIn = 'outPg'; outPg.style.setProperty('display', 'grid')}
+        if (!which) {
+            spacePg.style.setProperty('display', 'none') 
+            spcInfo.innerHTML = ``
+            tempIntSize = 1 
+            pgIn = 'outPg'
+            outPg.style.setProperty('display', 'grid')
+            zombieInt = window.setInterval(genZombie, randomTime(intSize)) 
+        }
         if (which) {
+            spcInfo.style.gridArea = '4 / 2 / 7 / 7'
+            spcInfo.style.fontSize = '2.5rem'
             spcInfo.innerHTML = initMess
             if (player.check(rE)) return  
             pgIn = lastPgIn
             spcInt = window.setInterval(genRE, randomTime(tempIntSize))
         }
         spcOutBtn.addEventListener('click', chngPage)
-    }, 1000)
+    }, 3000)
 }
 
 
@@ -536,7 +564,7 @@ const player = {
         if (pgIn !== 'gcrPg' && this.food === 0 && this.health > 0 && gmTime % 5 === 0) this.health -= 1;
         if (pgIn === 'park' && this.mHlth < 100 && gmTime % 5 === 0) this.mHlth += 1
         if (pgIn === 'work' && this.mHlth > 0 && this.money < 500 && gmTime % 10 === 0) {this.money += 5; this.mHlth -= 1; this.health -= 1}
-        if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 10 === 0) this.mHlth -= 1
+        if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 7 === 0) this.mHlth -= 1
         if (pgIn === 'gcrPg' && gmTime % 2 === 0 && this.money > 5 && this.food < 50) {this.food += 1; this.money -= 5}
         if (pgIn !== 'pharma' && gmTime % 20 === 0 && this.meds > 0) this.meds -= 1
         if (pgIn === 'pharma' && gmTime % 2 === 0 && this.meds < 60) this.meds += 1
@@ -587,13 +615,13 @@ function renderWinOrLoss(winOrLoseType) {
         isNaN(winOrLoseType) ? wLMessH.innerHTML = `You caught it from a ${winOrLoseType.name} 🤷‍♀️ You can only do so much...` : wLMessH.innerHTML = `You died from ${messFragments[winOrLoseType]}`
     }
     winLsMessEl.appendChild(wLMessH)
-    const qHEl = document.createElement('button')
-    qHEl.innerHTML = `Play again?`
-    qHEl.style.setProperty('class', 'resetBtn')
+    const qHEl = document.createElement('b')
+    qHEl.innerHTML = `<a class="resetbtn waves-effect waves-light btn-small">Play again?</a>`
     qHEl.addEventListener('click', init)
     winLsMessEl.appendChild(qHEl)
     spacePg.style.setProperty('display', 'none')
     outPg.style.setProperty('display', 'none')
+    hmOutBtn.removeEventListener('click', chngPage)
     hmPg.style.setProperty('display', 'grid')
     choicesEl.style.setProperty('display', 'none')
     winLsMessEl.style.setProperty('display', 'flex')
@@ -624,7 +652,6 @@ function getRandomDilute(spread) {
         if (randNum < i + 1 && randNum >= i) {
             if (e === arr[i - 1]) i = arr.indexOf(e)
             const percentLeft = Math.random() * ((arr[i - 1] || 100) - e) + e
-            console.log(percentLeft / 100)
             return a = percentLeft / 100
         }
         return a = a
@@ -656,12 +683,9 @@ function init() {
     winLsMessEl.innerHTML = ``
     rulesD.style.setProperty('display', 'none')
     choicesEl.style.setProperty('display', 'flex')
-    gmTimer = window.setInterval(upSecs, 600)
+    gmTimer = window.setInterval(upSecs, 300)
     hmPgInit()
 }
 
 
-// window.setTimeout(() => player.expose(oneRikIncident), 6000)
-// window.setTimeout(() => player.expose(oneRiskIncident), 8000)
-// window.setTimeout(() => player.expose(oneRiskIncident), 10000)
-// window.setTimeout(() => player.expose(oneRiskIncident), 12000)
+

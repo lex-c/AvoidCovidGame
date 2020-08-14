@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script defer src="js/main.js"></script>
     <title>MyGame</title>
 </head>
@@ -12,54 +14,44 @@
     <div id="homePg">
         <div class="hm-pg-div rulesmess" id="rulesMess">
             <h2>Welcome to the Avoid Covid game:</h2>
-            <h4>where survival is a virtue and everyone's a sinner</h4>
-            <h3>Here are the rules(in case you actually want to win 😂):</h3>
-            <ul>
-                <li>You start with 100 Health and Mental Health, and some Food, Meds, and Money</li>
-                <li>If you stay home you won't run into any risks, but your Mental Health will go down</li>
-                <li>Your Food and Meds are constantly going down and you need to go to the store and spend Money to refill them</li>
-                <li>You can make more Money by going to the work place; but beware, it costs you Health and Mental Health...</li>
-                <li>If your Food runs out, your Health starts going down fast</li>
-                <li>You can replenish your Mental Health by going to the park and your Health by staying home if your meds are mostly full</li>
-                <li>If your Health or Mental Health reach zero you lose...</li>
-                <h4>Now the fun part: random risks outside</h4>
-                <li>On the street, people with varying risk to you will randomly show up; if they happen to be near you, you'll see them: 
-                    <ul>
-                        <li>You'll see a pop up describing the person and a set of choices:</li>
-                        <li>You can run away: you don't get any virus exposure, but you have to walk around them now... and your caution goes down, so they'll come at you just a little more frequently now...</li>
-                        <li>You can keep on going: you'll risk getting some virus exposure depending on what the risk person decides to do... good luck</li>
-                    </ul>
-                <li>Different acts make different amounts of virus: (e.g. a cough makes much more virus than a yell); and the conditions matter: were they covering their mouth?, was the wind blowing?, etc.</li>
-                <li>You can only take a certain amount of exposure within a small amount of time: if you get a little exposure, wait a long time, and then another little, you won't catch it; but if you get a whole lot at once, or several little amounts one after the other, you catch it</li>
-                <li>How much exposure you can take depends on your health and mental health (if you're very sick or stressed, it's easier for you to catch it)</li>
-                <li>You can only run away from one person; if there are two people near you, you must choose which one to expose yourself to</li>
-                <li>Inside environments (STORES) have different frequency of pop ups and the risks are bigger (an inside cough doesn't get blown away by the wind), so be careful inside! Someone who wouldn't pose a risk outside CAN inside</li>
-                <li>Stay in stores only as long as necessary!</li>
-                <li>Last note: if you're home and your Mental Health is not very low, your caution will SLOWLY replenish</li>
-            </ul>
+            <h3><strong>Maintain your health and mental health to win!</strong></h3>
+            <h3>Staying home depletes your food, meds, and mental health</h3>
+            <h3>You can buy more food and meds at the groceries or pharmacies</h3>
+            <h3>You can replenish your mental health in the park</h3>
+            <h3>You can get more money at work but it depletes your health and mental health</h3>
+            <h3>There are people outside and they could expose you to virus</h3>
+            <h3>Each time one pops up you can choose to run or stay</h3>
+            <h3>Running depletes your caution so they come faster at you</h3>
+            <h3>Staying means you absorb however much they expose you</h3> 
+            <h3>Inside exposure is much worse than outside, so be careful in the stores...</h3>
+            <h3>Also, it takes less exposure to catch it if you're health or mental health is down</h3>
             <h3>That's all! Go!!! Have fun! Live! 😂😂😂</h3>
-            <h5>Oh, I almost forgot: if you make it to 24H you win, not that I have any hope you'll get there...</h5>
-            <button type="submit" class="playbtn" id="playBtn">Play</button>
+            <h5>Oh, I almost forgot: if you make it to 24H you win</h5>
+            <button type="submit" class="playbtn waves-effect waves-light btn-small" id="playBtn">Play</button>
         </div>
-        <div class="hm-pg-div hAndM" id="hmHealth"></div>
-        <div class="hm-pg-div hAndM" id="hmMHlth"></div>
-        <div class="hm-pg-div fdEtc" id="hmFood"></div>
-        <div class="hm-pg-div fdEtc" id="hmTime"></div>
-        <div class="hm-pg-div hAndM" id="hmMoney"></div>
-        <div class="hm-pg-div chcs" id="choices">Activities:</div>
+        <div class="hm-pg-div hmStats" id="hmHealth"></div>
+        <div class="hm-pg-div hmStats" id="hmMHlth"></div>
+        <div class="hm-pg-div hmStats" id="hmFood"></div>
+        <div class="hm-pg-div hmStats" id="hmTime"></div>
+        <div class="hm-pg-div hmStats" id="hmMoney"></div>
+        <div class="hm-pg-div hmStats" id="hmMeds"></div>
+        <div class="hm-pg-div chcs" id="choices">
+            <h2 class="chctit">Activities:</h2>
+            <a class="chcbtn waves-effect waves-light btn-large" id="exrBtn">Exercise</a>
+            <a class="chcbtn waves-effect waves-light btn-large" id="alcBtn">Red Wine</a>
+            <a class="chcbtn waves-effect waves-light btn-large" id="chocBtn">Chocolate</a>
+            <a class="chcbtn waves-effect waves-light btn-large" id="tigBtn">Watch Tiger</a>
+        </div>
         <div class="hm-pg-div winlsdiv" id="winLsMess"></div>
-        <div class="hm-pg-div fdEtc" id="hmMeds"></div>
-        <div class="hm-pg-div fdEtc" id="hmProtItems"></div>
-        <div class="hm-pg-div" id="hmOutDiv"><button type="submit" class="homePg outPg" id="hmOutBtn">Out</button></div>
+        <div class="hm-pg-div" id="hmOutDiv"><button type="submit" class="homePg outPg waves-effect waves-light btn-large" id="hmOutBtn">Out</button></div>
     </div>
     <div id="outPg">
-        <div class="outhlth" id="outHlth"></div>
-        <div class="outmhlth" id="outMHlth"></div>
-        <div class="outfd" id="outFd"></div>
-        <div class="outtime" id="outTime"></div>
-        <div class="outmon" id="outMon"></div>
-        <div class="outmeds" id="outMeds"></div>
-        <div class="outpi" id="outPI"></div>
+        <div class="outStats outhlth" id="outHlth"></div>
+        <div class="outStats outmhlth" id="outMHlth"></div>
+        <div class="outStats outfd" id="outFd"></div>
+        <div class="outStats outtime" id="outTime"></div>
+        <div class="outStats outmon" id="outMon"></div>
+        <div class="outStats outmeds" id="outMeds"></div>
         <div class="3,1 s31 st" id="s31"></div>
         <div class="3,2 s32 st" id="s32"></div>
         <div class="3,3 s33 st" id="s33"></div>
@@ -103,7 +95,7 @@
         <div class="2,5 s25 block" id="s25"></div>
         <div class="4,7 s47 block" id="s47"></div>
         <div class="8,1 s81 block" id="s81"></div>
-        <div class="1,9 s19 block" id="s19"></div>
+        <div class="2,9 s29 block" id="s29"></div>
         <div class="8,10 s810 block" id="s810"></div>
         <div class="1,12 s112 block" id="s112"></div>
         <div class="divUL block" id="sUL"></div>
@@ -124,11 +116,10 @@
         <div class="spcpgd spcfd" id="spcFd"></div>
         <div class="spcpgd spctime" id="spcTime"></div>
         <div class="spcpgd spcmon" id="spcMon"></div>
-        <div class="spcpgd spcinfo" id="spcInfo"></div>
+        <div class="spcinfo" id="spcInfo"></div>
         <div class="spcpgd spcpp" id="spcPP"></div>
         <div class="spcpgd spcmeds" id="spcMeds"></div>
-        <div class="spcpgd spcpi" id="spcPI"></div>
-        <div class="spcoutbtnd"><button type="submit" class="spacePg outPg" id="spcOutBtn">Out</button></div>
+        <div class="spcoutbtnd"><button type="submit" class="spacePg outPg waves-effect waves-light btn-large" id="spcOutBtn">Out</button></div>
     </div>
 </body>
 </html>

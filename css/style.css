@@ -9,10 +9,6 @@ html {
 :root {
     font-size: 62.5%;
 }
-h2, h3 {
-    margin: 0;
-    line-height: 0.2rem;
-}
 body {
     height: 100vh;
     background-color: white;
@@ -29,7 +25,8 @@ body {
 #homePg {
     grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
     grid-template-rows: 1fr 1fr 1fr 0.5fr 0.5fr 2.5fr 5fr 0.5fr 0.8fr 0.2fr 1fr;
-    background-color: #999999;
+    background-image: url('../images/homeimg.jpeg');
+    background-size: cover;
 }
 .hm-pg-div {
     display: flex;
@@ -39,53 +36,59 @@ body {
     padding: 1rem;
 }
 .rulesmess {
-    grid-area: 2 / 2 / 11 / 8;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: 1.2rem;
-    background-color: #eeeeee;
+    grid-area: 2 / 2 / 10 / 8;
+    display: flex;
+    background-color: rgba(233, 196, 106, 0.5);
+    color: black;
     border-radius: 1rem;
+    margin: 0.5rem;
     z-index: 0;
-    text-align: left;
-    padding: 2rem;
+    padding: 0.5rem;
+    align-items: center;
 }
-.rulesmess > button {
-    flex: 0;
+.rulesmess > h3 {
+    margin: 0.2rem;
+    font-size: 1rem;
+    line-height: font-size;
+    flex: 1;
+}
+.rulesmess > h2 {
+    margin: 0.2rem;
+    font-size: 1.5rem;
+    line-height: font-size;
+    flex: 1;
+}
+.hmStats {
+    color: white;
+    font-size: 2rem;
+    display: inline;
+    text-shadow: black 0 0 0.5rem;
+    font-weight: bold;
 }
 #hmHealth {
-    grid-area: 1 / 1 / 2 / 5;
-    background-color: #555555;
-    color: whitesmoke;
-    font-size: 2rem;
+    grid-area: 1 / 1 / 2 / 2;
 }
 #hmMHlth {
-    grid-area: 2 / 1 / 3 / 5;
-    background-color: #666666;
-    font-size: 2rem;
+    grid-area: 2 / 1 / 3 / 2;
 }
 #hmFood {
-    grid-area: 3 / 1 / 4 / 5;
-    background-color: cornflowerblue;
-    font-size: 2rem;
+    grid-area: 2 / 8 / 3 / 9;
 }
 #hmTime {
-    grid-area: 1 / 5 / 2 / 9;
+    grid-area: 2 / 3 / 3 / 7;
+    display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
     color: whitesmoke;
     text-shadow: black 0 0 0.5rem;
-    font-size: 2rem;
 }
-.white {
-    color: whitesmoke;
-}
-/* check where this is used */
 #hmMoney {
-    grid-area: 2 / 5 / 3 / 9;
-    align-items: flex-end;
-    color: green;
+    grid-area: 1 / 8 / 2 / 9;
     font-size: 2rem;
+}
+#hmMeds {
+    grid-area: 3 / 8 / 4 / 9;
 }
 #choices {
     display: none;
@@ -95,26 +98,30 @@ body {
     color: whitesmoke;
     font-size: 3rem;
     padding: 1rem;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-around;
+}
+#choices > h2 {
+    line-height: auto;
+    margin: 0.2rem;
+    font-size: 3rem;
+}
+.chcbtn {
+    display: flex;
+    border-radius: 1rem;
+    background-color: #2a9d8f;
+    color: white;
 }
 .winlsdiv {
     grid-area: 6 / 2 / 7 / 8;
     display: none;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    background-color: rgba(244, 162, 97, 0.6);
     border-radius: 1rem;
-    color: black;
-    font-size: 4rem;
-}
-#hmMeds {
-    grid-area: 9 / 1 / 11 / 5;
-    background-color: steelblue;
-}
-#hmProtItems {
-    grid-area: 11 / 1 / 12 / 5;
-    background-color: #555555;
+    color: white;
+    text-shadow: #E76F51 0 0 0.5rem;
+    font-size: 3rem;
 }
 #hmOutDiv {
     grid-area: 10 / 6 / 12 / 9;
@@ -122,78 +129,47 @@ body {
     align-items: stretch;
     padding: 0;
 }
+#hmOutBtn {
+    background-color: rgb(231, 111, 81);
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 1rem;
+}
 #outPg {
     background-color: #555555;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(8, 1fr);
 }
+.outStats {
+    color: whitesmoke;
+    text-shadow: black 0 0 1.5rem;
+    display: inline;
+    padding-top: 2rem;
+    font-weight: bolder;
+    font-size: 2.7rem;
+}
 .outhlth {
-    grid-area: 1 / 1 / 2 / 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    font-weight: bold;
-    font-size: 2rem;
+    grid-area: 1 / 2 / 2 / 3;
     z-index: 0;
 }
 .outmhlth {
-    grid-area: 2 / 1 / 3 / 3;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: black;
-    font-weight: bold;
-    font-size: 2rem;
+    grid-area: 1 / 3 / 2 / 4;
+    z-index: 0;
+}
+.outmon {
+    grid-area: 8 / 5 / 9 / 8;
     z-index: 0;
 }
 .outfd {
-    grid-area: 3 / 1 / 4 / 3;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: black;
-    font-weight: bold;
-    font-size: 2rem;
+    grid-area: 1 / 9 / 2 / 10;
+    z-index: 0;
+}
+.outmeds {
+    grid-area: 1 / 10 / 2 / 11;
     z-index: 0;
 }
 .outtime {
     grid-area: 1 / 5 / 2 / 8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: darkred;
-    font-weight: bold;
-    font-size: 2rem;
-    z-index: 0;
-}
-.outmon {
-    grid-area: 1 / 10 / 2 / 12;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: green;
-    font-weight: bold;
-    font-size: 2rem;
-    z-index: 0;
-}
-.outmeds {
-    grid-area: 8 / 2 / 9 / 4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    font-weight: bold;
-    font-size: 2rem;
-    z-index: 0;
-}
-.outpi {
-    grid-area: 8 / 5 / 9 / 7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: green;
-    font-size: 2rem;
     z-index: 0;
 }
 .st {
@@ -307,13 +283,13 @@ body {
     text-shadow: 0 1rem 1rem black;
     padding: 1rem 4.2rem;
 }
-.s19 {
+.s29 {
     grid-area: 1 / 9 / 7 / 11;
     background: 
         url('../images/workicon.svg'),
         url('../images/block2.jpeg');
     background-position: 
-        top left 0.7rem,
+        top 11.5rem left 0.7rem,
         center;
     background-repeat: 
         no-repeat,
@@ -324,7 +300,7 @@ body {
     font-size: 4rem;
     color: white;
     text-shadow: 0 1rem 1rem black;
-    padding: 2.9rem;
+    padding: 13rem 3rem;
 }
 .s810 {
     grid-area: 8 / 5 / 9 / 11;
@@ -400,13 +376,12 @@ body {
     margin: 0;
 }
 .divbtn {
-    background-color: white;
+    background-color: rgba(200, 200, 200, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 5rem;
-    color: black;
-    opacity: 12%;
+    color: rgba(2, 191, 15, 0.5);
     margin: 0;
     z-index: 1;
 }
@@ -421,15 +396,16 @@ body {
     margin: 0 1rem;
 }
 .popupdiv {
-    background-color: rgba(200, 200, 200, 0.4);
     grid-area: 2 / 4 / 8 / 10;
     display: none;
     flex-direction: column;
     align-items: center;
-    border-radius: 2rem;
+    justify-content: center;
+    padding: 2rem 4rem;
+    background-color: rgba(200, 200, 200, 0.4);
     color: black;
-    font-weight: bold;
     font-size: 3rem;
+    border-radius: 3rem;
 }
 .ppuprsdiv {
     grid-area: 2 / 3 / 4 / 11;
@@ -440,102 +416,82 @@ body {
     padding: 2rem 4rem;
     background-color: rgba(200, 200, 200, 0.4);
     color: black;
-    font-weight: bold;
     font-size: 3rem;
     border-radius: 3rem;
 }
 #spacePg {
     grid-template-columns: 1.3fr 0.2fr 0.7fr 1fr 1fr 0.7fr 0.2fr 1.3fr;
-    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 2fr 4fr 1.5fr 0.8fr 0.2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 1fr 2fr 3fr 2.5fr 0.8fr 0.2fr 1fr;
     background-size: cover;
 }
 .spcpgd {
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
+    color: whitesmoke;
+    text-shadow: black 0 0 1.5rem;
+    display: inline;
+    padding-top: 2rem;
+    font-weight: bolder;
+    font-size: 2.7rem;
 }
 .spchlth {
-    grid-area: 1 / 1 / 2 / 5;
-    color: black;
-    font-size: 2.5rem;
+    grid-area: 1 / 1 / 2 / 2;
 }
 .spcmhlth {
-    grid-area: 2 / 1 / 3 / 5;
-    color: black;
-    font-size: 2.5rem;
+    grid-area: 2 / 1 / 3 / 2;
 }
 .spcfd {
-    grid-area: 3 / 1 / 4 / 5;
-    color: black;
-    font-size: 2.5rem;
+    grid-area: 2 / 8 / 3 / 9;
 }
 .spctime {
-    grid-area: 1 / 5 / 2 / 9;
-    justify-content: flex-end;
-    color: red;
-    font-size: 2.5rem;
+    grid-area: 1 / 4 / 2 / 6;
 }
 .spcmon {
-    grid-area: 2 / 5 / 3 / 9;
-    justify-content: flex-end;
-    color: green;
-    font-weight: bold;
-    font-size: 2.5rem;
+    grid-area: 1 / 8 / 2 / 9;
+}
+.spcmeds {
+    grid-area: 3 / 8 / 4 / 9;
 }
 .spcinfo {
-    grid-area: 6 / 2 / 7 / 8;
-    background-color: #999999;
+    grid-area: 4 / 2 / 7 / 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: rgba(50, 50, 50, 0.5);
+    color: white;
     border-radius: 2rem;
     font-size: 2.5rem;
-    color: turquoise;
+    padding: 2rem;
 }
 .spcpp {
-    grid-area: 5 / 3 / 8 / 7;
+    grid-area: 3 / 2 / 8 / 8;
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background-color: #222222;
     font-size: 2.5rem;
-    opacity: 50%;
-    color: greenyellow;
+    background-color: rgba(50, 50, 50, 0.5);
+    color: white;
     text-shadow: black 0 0 0.5rem;
     border-radius: 3rem;
-}
-.spcmeds {
-    grid-area: 9 / 1 / 11 / 5;
-    color: black;
-    font-size: 2.5rem;
-}
-.spcpi {
-    grid-area: 11 / 1 / 12 / 5;
-    color: black;
-    font-size: 2.5rem;
 }
 .spcoutbtnd {
     grid-area: 10 / 7 / 12 / 9;
     display: flex;
 }
 #spcOutBtn {
-    opacity: 50%;
-    background-color: grey;
-    color: honeydew;
-    font-size: 3rem;
-    border-top-left-radius: 3rem;
-
+    height: auto;
+    border-top-left-radius: 1rem;
+    background-color: #E76F51;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.resetbtn {
+    color: white;
+    background-color: rgb(42, 157, 143);
+    text-shadow: none;
 }
 #outPg,
 #spacePg {
     display: none;
 }
-button {
-    font-size: 2rem;
-    flex: 1;
-}
-
-/*
-body {
-    height: 100vh;
-    margin: 0;
-}
-} */
