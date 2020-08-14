@@ -134,6 +134,7 @@ body {
     color: white;
     font-weight: bold;
     border-top-left-radius: 1rem;
+    flex: 1;
 }
 #outPg {
     background-color: #555555;
@@ -396,27 +397,38 @@ body {
     margin: 0 1rem;
 }
 .popupdiv {
-    grid-area: 2 / 4 / 8 / 10;
+    grid-area: 3 / 5 / 7 / 9;
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2rem 4rem;
-    background-color: rgba(200, 200, 200, 0.4);
-    color: black;
-    font-size: 3rem;
+    justify-content: space-around;
+    padding: 2rem;
+    background-color: rgba(42, 157, 143, 0.5);
+    color: white;
+    text-shadow: black 0 0 0.5rem;
     border-radius: 3rem;
 }
+.popupdiv > h2 {
+    margin: 0.2rem;
+    font-size: 3rem;
+    line-height: font-size;
+}
+.popupdiv > div > h3 {
+    margin: 0.2rem;
+    font-size: 2.5rem;
+    line-height: 4rem;
+}
 .ppuprsdiv {
-    grid-area: 2 / 3 / 4 / 11;
+    grid-area: 3 / 4 / 6 / 10;
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem 4rem;
-    background-color: rgba(200, 200, 200, 0.4);
-    color: black;
-    font-size: 3rem;
+    padding: 2rem;
+    background-color: rgba(168, 218, 220, 0.3);
+    color: white;
+    text-shadow: black 0 0 0.5rem;
+    font-size: 2.5rem;
     border-radius: 3rem;
 }
 #spacePg {
@@ -485,6 +497,7 @@ body {
     color: white;
     font-size: 2rem;
     font-weight: bold;
+    flex: 1;
 }
 .resetbtn {
     color: white;

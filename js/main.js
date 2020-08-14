@@ -1,7 +1,7 @@
 let gmTimer, gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
 let pgIn = 'inBet'
 
-const baseIntSize = 3000
+const baseIntSize = 1000
 let intSize = parseInt(baseIntSize)
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
