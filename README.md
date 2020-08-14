@@ -38,12 +38,11 @@
 - Last note: if you're home and your Mental Health is not low, your caution will SLOWLY replenish
 
 #### That's all! Go!!! Have fun! Live! 😂😂😂
-##### Oh, I almost forgot: if you make it to 24H you win, not that I have any hope you'll get there...
+##### Oh, I almost forgot: if you make it to 48H you win, not that I have any hope you'll get there...
 
 
 ### User Stories: 
  * I want to be able to see the status of my gamerep's health, food, etc AND to have it be noticeable when it goes down or up
-  
  * I want to get feedback when I make a choice telling me what the result of that was and what my status is now and maybe hint to me what further options I have after that
  * I want to be able to tell how my person is moving on the outside board, not too fast but also not so slow that it's painful to control
  * I don't want to make any game choices by mistake; i.e. leave the store or go in by pressing accidentally
@@ -83,7 +82,7 @@
          - option to leave at any time
          - second zoomed in time counter for time in this space
 
-## Stretch game features: 
+### Stretch game features: 
 - Home page action choices
  - Choice of "difficulty" before start opens different posssiblities: 
    - work from home
@@ -93,10 +92,83 @@
    - work to make money: choice of how hard to work: earnings vs risk
 - Dark mode
 
+### Pseudocode:
+```
+scaffolding: 
 
-### MCD setup: 
+player object holds stats: 
+visible: food, money, meds, health, mental health
+hidden: exposure, caution
+toggles: winLose, context (in or out)
 
-...to fill in
+-and methods closely tied to player stats like:
+expose, reverseAfterTime (tracker), getFatDepressed (stats incrementor), riskFactor getter, and check for loses
+
+class Incident defines incidents like cough, sneeze, spit, etc: giving the appropriate rendering strings and the numbers to calculate exposure
+
+class RiskEvent encapsulates person posing risk and includes description, incidents possible and probability factor for each (stored as objects), hit, miss, and partial hit message arrays
+- and methods closely tied to the encapsulated incidents and message options
+
+exposure pipeline:
+
+random generator runs in loop in background
+
+when function finds hit, internal functions are called to pause random generator, freeze player controls
+AND rendering function is called to display event and options to player
+
+player choice is then passed back to another render which sends it back to the check function, renders the result and then passes it back to internal functions to increment player stats / set win etc. 
+
+If win/lose these functions stop the game play and throw the ball back 
+  to win/loss rendering functions to display to player
+  and to internal fxns to clear all trackers so nothing is still running after init
+
+If not, they restart the player controls and random generator to continue looping...
+
+
+
+page is split into 3 for 3 general contexts mentioned above: home, out, and space
+
+3 divs with display none/on toggled by on screen buttons or triggers to move between contexts
+
+
+Home page: btnevent listener starts init which starts up the gameTimer interval fxn
+gmTimer keeps pressing player stats incrementor and then stats display and keeps repeating throught gameplay. 
+Also checks for win by time lasted
+
+Out page: random int is started to repeatedly call genZombie. This picks a random board space and if it is near player generates random RE.
+
+Once random RE is generated, it's rendered to the board and player controls are disabled, 
+further check for two nearby
+and then call on render function to extract RE description and present choices
+
+branch fxn takes player choice and implements consequences: expose if chooses to stay and caution increment if chooses to run
+this then sends it on to render result, give player time to read, and then check if gameplay should proceed by sending to check
+
+if check has no response, gameplay proceeds...
+if check finds loss, play resumption and rerendering is halted and lose track is started => 
+
+  check sends results to intermediate fxn which switches off any still running intervals and the gametimer, takes the player out of play context
+
+  then sends the info on to win/loss render function
+
+Out page: accessed through using the move fxn:
+similar interval is started here after stopping the out pg interval. But only the RE random generator is called
+
+Each time it calls, player controls are disabled, player is taken out of context and Render fxn is called to display RE and choices
+
+player choice is sent to branch fxn: leave or stay
+choice is sent to render and--if stay--then expose is done and result passed through to render
+
+Render shows result of choice stay/run and then, based on choice, either starts up the game play and rerenders it again or it -- checks if exposure loss and then either back to play or on to winloss chain
+
+rest same as before
+
+```
+
+### Game screenshots:
+
+![out-page](images/out-context-with-pop-up-message.png)
+![space-page-pharmacy](images/space-contxt.png)
 
 ### Wireframes:
 

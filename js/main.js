@@ -1,16 +1,16 @@
-let gmTimer, gmTime, incidentHappened, lastPgIn, exposureAtExpose, spcInt, tempIntSize, expTimeout
+let gmTimer, gmTime, incidentHappened, exposureAtExpose, incidAmnt
+let expsStore = []
 let pgIn = 'inBet'
 
-const baseIntSize = 1000
+const baseIntSize = 2000
 let intSize = parseInt(baseIntSize)
+
 const body = document.querySelector('body')
 const hmPg = document.getElementById('homePg')
 const outPg = document.getElementById('outPg')
 const spacePg = document.getElementById('spacePg')
 const hmOutBtn = document.getElementById('hmOutBtn')
 const spcOutBtn = document.getElementById('spcOutBtn')
-hmPg.style.setProperty('display', 'grid')
-
 spcOutBtn.addEventListener('click', chngPage)
 
 function chngPage(e) {
@@ -20,7 +20,6 @@ function chngPage(e) {
     pgIn = 'outPg'
     zombieInt = window.setInterval(genZombie, randomTime(intSize))
 }
-
 
 //HOME PAGE
 
@@ -41,11 +40,6 @@ const alcBtn = document.getElementById('alcBtn')
 const chocBtn = document.getElementById('chocBtn')
 const tigBtn = document.getElementById('tigBtn')
 
-
-
-
-
-
 playBtn.addEventListener('click', init)
 
 function hmPgInit() {
@@ -65,7 +59,7 @@ function statsDispRender() {
 
 function upSecs() {
     if (pgIn !== 'inBet') {
-        if (gmTime === 2880) return wLIntsPgsSet(0)
+        if (gmTime === 2880) {wLIntsPgsSet(0); player.winLose = true; return}
         gmTime += 1
         player.eatGetFatDepressed()
         statsDispRender()
@@ -77,10 +71,7 @@ function gmTimeRender() {
     hmTimeEl.innerHTML = outTime.innerHTML = spcTime.innerHTML = `${parseInt(gmTime / 60) % 24}H` + ` ${parseInt(gmTime % 60)}M` + ` <strong>${parseInt(gmTime / 1440)}D`
 }
 
-
 //out page 
-
-
 const outHlth = document.getElementById('outHlth')
 const outMHlth = document.getElementById('outMHlth')
 const outFd = document.getElementById('outFd')
@@ -101,7 +92,7 @@ let personSpace = document.getElementById('s35')
 let zombieArr = []
 let stIds = []
 for (let value of allStDivs) stIds.push(value.id.slice(1))
-let personSpStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum
+let personSpStrArr, newSpaceId, zombieInt, rEHappened, stNode, stZNum, tempIntSize
 
 window.addEventListener('keydown', checkArrow)
 
@@ -130,7 +121,6 @@ function move(e) {
     const icon = personSpace.innerHTML
     const lastPSpace = document.querySelector(`#${personSpace.id}`)
     personSpace.innerHTML = ''
-    console.log(personSpStrArr, newSpaceId, getNodeOrNum(newSpaceId))
     personSpace = getNodeOrNum(newSpaceId) || personSpace
     personSpace.innerHTML = icon
     checkIfInBlock(lastPSpace)
@@ -152,9 +142,8 @@ function resetInt(lastSpace) {
         zombieInt = window.setInterval(genZombie, randomTime(intSize))
     }
 }
-//------------------------change if above
+
 function switchPageIn (justOutside) {
-    //this next one needs generalization
     window.clearInterval(checkIfBackOut)
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ''
@@ -223,7 +212,6 @@ function genZombie() {
     if (Math.abs(num1 - personNum1) + Math.abs(num2 - personNum2) === 1) {
         rEHappened = getRandInArr(RiskEvent.instances)
         randStNumId = randomStNum.split(',').join('')
-        console.log(randStNumId, getNodeOrNum(randStNumId))
         setRemoveZ(randStNumId, getNodeOrNum(randStNumId))
         allBtns.forEach(e => e.removeEventListener('click', showAndMove))
         window.removeEventListener('keydown', checkArrow)
@@ -304,7 +292,6 @@ function runOrStay(rOrS, zId) {
     if (!rOrS) {
         if (player.caution > 2) player.caution -= 2
         intSize *= (player.caution / 100)
-        console.log(player.caution, intSize, baseIntSize)
         walkAway(zId)
     } 
     if (rOrS) {
@@ -338,7 +325,7 @@ function popUpRRender(which) {
 }                 
             
 //SPC PAGE -----------------------------------------
-
+let lastPgIn, spcInt
 
 const spcHlth = document.getElementById('spcHlth')
 const spcMHlth = document.getElementById('spcMHlth')
@@ -348,8 +335,7 @@ const spcMon = document.getElementById('spcMon')
 const spcInfo = document.getElementById('spcInfo')
 const spcPP = document.getElementById('spcPP')
 const spcMeds = document.getElementById('spcMeds')
-//outbtn defined above could bring down -----------------------------------
-            
+
 //gcrPg
 function gcrPgRender() {
     spcInfo.innerHTML = `Welcome to the grocery!<br>spend money to get food.`
@@ -461,8 +447,6 @@ function respRend(which, rE) {
     }, 3000)
 }
 
-
-
 //AFTER LAST PAGE
 
 class Incident {
@@ -527,11 +511,11 @@ class RiskEvent {
         return this.someMessage
     }
 }
-const homelessMan1 = new RiskEvent(`homeless man wearing a huge puffer coat and smelling of sardines`, `A homeless man with fish in his teeth`, [{type: cough, prob: 30,}, {type: sneeze, prob: 45,}, {type: spit, prob: 60}, {type: vomit, prob: 70}, {type: pee, prob: 80}, {type: yell, prob: 90}], [`He in your face; sardine pieces flying everywhere. Omg; it's so gross!`, `He right at you, and then cussed you loudly and started to run after you`, `He while looking you dead in the eyes. He enjoyed it.`], [`He but he was facing away`, `He after covering his mouth with a fist that still left too much of his mouth visible`], [`He didn't do anything; you're good; stop being so prejudiced!`, `He was just looking for compassion, he didn't even open his mouth...`])
-const homelessWoman1 = new RiskEvent('homeless woman singing softly to herself and sipping 7-11 coffee out of her coins cup', `A poor homeless woman`, [{type: cough, prob: 20}, {type: sneeze, prob: 30}, {type: vomit, prob: 32}, {type: yell, prob: 40}], [`She right on your chest. Ewwww...`], [`She but she covered her mouth`], [`She's just minding her own business. Way to freak out...`])
-const trumpSupporter = new RiskEvent(`man wearing a bright red MAGA hat to match his red angry face and with a bulge in his pants that looks suspiciously like a gun`, `A man with a MAGA cap and no mask glaring at you`, [{type: yell, prob: 40}, {type: pee, prob: 50}, {type: cough, prob: 70}, {type: spit, prob: 80}], ['He directly at you while his face puffed up with impotent rage', `He in your chest, saying something about capitalism you couldn't quite comprehend`, `He at you and apparently at every passerby. Shame you didn't notice before...`], [`He but not at you; he probably didn't even notice you; just keep moving...`, `He and he kiiind of covered it`, `He but he couldn't quite get it all out...`], [`He was just getting off the phone and putting his mask back on. Stop stereotyping people!`, `He was just bending down to lick a puppy and wasn't threatening you`, `He was satisfied with just the glare`])
-const momWithThreeToddlers = new RiskEvent('little toddler with a runny nose and a stuffed bunny that he loves', 'A frazzled mom with three little kids running around', [{type: cough, prob: 20}, {type: pee, prob: 40}, {type: vomit, prob: 60}], [`Tommy on your leg`, `Jimmy in your crotch. Good thing you were there for it`, `Robby while looking deeply in your eyes with a profound ponderous look that belied his meager years`], [`Jimmy but it wasn't in your direction and kids are such small people...`, `Robby into his hand like a good little boy and almost nothing went on you, at least that's what he kept arguing to his mom as they walked away`, `Tommy mildy ad half-heartedly like it was something he wasn't really sure about...`], [`As you rush past, you notice little Jimmy's insecure probing hurt little eyes; he's probably wondering why you look scared of him...`, `They're way too busy to notice you and carry on arguing loudly about an ugly little stuffed bunny`, `They look so cute, shame you're too scared to approach them`, `Nothing happened`])
-const randomGuy = new RiskEvent('guy wearing a full tracksuit in the middle of August, one hole-punch earing in his left ear, and permanent beard shadow', `A middle-aged man who looks a little off`, [{type: cough, prob: 20}, {type: yell, prob: 40}, {type: sneeze, prob: 50}], [`He while holding his fist five feet away from his mouth and throwing you an unfazed look he's probably worn since October that says 'so what, I'm just being me`, `He - supposedly aiming down for the side of the road, but apparently he has bad aim`, `He at you and then almost knocked you over as he walked right through you`], [`He absentmindedly, not really in your direction, and then even gave you a little nod as he passed`, `He but caught himself at the last minute and brought his hand up to catch the end of it. Then he kept his hand over his mouth and even gave another exaggerated little fake cough to emphasize his cautious behavior`], [`He's just walking past and didn't even spare you a glance`, `His eyes sparked as he met your glance as if he thought he recognized you, but it only lasted a second...`])
+const homelessMan1 = new RiskEvent(`homeless man wearing a huge puffer coat and smelling of sardines`, `A homeless man with fish in his teeth`, [{type: cough, prob: 40,}, {type: sneeze, prob: 60,}, {type: spit, prob: 70}, {type: vomit, prob: 80}, {type: pee, prob: 90}, {type: yell, prob: 95}], [`He in your face; sardine pieces flying everywhere. Omg; it's so gross!`, `He right at you, and then cussed you loudly and started to run after you`, `He while looking you dead in the eyes. He enjoyed it.`], [`He but he was facing away`, `He after covering his mouth with a fist that still left too much of his mouth visible`], [`He didn't do anything; you're good; stop being so prejudiced!`, `He was just looking for compassion, he didn't even open his mouth...`])
+const homelessWoman1 = new RiskEvent('homeless woman singing softly to herself and sipping 7-11 coffee out of her coins cup', `A poor homeless woman`, [{type: cough, prob: 20}, {type: sneeze, prob: 40}, {type: vomit, prob: 50}, {type: yell, prob: 70}], [`She right on your chest. Ewwww...`], [`She but she covered her mouth`], [`She's just minding her own business. Way to freak out...`])
+const trumpSupporter = new RiskEvent(`man wearing a bright red MAGA hat to match his red angry face and with a bulge in his pants that looks suspiciously like a gun`, `A man with a MAGA cap and no mask glaring at you`, [{type: yell, prob: 40}, {type: pee, prob: 60}, {type: cough, prob: 80}, {type: spit, prob: 95}], ['He directly at you while his face puffed up with impotent rage', `He in your chest, saying something about capitalism you couldn't quite comprehend`, `He at you and apparently at every passerby. Shame you didn't notice before...`], [`He but not at you; he probably didn't even notice you; just keep moving...`, `He and he kiiind of covered it`, `He but he couldn't quite get it all out...`], [`He was just getting off the phone and putting his mask back on. Stop stereotyping people!`, `He was just bending down to lick a puppy and wasn't threatening you`, `He was satisfied with just the glare`])
+const momWithThreeToddlers = new RiskEvent('little toddler with a runny nose and a stuffed bunny that he loves', 'A frazzled mom with three little kids running around', [{type: cough, prob: 30}, {type: pee, prob: 50}, {type: vomit, prob: 70}], [`Tommy on your leg`, `Jimmy in your crotch. Good thing you were there for it`, `Robby while looking deeply in your eyes with a profound ponderous look that belied his meager years`], [`Jimmy but it wasn't in your direction and kids are such small people...`, `Robby into his hand like a good little boy and almost nothing went on you, at least that's what he kept arguing to his mom as they walked away`, `Tommy mildy ad half-heartedly like it was something he wasn't really sure about...`], [`As you rush past, you notice little Jimmy's insecure probing hurt little eyes; he's probably wondering why you look scared of him...`, `They're way too busy to notice you and carry on arguing loudly about an ugly little stuffed bunny`, `They look so cute, shame you're too scared to approach them`, `Nothing happened`])
+const randomGuy = new RiskEvent('guy wearing a full tracksuit in the middle of August, one hole-punch earing in his left ear, and permanent beard shadow', `A middle-aged man who looks a little off`, [{type: cough, prob: 30}, {type: yell, prob: 60}, {type: sneeze, prob: 80}], [`He while holding his fist five feet away from his mouth and throwing you an unfazed look he's probably worn since October that says 'so what, I'm just being me`, `He - supposedly aiming down for the side of the road, but apparently he has bad aim`, `He at you and then almost knocked you over as he walked right through you`], [`He absentmindedly, not really in your direction, and then even gave you a little nod as he passed`, `He but caught himself at the last minute and brought his hand up to catch the end of it. Then he kept his hand over his mouth and even gave another exaggerated little fake cough to emphasize his cautious behavior`], [`He's just walking past and didn't even spare you a glance`, `His eyes sparked as he met your glance as if he thought he recognized you, but it only lasted a second...`])
 // const fashionGirl 
 // const randomBusinessWoman in too high heels
 // const randomGirl
@@ -542,22 +526,38 @@ const randomGuy = new RiskEvent('guy wearing a full tracksuit in the middle of A
 // const restlessYoungMan
 // const monk
 
-
-
 const player = {
     exposure: 0,
     context: -1,
     expose(riskEvent) {
         const incident = riskEvent.whichIncident
         if (!incident) return renderCombinedMess([0, this.exposure / this.riskFactor], riskEvent)
-        const incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
+        incidAmnt = incident.exposAmnt * getRandomDilute(incident.inOutSpreadP[this.context + 1])
         this.exposure += incidAmnt
         exposureAtExpose = parseFloat(this.exposure)
-        expTimeout = window.setTimeout(this.rvrsAfterTime.bind(player), 10000, incidAmnt)
+        thisIncidAmnt = parseFloat(incidAmnt)
+        expsStore[`${incidAmnt}`] = []
+        expsStore[`${incidAmnt}`][0] = (window.setInterval(this.rvrsAfterTime.bind(player), 10, thisIncidAmnt))
+        expsStore[`${incidAmnt}`][1] = 0
         return renderCombinedMess([incidAmnt / incident.exposAmnt, this.exposure / this.riskFactor], riskEvent)
     },
     rvrsAfterTime(amount) {
-        this.exposure -= amount
+        if (this.winLose) {
+            window.clearInterval(expsStore[`${amount}`][0])
+            delete expsStore[`${amount}`]
+            return
+        }
+        if (pgIn !== 'inBet') {
+            expsStore[`${amount}`][1] = expsStore[`${amount}`][1] + 1
+            console.log(expsStore[`${amount}`][1])
+            if (expsStore[`${amount}`][1] === 1000) {
+                console.log(this.exposure)
+                this.exposure -= parseFloat(amount)
+                console.log(this.exposure)
+                window.clearInterval(expsStore[`${amount}`][0])
+                delete expsStore[`${amount}`]
+            }
+        }
     },
     eatGetFatDepressed() {
         if (pgIn !== 'gcrPg' && this.food > 0 && gmTime % 3 === 0) this.food -= 1
@@ -566,7 +566,7 @@ const player = {
         if (pgIn === 'work' && this.mHlth > 0 && this.money < 500 && gmTime % 10 === 0) {this.money += 5; this.mHlth -= 1; this.health -= 1}
         if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 7 === 0) this.mHlth -= 1
         if (pgIn === 'gcrPg' && gmTime % 2 === 0 && this.money > 5 && this.food < 50) {this.food += 1; this.money -= 5}
-        if (pgIn !== 'pharma' && gmTime % 20 === 0 && this.meds > 0) this.meds -= 1
+        if (pgIn !== 'pharma' && gmTime % 10 === 0 && this.meds > 0) this.meds -= 1
         if (pgIn === 'pharma' && gmTime % 2 === 0 && this.meds < 60) this.meds += 1
         if (pgIn !== 'pharma' && this.meds === 0 && gmTime % 5 === 0) this.health -= 1
         if (pgIn === 'hmPg' && this.meds > 40 && this.health < 100 && gmTime % 10 === 0) this.health += 1 
@@ -577,9 +577,9 @@ const player = {
         return calcRf
     },
     check(rE) {
-        if (this.health === 0) {wLIntsPgsSet(1); return 1}
-        if (this.mHlth === 0) {wLIntsPgsSet(2); return 1}
-        if (exposureAtExpose >= this.riskFactor && isNaN(rE)) {wLIntsPgsSet(rE); return 1}
+        if (this.health === 0) {wLIntsPgsSet(1); this.winLose = true; return 1}
+        if (this.mHlth === 0) {wLIntsPgsSet(2); this.winLose = true; return 1}
+        if (exposureAtExpose >= this.riskFactor && isNaN(rE)) {wLIntsPgsSet(rE); this.winLose = true; return 1}
     },
 }
 
@@ -606,7 +606,6 @@ function wLIntsPgsSet(cond) {
 }
 
 function renderWinOrLoss(winOrLoseType) {
-    let timeWait
     const messFragments = [null, 'poor health. You have to stay healthy to survive...', "depression. It's tough to keep going..."] 
     const wLMessH = document.createElement('h3') 
     if (!winOrLoseType) {
@@ -642,7 +641,6 @@ function getRandInArr(arr) {return arr[Math.floor(Math.random() * arr.length)]}
 
 function randomTime(timeBase) {
     const val = Math.floor(Math.random() * timeBase + 1)
-    console.log('random time int', val)
     return val
 }
 
@@ -660,12 +658,12 @@ function getRandomDilute(spread) {
 //Init----------------------------------
 
 function init() {
-    window.clearTimeout(expTimeout)
-    expTimeout = null
+    incidAmnt = 0
     rEHappened = null
     incidentHappened = null 
     lastPgIn = null 
     exposureAtExpose = 0
+    player.winLose = false
     player.health = 100
     player.mHlth = 100
     gmTime = 0
@@ -674,6 +672,7 @@ function init() {
     player.meds = 60
     player.protItems = {}
     player.caution = 100
+    player.exposure = 0
     zombieArr = []
     const icon = personSpace.innerHTML
     personSpace.innerHTML = ``
