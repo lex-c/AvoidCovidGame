@@ -179,5 +179,9 @@ rest same as before
 ### Deployment Link:
 ###### [mygame]('avoidcovid.surge.sh')
 
+### Technologies / libraries used:
+- HTML, CSS, Javascript
+- Font-Awesome, Materialize
+
 
   
