@@ -505,7 +505,7 @@ class RiskEvent {
         this.missMessgs = missMessgs
         RiskEvent.instances.push(this)
     }
-    static instances = []
+    
     get whichIncident() {
         let randNum = Math.random() * 100
         let balance = 0
@@ -537,13 +537,14 @@ class RiskEvent {
         return this.someMessage
     }
 }
+RiskEvent.instances = []
+
 const homelessMan1 = new RiskEvent(`homeless man wearing a huge puffer coat and smelling of sardines`, `A homeless man with fish in his teeth`, [{type: cough, prob: 40,}, {type: sneeze, prob: 60,}, {type: spit, prob: 70}, {type: vomit, prob: 80}, {type: pee, prob: 90}, {type: yell, prob: 95}], [`He in your face; sardine pieces flying everywhere. Omg; it's so gross!`, `He right at you, and then cussed you loudly and started to run after you`, `He while looking you dead in the eyes. He enjoyed it.`], [`He but he was facing away`, `He after covering his mouth with a fist that still left too much of his mouth visible`], [`He didn't do anything; you're good; stop being so prejudiced!`, `He was just looking for compassion, he didn't even open his mouth...`])
 const homelessWoman1 = new RiskEvent('homeless woman singing softly to herself and sipping 7-11 coffee out of her coins cup', `A poor homeless woman`, [{type: cough, prob: 20}, {type: sneeze, prob: 40}, {type: vomit, prob: 50}, {type: yell, prob: 70}], [`She right on your chest. Ewwww...`], [`She but she covered her mouth`], [`She's just minding her own business. Way to freak out...`])
 const trumpSupporter = new RiskEvent(`man wearing a bright red MAGA hat to match his red angry face and with a bulge in his pants that looks suspiciously like a gun`, `A man with a MAGA cap and no mask glaring at you`, [{type: yell, prob: 40}, {type: pee, prob: 60}, {type: cough, prob: 80}, {type: spit, prob: 95}], ['He directly at you while his face puffed up with impotent rage', `He in your chest, saying something about capitalism you couldn't quite comprehend`, `He at you and apparently at every passerby. Shame you didn't notice before...`], [`He but not at you; he probably didn't even notice you; just keep moving...`, `He and he kiiind of covered it`, `He but he couldn't quite get it all out...`], [`He was just getting off the phone and putting his mask back on. Stop stereotyping people!`, `He was just bending down to lick a puppy and wasn't threatening you`, `He was satisfied with just the glare`])
 const momWithThreeToddlers = new RiskEvent('little toddler with a runny nose and a stuffed bunny that he loves', 'A frazzled mom with three little kids running around', [{type: cough, prob: 30}, {type: pee, prob: 50}, {type: vomit, prob: 70}], [`Tommy on your leg`, `Jimmy in your crotch. Good thing you were there for it`, `Robby while looking deeply in your eyes with a profound ponderous look that belied his meager years`], [`Jimmy but it wasn't in your direction and kids are such small people...`, `Robby into his hand like a good little boy and almost nothing went on you, at least that's what he kept arguing to his mom as they walked away`, `Tommy mildy ad half-heartedly like it was something he wasn't really sure about...`], [`As you rush past, you notice little Jimmy's insecure probing hurt little eyes; he's probably wondering why you look scared of him...`, `They're way too busy to notice you and carry on arguing loudly about an ugly little stuffed bunny`, `They look so cute, shame you're too scared to approach them`, `Nothing happened`])
 const randomGuy = new RiskEvent('guy wearing a full tracksuit in the middle of August, one hole-punch earing in his left ear, and permanent beard shadow', `A middle-aged man who looks a little off`, [{type: cough, prob: 30}, {type: yell, prob: 60}, {type: sneeze, prob: 80}], [`He while holding his fist five feet away from his mouth and throwing you an unfazed look he's probably worn since October that says 'so what, I'm just being me`, `He - supposedly aiming down for the side of the road, but apparently he has bad aim`, `He at you and then almost knocked you over as he walked right through you`], [`He absentmindedly, not really in your direction, and then even gave you a little nod as he passed`, `He but caught himself at the last minute and brought his hand up to catch the end of it. Then he kept his hand over his mouth and even gave another exaggerated little fake cough to emphasize his cautious behavior`], [`He's just walking past and didn't even spare you a glance`, `His eyes sparked as he met your glance as if he thought he recognized you, but it only lasted a second...`])
-// const fashionGirl 
-// const randomBusinessWoman in too high heels
+// const fashionGirl = new RiskEvent('girl doing exxagerated poses in the middle of the sidewalk for her crouching insta hubby five feet away', 'A girl taking fashion pics', [{type: yell, prob: 40}, {type: cough, prob: 60}, {type: sneeze, prob: 70}, {type: talk, prob: 90}], [`She in a cute little way while holding her hand primly two feet from her mouth`, `She while throwing you an annoyed look for walking through her shoot`,])
 // const randomGirl
 // const partyingCollegeKids
 // const teenageBoy
