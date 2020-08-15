@@ -596,7 +596,7 @@ const player = {
         if (pgIn !== 'pharma' && gmTime % 10 === 0 && this.meds > 0) this.meds -= 1
         if (pgIn === 'pharma' && gmTime % 2 === 0 && this.meds < 60) this.meds += 1
         if (pgIn !== 'pharma' && this.meds === 0 && gmTime % 5 === 0) this.health -= 1
-        if (pgIn === 'hmPg' && this.meds > 40 && this.health < 100 && gmTime % 10 === 0) this.health += 1 
+        if (pgIn === 'hmPg' && this.meds > 40 && this.health < 100 && this.food > 0 && gmTime % 10 === 0) this.health += 1 
         if (pgIn === 'hmPg' && this.mHlth > 25 && this.caution < 100 && gmTime % 15 === 0) this.caution += 1
     },
     get riskFactor() {
