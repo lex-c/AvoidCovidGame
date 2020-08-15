@@ -155,13 +155,14 @@ function move(e) {
 function checkIfInBlock(lastStSpace) {
     if (personSpace.id === 's25' || personSpace.id === 's41' || personSpace.id === 's47' || personSpace.id === 's29' || personSpace.id === 's81' || personSpace.id === 's112' || personSpace.id === 's810') {
         window.clearInterval(zombieInt)
+        const pSpcClone = personSpace.id.toString()
         pgIn = 'inBet'
-        checkIfBackOut = window.setInterval(resetInt, 1, lastStSpace)
+        checkIfBackOut = window.setInterval(resetInt, 10, pSpcClone)
         pgOutToHomeTO = setTimeout(switchPageIn, 2000, lastStSpace)
     }
 }
-function resetInt(lastSpace) {
-    if (personSpace.id === lastSpace.id) {
+function resetInt(pSpace) {
+    if (personSpace.id !== pSpace) {
         window.clearInterval(checkIfBackOut)
         window.clearTimeout(pgOutToHomeTO)
         pgIn = 'outPg'
