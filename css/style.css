@@ -513,14 +513,14 @@ body {
 
 @media screen and (min-width: 320px) and (max-width: 860px) and (orientation: portrait) {
     #outPg {
-      transform: rotate(+90deg);
-      transform-origin: right top;
+      transform: rotate(-90deg);
+      transform-origin: left top;
       width: 100vh;
       height: 100vw;
-      overflow-x: hidden;
+      overflow-x: auto;
       position: absolute;
       top: 100%;
-      right: 0;
+      left: 0;
     }
   }
   @media screen and (min-width: 321px) and (max-width: 860px) and (orientation: landscape) {
