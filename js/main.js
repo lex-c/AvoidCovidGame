@@ -186,42 +186,42 @@ function switchPageIn (justOutside) {
         gcrPgRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 30 * intSize
+        tempIntSize = 20 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's37' || justOutside.id === 's48') {
         parkRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'park'
-        tempIntSize = 30 * intSize
+        tempIntSize = 40 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's28') {
         workRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'work'
-        tempIntSize = 50 * intSize
+        tempIntSize = 35 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's71') {
         pharmaRender()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 30 * intSize
+        tempIntSize = 25 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's111') {
         gcr2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'gcrPg'
-        tempIntSize = 60 * intSize
+        tempIntSize = 50 * intSize
         setSpcInt()
     }
     if (justOutside.id === 's710' || justOutside.id === 's811') {
         pharma2Render()
         spacePg.style.setProperty('display', 'grid')
         pgIn = 'pharma'
-        tempIntSize = 50 * intSize
+        tempIntSize = 45 * intSize
         setSpcInt()
     }
 }
