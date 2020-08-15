@@ -505,7 +505,7 @@ class RiskEvent {
         this.missMessgs = missMessgs
         RiskEvent.instances.push(this)
     }
-    
+
     get whichIncident() {
         let randNum = Math.random() * 100
         let balance = 0
@@ -588,7 +588,7 @@ const player = {
     },
     eatGetFatDepressed() {
         if (pgIn !== 'gcrPg' && this.food > 0 && gmTime % 3 === 0) this.food -= 1
-        if (pgIn !== 'gcrPg' && this.food === 0 && this.health > 0 && gmTime % 5 === 0) this.health -= 1;
+        if (pgIn !== 'gcrPg' && this.food === 0 && this.health > 0 && gmTime % 3 === 0) this.health -= 1;
         if (pgIn === 'park' && this.mHlth < 100 && gmTime % 5 === 0) this.mHlth += 1
         if (pgIn === 'work' && this.mHlth > 0 && this.money < 500 && gmTime % 10 === 0) {this.money += 5; this.mHlth -= 1; this.health -= 1}
         if (pgIn === 'hmPg' && this.mHlth > 0 && gmTime % 7 === 0) this.mHlth -= 1
