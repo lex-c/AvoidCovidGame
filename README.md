@@ -8,7 +8,6 @@
 
 ### Game Rules:
 #### Welcome to the Avoid Covid game:
-##### where survival is a virtue and everyone's a sinner
 
 #### Here are the rules (in case you're still hoping to win 😂):
 
