@@ -9,7 +9,7 @@
 ### Game Rules:
 #### Welcome to the Avoid Covid game:
 
-#### Here are the rules (in case you're still hoping to win 😂):
+#### Here are the rules:
 
 - You start with 100 Health and Mental Health, and some Food, Meds, and Money  
 
@@ -37,7 +37,7 @@
 - Last note: if you're home and your Mental Health is not low, your caution will SLOWLY replenish
 
 #### That's all! Go!!! Have fun! Live! 😂😂😂
-##### Oh, I almost forgot: if you make it to 48H you win, not that I have any hope you'll get there...
+#### If you make it to 48H you win!!!
 
 
 ### User Stories: 
