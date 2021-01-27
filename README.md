@@ -169,12 +169,6 @@ rest same as before
 ![out-page](images/out-context-with-pop-up-message.png)
 ![space-page-pharmacy](images/space-contxt.png)
 
-### Wireframes:
-
-![Home Screeen](images/IMG_2528.jpg)
-![Outside Screen](images/IMG_2530.jpg)
-![Store Screen](images/IMG_2532.jpg)
-
 ### Deployment Link:
 ###### [mygame](http://avoidcovid.surge.sh)
 
